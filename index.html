@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aplicaciones web · SMR — Curso con IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F2EEE5;
+    --bg-2:#E8E3D6;
+    --ink:#1A1814;
+    --ink-2:#4A4640;
+    --ink-3:#8A8278;
+    --rule:#D4CFC2;
+    --accent:#C84A1F;
+    --accent-soft:#E8956A;
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "IBM Plex Sans", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", Menlo, monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background: var(--bg); color: var(--ink); }
+  body{ font-family: var(--sans); font-size: 18px; line-height: 1.5; }
+
+  /* ===== Top bar ===== */
+  .topbar{
+    border-bottom: 1px solid var(--rule);
+    padding: 18px 56px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-family: var(--mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--ink-3);
+  }
+  .topbar .left{ color: var(--ink); font-weight: 500; }
+
+  /* ===== Hero ===== */
+  .hero{
+    padding: 96px 56px 64px;
+    border-bottom: 1px solid var(--rule);
+    max-width: 1400px;
+  }
+  .hero .eyebrow{
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+    font-weight: 500;
+  }
+  .hero h1{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(56px, 8vw, 120px);
+    line-height: .95;
+    letter-spacing: -.025em;
+    margin: 0 0 32px;
+    text-wrap: balance;
+  }
+  .hero h1 em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .hero p{
+    font-family: var(--serif);
+    font-size: clamp(24px, 2.5vw, 36px);
+    line-height: 1.25;
+    color: var(--ink-2);
+    margin: 0;
+    max-width: 1100px;
+    font-weight: 400;
+    text-wrap: pretty;
+  }
+  .hero .meta-line{
+    margin-top: 56px;
+    display:flex; gap: 48px; flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink-2);
+    letter-spacing: .04em;
+  }
+  .hero .meta-line span b{
+    display:block;
+    font-family: var(--sans);
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 6px;
+  }
+
+  /* ===== Section heading ===== */
+  .section{
+    padding: 72px 56px 96px;
+  }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 16px;
+    margin-bottom: 40px;
+  }
+  .section-head h2{
+    font-family: var(--serif);
+    font-size: clamp(36px, 4vw, 56px);
+    margin: 0;
+    font-weight: 500;
+    letter-spacing: -.015em;
+  }
+  .section-head .count{
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  /* ===== Tema grid ===== */
+  .temas{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  @media (max-width: 720px){
+    .temas{ grid-template-columns: 1fr; }
+  }
+  .tema{
+    display: grid;
+    grid-template-columns: 80px 1fr 140px;
+    gap: 24px;
+    align-items: baseline;
+    padding: 28px 24px;
+    border-bottom: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    color: var(--ink);
+    text-decoration: none;
+    transition: background .15s ease;
+    position: relative;
+  }
+  .tema:nth-child(2n){ border-right: none; }
+  @media (max-width: 720px){
+    .tema:nth-child(2n){ border-right: none; }
+    .tema{ border-right: none; }
+  }
+
+  .tema .num{
+    font-family: var(--mono);
+    font-size: 15px;
+    color: var(--ink-3);
+    letter-spacing: .04em;
+    font-weight: 500;
+  }
+  .tema .body .name{
+    font-family: var(--serif);
+    font-size: 36px;
+    line-height: 1.05;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: -.01em;
+    margin: 0 0 8px;
+    display: block;
+  }
+  .tema .body .desc{
+    font-family: var(--sans);
+    font-size: 16px;
+    color: var(--ink-2);
+    line-height: 1.4;
+    margin: 0;
+  }
+  .tema .status{
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--ink-3);
+    text-align: right;
+    align-self: start;
+    padding-top: 8px;
+  }
+
+  /* Available tema */
+  .tema.ready{ background: var(--bg); cursor: pointer; }
+  .tema.ready:hover{ background: var(--ink); color: var(--bg); }
+  .tema.ready:hover .num{ color: var(--accent-soft); }
+  .tema.ready:hover .body .name{ color: var(--bg); }
+  .tema.ready:hover .body .desc{ color: #C9C2B4; }
+  .tema.ready:hover .status{ color: var(--accent-soft); }
+  .tema.ready:hover .arrow{ color: var(--accent-soft); transform: translateX(4px); }
+  .tema.ready .status{ color: var(--accent); font-weight: 500; }
+  .tema.ready .arrow{
+    display: inline-block;
+    margin-left: 8px;
+    font-family: var(--mono);
+    transition: transform .15s ease, color .15s ease;
+  }
+
+  /* Upcoming tema */
+  .tema.upcoming{ opacity: .55; cursor: default; }
+  .tema.upcoming .body .name{ color: var(--ink-2); }
+
+  /* ===== Foot ===== */
+  footer.foot{
+    border-top: 1px solid var(--ink);
+    padding: 32px 56px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-3);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  footer.foot .left{ color: var(--ink); }
+
+  @media (max-width: 720px){
+    .topbar, .hero, .section, footer.foot{ padding-left: 24px; padding-right: 24px; }
+    .hero{ padding-top: 56px; }
+    .tema{ grid-template-columns: 56px 1fr; padding: 22px 16px; }
+    .tema .status{ grid-column: 1 / -1; text-align: left; padding-top: 4px; padding-left: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="left">Aplicaciones web · SMR</span>
+  <span>Curso con IA · 2026</span>
+</div>
+
+<section class="hero">
+  <p class="eyebrow">Asignatura · Desarrollo de aplicaciones web</p>
+  <h1>Construir la web,<br><em>hablando</em> con la IA.</h1>
+  <p>Aprende HTML, CSS y JavaScript desde cero — sin memorizar etiquetas, sí entendiendo qué se puede construir y cómo pedírselo a la IA.</p>
+  <div class="meta-line">
+    <span><b>Temas</b>8 unidades</span>
+    <span><b>Sesiones</b>90 minutos cada una</span>
+    <span><b>Formato</b>Teoría + práctica en vivo</span>
+    <span><b>Herramientas</b>VS Code · Cursor · ChatGPT · Claude</span>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h2>Temas</h2>
+    <span class="count">8 temas · 1 disponible</span>
+  </div>
+
+  <div class="temas">
+
+    <a class="tema ready" href="Tema%201%20-%20HTML.html">
+      <span class="num">01</span>
+      <div class="body">
+        <span class="name">HTML</span>
+        <p class="desc">La estructura: qué hay en una página y en qué orden.</p>
+      </div>
+      <span class="status">Abrir <span class="arrow">→</span></span>
+    </a>
+
+    <div class="tema upcoming">
+      <span class="num">02</span>
+      <div class="body">
+        <span class="name">Componentes UI</span>
+        <p class="desc">El catálogo del front: navbars, drawers, toasts, pricing tables…</p>
+      </div>
+      <span class="status">Próximamente</span>
+    </div>
+
+    <div class="tema upcoming">
+      <span class="num">03</span>
+      <div class="body">
+        <span class="name">CSS</span>
+        <p class="desc">Estilos: colores, tipografía, espacios.</p>
+      </div>
+      <span class="status">Próximamente</span>
+    </div>
+
+    <div class="tema upcoming">
+      <span class="num">04</span>
+      <div class="body">
+        <span class="name">CSS avanzado</span>
+        <p class="desc">Layout, flexbox, grid y diseño responsive.</p>
+      </div>
+      <span class="status">Próximamente</span>
+    </div>
+
+    <div class="tema upcoming">
+      <span class="num">05</span>
+      <div class="body">
+        <span class="name">JavaScript</span>
+        <p class="desc">El lenguaje: variables, funciones, lógica.</p>
+      </div>
+      <span class="status">Próximamente</span>
+    </div>
+
+    <div class="tema upcoming">
+      <span class="num">06</span>
+      <div class="body">
+        <span class="name">DOM y eventos</span>
+        <p class="desc">JavaScript dentro del navegador.</p>
+      </div>
+      <span class="status">Próximamente</span>
+    </div>
+
+    <div class="tema upcoming">
+      <span class="num">07</span>
+      <div class="body">
+        <span class="name">APIs y datos</span>
+        <p class="desc">Fetch, asincronía y conexión con servicios.</p>
+      </div>
+      <span class="status">Próximamente</span>
+    </div>
+
+    <div class="tema upcoming">
+      <span class="num">08</span>
+      <div class="body">
+        <span class="name">Despliegue</span>
+        <p class="desc">De tu portátil a una URL pública.</p>
+      </div>
+      <span class="status">Próximamente</span>
+    </div>
+
+  </div>
+</section>
+
+<footer class="foot">
+  <span class="left">Aplicaciones web · SMR</span>
+  <span>Curso de desarrollo web con IA</span>
+</footer>
+
+</body>
+</html>
