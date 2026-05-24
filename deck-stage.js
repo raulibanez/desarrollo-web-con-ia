@@ -8,7 +8,8 @@
  *      On touch devices, tapping the left/right half of the stage goes
  *      prev/next — taps on links, buttons and other interactive slide
  *      content are left alone.
- *  (c) press R to reset to slide 0 (with a tasteful keyboard hint).
+ *  (c) press R to reset to slide 0 (with a tasteful keyboard hint);
+ *      press T to toggle the thumbnail rail.
  *  (d) bottom-center overlay showing slide count + hints, fades out on idle.
  *  (e) auto-scaling — inner canvas is a fixed design size (default 1920×1080)
  *      scaled with `transform: scale()` to fit the viewport, letterboxed.
@@ -1223,6 +1224,21 @@
       if (d && d.type === '__omelette_rail_enabled') this._enableRail();
     }
 
+    _toggleRailVisible() {
+      // Mirrors the __deck_rail_visible message path so the T shortcut,
+      // the TweaksPanel toggle, and any author script stay in sync.
+      if (!this._rail || !this._railEnabled || this._presenting || this._previewMode) return;
+      this._railVisible = !this._railVisible;
+      try { localStorage.setItem('deck-stage.railVisible', this._railVisible ? '1' : '0'); } catch (e) {}
+      this.setAttribute('data-rail-anim', '');
+      void this._rail.offsetHeight;
+      this._syncRailHidden();
+      this._fit();
+      this._scaleThumbs();
+      clearTimeout(this._railAnimTimer);
+      this._railAnimTimer = setTimeout(() => this.removeAttribute('data-rail-anim'), 220);
+    }
+
     _syncRailHidden() {
       if (!this._rail) return;
       // data-presenting is the hard hide (display:none) for flag-off,
@@ -1293,6 +1309,8 @@
         this._go(this._slides.length - 1, 'keyboard');
       } else if (key === 'r' || key === 'R') {
         this._go(0, 'keyboard');
+      } else if (key === 't' || key === 'T') {
+        this._toggleRailVisible();
       } else if (/^[0-9]$/.test(key)) {
         // 1..9 jump to that slide; 0 jumps to 10.
         const n = key === '0' ? 9 : parseInt(key, 10) - 1;
