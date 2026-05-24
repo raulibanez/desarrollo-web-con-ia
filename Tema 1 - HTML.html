@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Curso Web con IA · Tema 1 — HTML</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+  :root{
+    --bg:#F2EEE5;
+    --bg-2:#E8E3D6;
+    --ink:#1A1814;
+    --ink-2:#4A4640;
+    --ink-3:#8A8278;
+    --rule:#D4CFC2;
+    --accent:#C84A1F;
+    --accent-soft:#E8956A;
+    --code-bg:#1A1814;
+    --code-fg:#F2EEE5;
+    --code-comment:#8A8278;
+    --code-tag:#E8956A;
+    --code-attr:#D9C26E;
+    --code-string:#B8C97A;
+    --code-text:#F2EEE5;
+
+    /* Type scale (1920x1080) */
+    --type-display: 168px;
+    --type-title: 72px;
+    --type-subtitle: 44px;
+    --type-body: 30px;
+    --type-small: 24px;
+    --type-code: 26px;
+    --type-tiny: 24px;
+
+    /* Spacing */
+    --pad-x: 96px;
+    --pad-top: 88px;
+    --pad-bottom: 88px;
+    --gap-title: 48px;
+    --gap-item: 22px;
+
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "IBM Plex Sans", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", Menlo, monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#0b0b0b; }
+  body{ font-family: var(--sans); color: var(--ink); }
+
+  deck-stage section{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: var(--type-body);
+    line-height: 1.4;
+    overflow: hidden;
+  }
+
+  /* Common chrome — corner labels on every slide */
+  .chrome{
+    position:absolute; inset:0; pointer-events:none;
+  }
+  .chrome::before{
+    /* hairline frame */
+    content:""; position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: 56px;
+    border-top: 1px solid var(--rule);
+  }
+  .chrome::after{
+    content:""; position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    bottom: 56px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .meta{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: 24px;
+    display:flex; justify-content:space-between;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .meta-foot{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    bottom: 22px;
+    display:flex; justify-content:space-between;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  /* Dark slide variant */
+  .dark{ background: var(--ink); color: var(--code-fg); }
+  .dark .chrome::before, .dark .chrome::after{ border-color: #34302A; }
+  .dark .meta, .dark .meta-foot{ color: #6E665A; }
+
+  /* Accent slide variant */
+  .brick{ background: var(--accent); color: var(--bg); }
+  .brick .chrome::before, .brick .chrome::after{ border-color: rgba(242,238,229,.25); }
+  .brick .meta, .brick .meta-foot{ color: rgba(242,238,229,.65); }
+
+  /* Layout helpers */
+  .frame{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: var(--pad-top); bottom: var(--pad-bottom);
+    display:flex; flex-direction:column;
+  }
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--accent);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+    font-weight: 500;
+  }
+  .dark .eyebrow{ color: var(--accent-soft); }
+  .brick .eyebrow{ color: rgba(242,238,229,.85); }
+
+  h1.title{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: var(--type-title);
+    line-height: 1.05;
+    letter-spacing: -.015em;
+    margin: 0 0 var(--gap-title);
+    text-wrap: balance;
+  }
+  h1.title em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .dark h1.title em{ color: var(--accent-soft); }
+
+  p.lede{
+    font-family: var(--serif);
+    font-size: var(--type-subtitle);
+    line-height: 1.25;
+    margin: 0 0 40px;
+    color: var(--ink-2);
+    font-weight: 400;
+    text-wrap: pretty;
+    max-width: 1500px;
+  }
+  .dark p.lede{ color: #C9C2B4; }
+
+  p, li{ text-wrap: pretty; }
+
+  /* ===== Slide 01: portada ===== */
+  .cover{ display:flex; flex-direction:column; }
+  .cover .display{
+    font-family: var(--serif);
+    font-size: var(--type-display);
+    line-height: .9;
+    letter-spacing: -.04em;
+    margin: 0;
+    font-weight: 500;
+  }
+  .cover .display em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .cover .kicker{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .cover .sub{
+    font-family: var(--serif);
+    font-size: 56px;
+    line-height: 1.2;
+    color: var(--ink-2);
+    margin-top: 56px;
+    font-style: italic;
+    font-weight: 400;
+    max-width: 1300px;
+  }
+  .cover .stamp{
+    margin-top:auto;
+    display:flex; gap:64px; align-items:flex-end;
+    font-family: var(--mono); font-size: var(--type-small); color: var(--ink-2);
+    letter-spacing: .04em;
+  }
+  .cover .stamp span b{
+    display:block; color: var(--ink); font-weight: 500;
+    font-family: var(--sans); font-size: var(--type-small);
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+
+  /* ===== Section break ===== */
+  .sect{
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .sect .num{
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 240px;
+    line-height: .85;
+    color: var(--accent);
+    font-weight: 400;
+    margin-bottom: 32px;
+  }
+  .sect .name{
+    font-family: var(--serif);
+    font-size: 96px;
+    line-height: 1;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -.02em;
+  }
+
+  /* ===== Index ===== */
+  .index-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 96px;
+    row-gap: 28px;
+    margin-top: 12px;
+  }
+  .index-item{
+    display:grid;
+    grid-template-columns: 64px 1fr;
+    align-items:baseline;
+    border-top: 1px solid var(--rule);
+    padding-top: 22px;
+  }
+  .index-item .n{
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: var(--type-small);
+    font-weight: 500;
+  }
+  .index-item .t{
+    font-family: var(--serif);
+    font-size: 36px;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .index-item .t small{
+    display:block;
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+
+  /* ===== Two col concept ===== */
+  .two-col{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 0;
+  }
+  .col h3{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--accent);
+    margin: 0 0 16px;
+    font-weight: 500;
+  }
+  .col p{
+    font-family: var(--serif);
+    font-size: 40px;
+    line-height: 1.25;
+    margin: 0;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* ===== Three col pillars ===== */
+  .three-col{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    margin-top: 0;
+  }
+  .pillar{
+    border-top: 2px solid var(--ink);
+    padding-top: 28px;
+    display:flex; flex-direction:column;
+  }
+  .pillar .lang{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--accent);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .pillar h4{
+    font-family: var(--serif);
+    font-size: 64px;
+    margin: 8px 0 16px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+  .pillar p{
+    font-family: var(--sans);
+    font-size: var(--type-body);
+    color: var(--ink-2);
+    line-height: 1.35;
+    margin: 0;
+  }
+  .pillar .role{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ===== Code + Render ===== */
+  .split{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    flex: 1;
+    min-height: 0;
+  }
+  .split-tall{ grid-template-rows: auto 1fr; }
+  .pane{
+    border: 1px solid var(--rule);
+    display:flex; flex-direction:column;
+    overflow: hidden;
+  }
+  .pane-head{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-3);
+    background: var(--bg-2);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .pane-head .dots{ color: var(--ink-3); letter-spacing: 2px; }
+  .pane-body{
+    flex: 1;
+    overflow: hidden;
+    padding: 28px 32px;
+  }
+  .pane.code{ background: var(--code-bg); border-color: var(--code-bg); }
+  .pane.code .pane-head{ background: #24211C; border-color: #34302A; color: #8A8278; }
+  .pane.code .pane-body{
+    font-family: var(--mono);
+    font-size: var(--type-code);
+    line-height: 1.55;
+    color: var(--code-text);
+    white-space: pre;
+    tab-size: 2;
+  }
+  .pane.render .pane-head{ background: var(--bg-2); }
+  .pane.render .pane-body{ background: #ffffff; padding: 32px 36px; }
+
+  .tag-name{ color: var(--code-tag); }
+  .tag-punct{ color: #8A8278; }
+  .attr-name{ color: var(--code-attr); }
+  .attr-val{ color: var(--code-string); }
+  .txt{ color: var(--code-text); }
+  .com{ color: var(--code-comment); font-style: italic; }
+
+  /* Browser-y render content base styles */
+  .render-body{
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    color: #111;
+    font-size: 26px;
+    line-height: 1.45;
+  }
+  .render-body h1{ font-size: 48px; margin: 0 0 14px; font-weight: 700;}
+  .render-body h2{ font-size: 36px; margin: 22px 0 10px; font-weight: 700;}
+  .render-body h3{ font-size: 28px; margin: 16px 0 8px; font-weight: 700;}
+  .render-body p{ margin: 0 0 14px; font-size: 26px; }
+  .render-body ul, .render-body ol{ margin: 0 0 14px; padding-left: 32px;}
+  .render-body li{ margin: 4px 0; font-size: 26px;}
+  .render-body a{ color: #1A4FCC; text-decoration: underline; }
+  .render-body img.placeholder{
+    display:block; width: 200px; height: 120px;
+    background: #ddd; color: #888;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 16px;
+  }
+
+  /* ===== Anatomy diagram ===== */
+  .anatomy{
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    flex:1;
+  }
+  .anatomy .specimen{
+    font-family: var(--mono);
+    font-size: 80px;
+    color: var(--ink);
+    letter-spacing: -.01em;
+    position: relative;
+    padding: 60px 0;
+  }
+  .anatomy .specimen .t1, .anatomy .specimen .t2{ color: var(--code-tag); }
+  .anatomy .specimen .a{ color: #A06A2F; }
+  .anatomy .specimen .v{ color: #4A7A2A; }
+  .anatomy .specimen .c{ color: var(--ink); }
+  .annot{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .anatomy-legend{
+    margin-top: 80px;
+    display:grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+    width: 100%;
+  }
+  .anatomy-legend > div{
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+  }
+  .anatomy-legend .label{
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: var(--type-tiny);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .anatomy-legend .desc{
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink-2);
+    line-height: 1.35;
+  }
+
+  /* ===== Use cases table ===== */
+  .usecases{
+    margin-top: 12px;
+    border-top: 1px solid var(--ink);
+  }
+  .usecase-row{
+    display:grid;
+    grid-template-columns: 240px 1fr 1fr;
+    gap: 48px;
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0;
+    align-items: baseline;
+  }
+  .usecase-row .tag{
+    font-family: var(--mono);
+    font-size: 36px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .usecase-row .what{
+    font-family: var(--serif);
+    font-size: 32px;
+    line-height: 1.25;
+    color: var(--ink);
+  }
+  .usecase-row .where{
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    line-height: 1.35;
+  }
+
+  /* ===== Semantic page diagram ===== */
+  .pagemap{
+    flex:1; display:flex; gap: 48px; min-height: 0;
+  }
+  .pagemap .canvas{
+    flex: 1.3;
+    border: 1px solid var(--ink);
+    display:grid;
+    grid-template-rows: 80px 56px 1fr 1fr 80px;
+    overflow: hidden;
+  }
+  .pagemap .canvas .block{
+    border-bottom: 1px solid var(--ink);
+    display:flex; align-items:center; padding: 0 28px;
+    font-family: var(--mono); font-size: var(--type-small);
+    color: var(--ink);
+    background: var(--bg);
+  }
+  .pagemap .canvas .block:last-child{ border-bottom:none; }
+  .pagemap .canvas .block.dark-block{ background: var(--ink); color: var(--bg); }
+  .pagemap .canvas .block.accent-block{ background: var(--accent); color: var(--bg); }
+  .pagemap .canvas .row2{
+    display:grid; grid-template-columns: 1fr 1fr; border-bottom:1px solid var(--ink);
+  }
+  .pagemap .canvas .row2 .block{ border-bottom:none; border-right: 1px solid var(--ink); }
+  .pagemap .canvas .row2 .block:last-child{ border-right:none; }
+
+  .pagemap .legend{ flex: 1; }
+  .pagemap .legend ul{ list-style:none; margin:0; padding:0; }
+  .pagemap .legend li{
+    display:grid; grid-template-columns: 200px 1fr;
+    gap: 24px;
+    border-top: 1px solid var(--rule);
+    padding: 16px 0;
+    align-items: baseline;
+  }
+  .pagemap .legend li:last-child{ border-bottom: 1px solid var(--rule); }
+  .pagemap .legend code{
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: var(--type-small);
+    font-weight: 500;
+  }
+  .pagemap .legend span{
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink-2);
+    line-height: 1.35;
+  }
+
+  /* ===== Vocabulary grid ===== */
+  .vocab{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+  .vocab .term{
+    background: var(--bg);
+    padding: 28px 28px;
+    display:flex; flex-direction:column; gap: 6px;
+    min-height: 140px;
+  }
+  .vocab .term .name{
+    font-family: var(--serif);
+    font-size: 36px;
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1;
+  }
+  .vocab .term .es{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--accent);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .vocab .term .desc{
+    font-family: var(--sans);
+    font-size: 24px;
+    color: var(--ink-2);
+    line-height: 1.3;
+    margin-top: 4px;
+  }
+
+  /* ===== Prompt comparison ===== */
+  .prompts{
+    display:grid; grid-template-columns: 1fr 1fr; gap: 40px;
+    margin-top: 12px;
+  }
+  .prompt-card{
+    border: 1px solid var(--rule);
+    padding: 36px;
+    display:flex; flex-direction:column;
+    background: var(--bg);
+  }
+  .prompt-card.bad{ border-top: 4px solid #8A8278; }
+  .prompt-card.good{ border-top: 4px solid var(--accent); }
+  .prompt-card .label{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 16px;
+  }
+  .prompt-card.good .label{ color: var(--accent); }
+  .prompt-card .quote{
+    font-family: var(--serif);
+    font-size: 30px;
+    line-height: 1.3;
+    color: var(--ink);
+    margin: 0 0 24px;
+    font-style: italic;
+  }
+  .prompt-card .why{
+    margin-top:auto;
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink-2);
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    line-height: 1.4;
+  }
+
+  /* ===== Challenge slide ===== */
+  .challenge .frame{ padding: 0; }
+  .challenge-grid{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px;
+    flex: 1;
+    min-height: 0;
+  }
+  .challenge-left{ display:flex; flex-direction:column; }
+  .challenge-left .brief{
+    font-family: var(--serif);
+    font-size: 40px;
+    line-height: 1.3;
+    color: var(--ink);
+    margin: 0 0 40px;
+    max-width: 900px;
+  }
+  .challenge-left .specs{
+    border-top: 1px solid var(--ink);
+    margin-top: auto;
+  }
+  .challenge-left .spec-row{
+    display:grid; grid-template-columns: 240px 1fr;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+    gap: 24px;
+  }
+  .challenge-left .spec-row .k{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .challenge-left .spec-row .v{
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink);
+    line-height: 1.35;
+  }
+  .challenge-right{
+    background: var(--ink);
+    color: var(--bg);
+    padding: 48px;
+    display:flex; flex-direction:column;
+  }
+  .challenge-right .stamp{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    margin-bottom: 24px;
+  }
+  .challenge-right h2{
+    font-family: var(--serif);
+    font-size: 56px;
+    line-height: 1.05;
+    margin: 0 0 32px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+  .challenge-right ul{
+    list-style: none; margin: 0; padding: 0;
+  }
+  .challenge-right ul li{
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    line-height: 1.4;
+    padding: 14px 0;
+    border-bottom: 1px solid #34302A;
+    color: #D9D2C0;
+    display: grid; grid-template-columns: 32px 1fr; gap: 12px;
+  }
+  .challenge-right ul li::before{
+    content: "□";
+    color: var(--accent-soft);
+    font-family: var(--mono);
+  }
+  .challenge-right .footer-note{
+    margin-top:auto; padding-top: 32px;
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: #8A8278; letter-spacing: .04em;
+  }
+
+  /* ===== Closing ===== */
+  .closing .display{
+    font-family: var(--serif);
+    font-size: 128px;
+    line-height: .95;
+    margin: 0;
+    letter-spacing: -.03em;
+    font-weight: 500;
+  }
+  .closing .display em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .closing .next{
+    margin-top: auto;
+    display:grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    border-top: 1px solid var(--ink);
+    padding-top: 40px;
+  }
+  .closing .next .k{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 12px;
+  }
+  .closing .next .v{
+    font-family: var(--serif); font-size: 40px;
+    line-height: 1.2; color: var(--ink);
+  }
+
+  /* Prompt anatomy slide */
+  .prompt-anatomy{
+    background: var(--ink);
+    color: var(--code-fg);
+    padding: 40px 48px;
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    line-height: 1.7;
+    margin-top: 8px;
+    border-left: 4px solid var(--accent);
+  }
+  .prompt-anatomy .label-tag{
+    color: var(--accent-soft); font-weight: 500;
+    display: inline-block;
+    width: 200px;
+  }
+  .prompt-anatomy .text{ color: #D9D2C0; }
+
+  /* Big quote slide */
+  .quote-slide{ display:flex; flex-direction:column; justify-content:center; }
+  .quote-slide blockquote{
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 100px;
+    line-height: 1.05;
+    margin: 0;
+    letter-spacing: -.02em;
+    font-weight: 400;
+    max-width: 1500px;
+  }
+  .quote-slide blockquote .ac{ color: var(--accent); font-style: normal; font-weight: 500; }
+  .quote-slide cite{
+    margin-top: 56px;
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    font-style: normal;
+    color: var(--ink-3);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  /* Tags-text slide bigger code */
+  .code-big .pane-body{ font-size: 30px; line-height: 1.6; }
+
+  /* ===== Void elements slide ===== */
+  .voidlist{
+    display:grid; grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    border-top: 1px solid var(--ink);
+    margin-top: 4px;
+  }
+  .voidlist > div{ padding-top: 28px; }
+  .voidlist h3{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+  .voidlist .sub{
+    font-family: var(--sans);
+    font-size: 26px;
+    color: var(--ink-2);
+    margin: 0 0 24px;
+    line-height: 1.3;
+  }
+  .voidlist ul{ list-style: none; margin: 0; padding: 0; }
+  .voidlist ul li{
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+    gap: 16px;
+  }
+  .voidlist ul li code{
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: 30px;
+    font-weight: 500;
+  }
+  .voidlist ul li span{
+    font-family: var(--sans);
+    font-size: 26px;
+    color: var(--ink-2);
+  }
+  .voidlist .more{
+    font-family: var(--mono);
+    font-size: 26px;
+    color: var(--ink-3);
+    margin-top: 16px;
+    line-height: 1.4;
+  }
+  .void-note{
+    margin-top: 24px;
+    background: var(--ink); color: var(--code-fg);
+    padding: 20px 32px;
+    font-family: var(--mono);
+    font-size: 26px;
+    line-height: 1.5;
+    border-left: 4px solid var(--accent);
+  }
+  .void-note code{ color: var(--code-tag); font-family: var(--mono); }
+  .void-note strong{ color: var(--accent-soft); font-weight: 500; }
+
+  .syllabus li:last-child{ border-bottom: none; }
+
+  /* ===== Syllabus / mapa de la asignatura ===== */
+  .syllabus{
+    list-style: none; margin: 0; padding: 0;
+    border-top: 1px solid var(--ink);
+    margin-top: 4px;
+  }
+  .syllabus li{
+    display: grid;
+    grid-template-columns: 90px 420px 1fr 200px;
+    gap: 32px;
+    align-items: baseline;
+    border-bottom: 1px solid var(--rule);
+    padding: 22px 8px;
+  }
+  .syllabus .num{
+    font-family: var(--mono);
+    color: var(--ink-3);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: .02em;
+  }
+  .syllabus .name{
+    font-family: var(--serif);
+    color: var(--ink);
+    font-size: 42px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+  .syllabus .desc{
+    font-family: var(--sans);
+    color: var(--ink-2);
+    font-size: 28px;
+    line-height: 1.3;
+  }
+  .syllabus .here{
+    font-family: var(--mono);
+    color: var(--ink-3);
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    text-align: right;
+  }
+  .syllabus li.current{
+    background: var(--ink);
+    margin: 0 -16px;
+    padding: 24px 24px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .syllabus li.current .num{ color: var(--accent-soft); }
+  .syllabus li.current .name{ color: var(--bg); font-style: italic; }
+  .syllabus li.current .desc{ color: #C9C2B4; }
+  .syllabus li.current .here{ color: var(--accent-soft); }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ============ 01 PORTADA ============ -->
+  <section data-label="01 Portada">
+    <div class="chrome"></div>
+    <div class="meta"><span>Aplicaciones web · SMR</span><span>2026</span></div>
+    <div class="frame cover">
+      <div class="kicker">Aplicaciones web · SMR</div>
+      <h1 class="display">HT<em>ML</em></h1>
+      <p class="sub">La estructura de la web,<br>vista a través de la IA.</p>
+      <div class="stamp">
+        <span><b>Duración</b>90 minutos</span>
+        <span><b>Formato</b>Teoría + práctica</span>
+        <span><b>Requisito</b>Un navegador y curiosidad</span>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Desarrollo Web con IA</span><span>HTML · CSS · JS</span></div>
+  </section>
+
+  <!-- ============ MAPA DE LA ASIGNATURA ============ -->
+  <section data-label="Mapa de la asignatura">
+    <div class="chrome"></div>
+    <div class="meta"><span>Aplicaciones web · SMR</span><span>Mapa</span></div>
+    <div class="frame">
+      <p class="eyebrow">8 temas</p>
+      <h1 class="title">Por dónde vamos a <em>pasar</em></h1>
+      <ol class="syllabus">
+        <li class="current">
+          <span class="num">01</span>
+          <span class="name">HTML</span>
+          <span class="desc">La estructura: qué hay y en qué orden.</span>
+          <span class="here">Aquí estás hoy</span>
+        </li>
+        <li>
+          <span class="num">02</span>
+          <span class="name">Componentes UI</span>
+          <span class="desc">El catálogo del front: navbars, drawers, toasts, pricing tables…</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">03</span>
+          <span class="name">CSS</span>
+          <span class="desc">Estilos: colores, tipografía, espacios.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">04</span>
+          <span class="name">CSS avanzado</span>
+          <span class="desc">Layout, flexbox, grid y responsive.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">05</span>
+          <span class="name">JavaScript</span>
+          <span class="desc">El lenguaje: variables, funciones, lógica.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">06</span>
+          <span class="name">DOM y eventos</span>
+          <span class="desc">JavaScript dentro del navegador.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">07</span>
+          <span class="name">APIs y datos</span>
+          <span class="desc">Fetch, asincronía, conectar con servicios.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">08</span>
+          <span class="name">Despliegue</span>
+          <span class="desc">De tu portátil a una URL pública.</span>
+          <span class="here"></span>
+        </li>
+      </ol>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>02</span></div>
+  </section>
+
+  <!-- ============ 02 FILOSOFÍA ============ -->
+  <section data-label="02 Filosofia">
+    <div class="chrome"></div>
+    <div class="meta"><span>Antes de empezar</span><span>Filosofía</span></div>
+    <div class="frame quote-slide">
+      <blockquote>
+        Ya no necesitas memorizar etiquetas.<br>
+        Necesitas <span class="ac">saber qué pedir</span>.
+      </blockquote>
+      <cite>— La nueva alfabetización del desarrollo</cite>
+    </div>
+    <div class="meta-foot"><span>Tema 01 · HTML</span><span>Filosofía</span></div>
+  </section>
+
+  <!-- ============ 03 CÓMO APRENDEMOS ============ -->
+  <section data-label="03 Como aprendemos">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Cómo aprendemos</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cómo aprendemos en este curso</p>
+      <h1 class="title">El alumno conoce los <em>nombres</em>,<br>la IA escribe el <em>detalle</em>.</h1>
+      <div class="two-col">
+        <div class="col">
+          <h3>Antes</h3>
+          <p>Memorizabas cada etiqueta, cada atributo, cada propiedad CSS. Buscar en Stack Overflow era el día a día.</p>
+        </div>
+        <div class="col">
+          <h3>Ahora</h3>
+          <p>Reconoces los bloques de una página y sabes describirlos. La IA traduce esa descripción a código en segundos.</p>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>04</span></div>
+  </section>
+
+  <!-- ============ 04 ÍNDICE ============ -->
+  <section data-label="04 Indice">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Índice de la sesión</span></div>
+    <div class="frame">
+      <p class="eyebrow">Mapa de la sesión — 90 min · 6 secciones</p>
+      <h1 class="title">Las <em>seis secciones</em> del tema</h1>
+      <div class="index-grid">
+        <div class="index-item"><span class="n">01</span><div class="t">¿Qué es HTML?<small>El sitio que ocupa entre CSS y JS</small></div></div>
+        <div class="index-item"><span class="n">02</span><div class="t">Sintaxis básica<small>Anatomía, estructura y etiquetas sin cierre</small></div></div>
+        <div class="index-item"><span class="n">03</span><div class="t">Etiquetas de contenido<small>Texto, listas, enlaces, imágenes</small></div></div>
+        <div class="index-item"><span class="n">04</span><div class="t">HTML semántico<small>El mapa real de una página web</small></div></div>
+        <div class="index-item"><span class="n">05</span><div class="t">Trabajar con la IA<small>Cómo se compone un buen prompt</small></div></div>
+        <div class="index-item"><span class="n">06</span><div class="t">Práctica<small>Dos retos para construir hoy</small></div></div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>05</span></div>
+  </section>
+
+  <!-- ============ 05 SECTION BREAK: ¿Qué es HTML? ============ -->
+  <section data-label="05 Seccion · Que es HTML">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Sección 01</span></div>
+    <div class="frame sect">
+      <div class="num">01</div>
+      <h2 class="name">¿Qué es HTML?</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>06</span></div>
+  </section>
+
+  <!-- ============ 06 LOS TRES PILARES ============ -->
+  <section data-label="06 HTML CSS JS">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Los tres pilares</span></div>
+    <div class="frame">
+      <p class="eyebrow">Los tres pilares de la web</p>
+      <h1 class="title">Cada lenguaje tiene <em>un trabajo</em>.</h1>
+      <div class="three-col">
+        <div class="pillar">
+          <div class="lang">HTML</div>
+          <h4>Estructura</h4>
+          <p>El esqueleto de la página. Decide qué hay y en qué orden: títulos, párrafos, listas, imágenes, secciones.</p>
+          <div class="role">Hoy nos centramos aquí</div>
+        </div>
+        <div class="pillar">
+          <div class="lang">CSS</div>
+          <h4>Aspecto</h4>
+          <p>La piel y la ropa. Colores, tipografías, espacios, columnas, animaciones. Cómo se ve y se mueve.</p>
+          <div class="role">Tema 02</div>
+        </div>
+        <div class="pillar">
+          <div class="lang">JS</div>
+          <h4>Comportamiento</h4>
+          <p>El cerebro. Qué pasa cuando alguien hace clic, escribe, arrastra o carga datos. La interactividad.</p>
+          <div class="role">Tema 03</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>07</span></div>
+  </section>
+
+  <!-- ============ SECTION BREAK 02 · SINTAXIS BÁSICA ============ -->
+  <section data-label="Seccion 02 Sintaxis basica">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Sección 02</span></div>
+    <div class="frame sect">
+      <div class="num">02</div>
+      <h2 class="name">Sintaxis básica.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>Sección 02</span></div>
+  </section>
+
+  <!-- ============ 07 ANATOMÍA DE UNA ETIQUETA ============ -->
+  <section data-label="07 Anatomia etiqueta">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Anatomía de una etiqueta</span></div>
+    <div class="frame">
+      <p class="eyebrow">Vocabulario base</p>
+      <h1 class="title">Anatomía de una <em>etiqueta</em></h1>
+      <div class="anatomy">
+        <div class="specimen">
+          <span class="t1">&lt;a</span>
+          <span class="a"> href</span><span class="c">=</span><span class="v">"/curso"</span><span class="t1">&gt;</span><span class="c">Apúntate</span><span class="t2">&lt;/a&gt;</span>
+        </div>
+        <div class="anatomy-legend">
+          <div>
+            <div class="label">Etiqueta de apertura</div>
+            <div class="desc">Indica dónde empieza el elemento. Casi siempre con su gemela de cierre.</div>
+          </div>
+          <div>
+            <div class="label">Atributo</div>
+            <div class="desc">Información extra sobre la etiqueta. Aquí: a dónde lleva el enlace.</div>
+          </div>
+          <div>
+            <div class="label">Contenido</div>
+            <div class="desc">Lo que el usuario verá en pantalla. Texto, otras etiquetas o nada.</div>
+          </div>
+          <div>
+            <div class="label">Etiqueta de cierre</div>
+            <div class="desc">Marca dónde termina el elemento. Lleva una barra antes del nombre.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>09</span></div>
+  </section>
+
+  <!-- ============ 08 ESTRUCTURA MÍNIMA · CÓDIGO + RENDER ============ -->
+  <section data-label="08 Estructura minima">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Estructura del documento</span></div>
+    <div class="frame">
+      <p class="eyebrow">Estructura mínima · todo documento HTML empieza así</p>
+      <h1 class="title">El esqueleto de <em>cualquier</em> página</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>index.html</span><span class="dots">• • •</span></div>
+<div class="pane-body"><span class="com">&lt;!-- declara que es HTML moderno --&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">!DOCTYPE</span> <span class="attr-val">html</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">html</span> <span class="attr-name">lang</span>=<span class="attr-val">"es"</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">head</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">title</span><span class="tag-punct">&gt;</span>Mi primera web<span class="tag-punct">&lt;/</span><span class="tag-name">title</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;/</span><span class="tag-name">head</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">body</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">h1</span><span class="tag-punct">&gt;</span>Hola, mundo<span class="tag-punct">&lt;/</span><span class="tag-name">h1</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>Esto es una página.<span class="tag-punct">&lt;/</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;/</span><span class="tag-name">body</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;/</span><span class="tag-name">html</span><span class="tag-punct">&gt;</span></div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body">
+            <div class="render-body">
+              <h1>Hola, mundo</h1>
+              <p>Esto es una página.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>10</span></div>
+  </section>
+
+  <!-- ============ ETIQUETAS SIN CIERRE ============ -->
+  <section data-label="Etiquetas sin cierre">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Etiquetas sin cierre</span></div>
+    <div class="frame">
+      <p class="eyebrow">Sintaxis · void elements</p>
+      <h1 class="title">No todas las etiquetas se <em>cierran</em>.</h1>
+      <div class="voidlist">
+        <div>
+          <h3>Sin cierre — void elements</h3>
+          <p class="sub">No tienen contenido. Una sola etiqueta y listo.</p>
+          <ul>
+            <li><code>&lt;br&gt;</code><span>salto de línea</span></li>
+            <li><code>&lt;hr&gt;</code><span>línea horizontal divisoria</span></li>
+            <li><code>&lt;img&gt;</code><span>imagen</span></li>
+            <li><code>&lt;input&gt;</code><span>campo de formulario</span></li>
+            <li><code>&lt;meta&gt;</code><span>metadato (dentro del head)</span></li>
+            <li><code>&lt;link&gt;</code><span>enlace a CSS o recursos</span></li>
+          </ul>
+          <p class="more">+ source · track · area · col · embed · wbr</p>
+        </div>
+        <div>
+          <h3>Cierre opcional — pero ciérralas</h3>
+          <p class="sub">El navegador las entiende sin cierre, pero el código se vuelve ilegible.</p>
+          <ul>
+            <li><code>&lt;li&gt;</code><span>dentro de una lista</span></li>
+            <li><code>&lt;p&gt;</code><span>antes de otro bloque</span></li>
+            <li><code>&lt;tr&gt; &lt;td&gt; &lt;th&gt;</code><span>celdas de tabla</span></li>
+          </ul>
+          <p class="more" style="color: var(--ink-2); margin-top: 24px;">Cierra siempre estas etiquetas aunque puedas no hacerlo. Más legible para ti y para la IA.</p>
+        </div>
+      </div>
+      <div class="void-note">
+        <strong>Antes</strong>, en XHTML se escribía <code>&lt;br/&gt;</code>. <strong>Ahora, en HTML5</strong>, basta con <code>&lt;br&gt;</code> — las dos formas son válidas.
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>11</span></div>
+  </section>
+
+  <!-- ============ SECTION BREAK 03 · ETIQUETAS DE CONTENIDO ============ -->
+  <section data-label="Seccion 03 Etiquetas de contenido">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Sección 03</span></div>
+    <div class="frame sect">
+      <div class="num">03</div>
+      <h2 class="name">Etiquetas de contenido.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>Sección 03</span></div>
+  </section>
+
+  <!-- ============ 09 ETIQUETAS DE TEXTO · CÓDIGO + RENDER ============ -->
+  <section data-label="09 Etiquetas de texto">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Etiquetas de texto</span></div>
+    <div class="frame">
+      <p class="eyebrow">Lo que más vas a escribir · texto</p>
+      <h1 class="title">Títulos, párrafos y <em>énfasis</em></h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>texto.html</span><span class="dots">• • •</span></div>
+<div class="pane-body"><span class="tag-punct">&lt;</span><span class="tag-name">h1</span><span class="tag-punct">&gt;</span>Título principal<span class="tag-punct">&lt;/</span><span class="tag-name">h1</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">h2</span><span class="tag-punct">&gt;</span>Sección<span class="tag-punct">&lt;/</span><span class="tag-name">h2</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">h3</span><span class="tag-punct">&gt;</span>Subsección<span class="tag-punct">&lt;/</span><span class="tag-name">h3</span><span class="tag-punct">&gt;</span>
+
+<span class="tag-punct">&lt;</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>
+  Un párrafo de texto normal.
+  La IA es <span class="tag-punct">&lt;</span><span class="tag-name">strong</span><span class="tag-punct">&gt;</span>una herramienta<span class="tag-punct">&lt;/</span><span class="tag-name">strong</span><span class="tag-punct">&gt;</span>,
+  no <span class="tag-punct">&lt;</span><span class="tag-name">em</span><span class="tag-punct">&gt;</span>magia<span class="tag-punct">&lt;/</span><span class="tag-name">em</span><span class="tag-punct">&gt;</span>.
+<span class="tag-punct">&lt;/</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span></div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body">
+            <div class="render-body">
+              <h1>Título principal</h1>
+              <h2>Sección</h2>
+              <h3>Subsección</h3>
+              <p>Un párrafo de texto normal. La IA es <strong>una herramienta</strong>, no <em>magia</em>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>13</span></div>
+  </section>
+
+  <!-- ============ 10 PARA QUÉ SIRVEN LOS HEADINGS ============ -->
+  <section data-label="10 Headings uso">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Cuándo usar cada cosa</span></div>
+    <div class="frame">
+      <p class="eyebrow">Más importante que la sintaxis · cuándo se usa</p>
+      <h1 class="title">¿Cuándo uso <em>cada nivel</em> de título?</h1>
+      <div class="usecases">
+        <div class="usecase-row">
+          <div class="tag">&lt;h1&gt;</div>
+          <div class="what">El título principal de la página.</div>
+          <div class="where">Uno por página. Es lo más importante de toda la pantalla.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">&lt;h2&gt;</div>
+          <div class="what">Las secciones grandes en las que se divide la página.</div>
+          <div class="where">"Sobre mí", "Servicios", "Contacto", "Preguntas frecuentes".</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">&lt;h3&gt;</div>
+          <div class="what">Subsecciones dentro de una sección.</div>
+          <div class="where">Dentro de "Servicios": "Diseño", "Desarrollo", "Consultoría".</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">&lt;p&gt;</div>
+          <div class="what">Un párrafo de texto. El contenido en sí.</div>
+          <div class="where">Todo lo que sea texto continuo, salvo títulos y elementos de lista.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>14</span></div>
+  </section>
+
+  <!-- ============ 11 LISTAS · CÓDIGO + RENDER ============ -->
+  <section data-label="11 Listas">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Listas</span></div>
+    <div class="frame">
+      <p class="eyebrow">Listas · ordenadas y no ordenadas</p>
+      <h1 class="title">Cuando algo es una <em>colección</em>, es una lista.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>listas.html</span><span class="dots">• • •</span></div>
+<div class="pane-body"><span class="com">&lt;!-- sin orden: ul --&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">ul</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>Café<span class="tag-punct">&lt;/</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>Té<span class="tag-punct">&lt;/</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>Agua<span class="tag-punct">&lt;/</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;/</span><span class="tag-name">ul</span><span class="tag-punct">&gt;</span>
+
+<span class="com">&lt;!-- con orden: ol --&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">ol</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>Abrir el editor<span class="tag-punct">&lt;/</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>Escribir el código<span class="tag-punct">&lt;/</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>Ver el resultado<span class="tag-punct">&lt;/</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;/</span><span class="tag-name">ol</span><span class="tag-punct">&gt;</span></div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body">
+            <div class="render-body">
+              <ul>
+                <li>Café</li>
+                <li>Té</li>
+                <li>Agua</li>
+              </ul>
+              <ol>
+                <li>Abrir el editor</li>
+                <li>Escribir el código</li>
+                <li>Ver el resultado</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>15</span></div>
+  </section>
+
+  <!-- ============ 12 USOS DE LISTAS ============ -->
+  <section data-label="12 Listas uso">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Cuándo usar listas</span></div>
+    <div class="frame">
+      <p class="eyebrow">Sí, lo de los puntitos · pero ¿para qué de verdad?</p>
+      <h1 class="title">Una <em>lista</em> está en todas partes.</h1>
+      <div class="usecases">
+        <div class="usecase-row">
+          <div class="tag">Navegación</div>
+          <div class="what">Los enlaces del menú superior son una lista.</div>
+          <div class="where">Inicio · Productos · Precios · Contacto.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">Features</div>
+          <div class="what">"Qué incluye este plan" en una página de pricing.</div>
+          <div class="where">Cada beneficio o característica es un &lt;li&gt;.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">Pasos</div>
+          <div class="what">"Cómo funciona" o tutoriales numerados.</div>
+          <div class="where">Aquí sí importa el orden → &lt;ol&gt;.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">FAQ</div>
+          <div class="what">Las preguntas frecuentes son una colección.</div>
+          <div class="where">Y cada respuesta puede tener su propia mini-lista dentro.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>16</span></div>
+  </section>
+
+  <!-- ============ 13 ENLACES E IMÁGENES · CÓDIGO + RENDER ============ -->
+  <section data-label="13 Enlaces e imagenes">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Enlaces e imágenes</span></div>
+    <div class="frame">
+      <p class="eyebrow">Conectar y mostrar · &lt;a&gt; y &lt;img&gt;</p>
+      <h1 class="title">La web es texto, <em>enlaces</em> e imágenes.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>enlaces.html</span><span class="dots">• • •</span></div>
+<div class="pane-body"><span class="com">&lt;!-- enlace --&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">a</span> <span class="attr-name">href</span>=<span class="attr-val">"https://wikipedia.org"</span><span class="tag-punct">&gt;</span>
+  Visita Wikipedia
+<span class="tag-punct">&lt;/</span><span class="tag-name">a</span><span class="tag-punct">&gt;</span>
+
+<span class="com">&lt;!-- imagen (no lleva cierre) --&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">img</span>
+  <span class="attr-name">src</span>=<span class="attr-val">"perro.jpg"</span>
+  <span class="attr-name">alt</span>=<span class="attr-val">"Mi perro Lola en el sofá"</span><span class="tag-punct">&gt;</span></div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body">
+            <div class="render-body">
+              <p><a href="#">Visita Wikipedia</a></p>
+              <div style="width:240px;height:140px;background:#e5e1d4;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:24px;color:#8A8278;border:1px solid #d4cfc2;">perro.jpg</div>
+              <p style="font-size:24px;color:#888;margin-top:8px;">alt: "Mi perro Lola en el sofá"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>17</span></div>
+  </section>
+
+  <!-- ============ 14 SECTION BREAK · HTML SEMÁNTICO ============ -->
+  <section data-label="14 Seccion 04 HTML semantico" class="dark">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Sección 04</span></div>
+    <div class="frame sect">
+      <div class="num" style="color:var(--accent-soft);">04</div>
+      <h2 class="name" style="color:var(--bg);">HTML semántico:<br>el mapa de una página.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>18</span></div>
+  </section>
+
+  <!-- ============ 15 PAGEMAP ============ -->
+  <section data-label="15 Pagemap semantico">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>El mapa semántico</span></div>
+    <div class="frame">
+      <p class="eyebrow">HTML semántico · cada zona tiene su etiqueta</p>
+      <h1 class="title">Una página real está hecha de <em>zonas con nombre</em>.</h1>
+      <div class="pagemap">
+        <div class="canvas">
+          <div class="block">header · logo + navegación</div>
+          <div class="block dark-block">nav · enlaces principales</div>
+          <div class="block accent-block" style="font-size:32px;">main &gt; section (hero) · titular + CTA</div>
+          <div class="row2">
+            <div class="block">article · contenido</div>
+            <div class="block" style="background:var(--bg-2);">aside · barra lateral</div>
+          </div>
+          <div class="block">footer · créditos y enlaces</div>
+        </div>
+        <div class="legend">
+          <ul>
+            <li><code>&lt;header&gt;</code><span>La cabecera. Suele llevar logo + menú.</span></li>
+            <li><code>&lt;nav&gt;</code><span>El menú de navegación principal.</span></li>
+            <li><code>&lt;main&gt;</code><span>El contenido único de esta página.</span></li>
+            <li><code>&lt;section&gt;</code><span>Una zona temática dentro del contenido.</span></li>
+            <li><code>&lt;article&gt;</code><span>Una pieza independiente: post, noticia, ficha.</span></li>
+            <li><code>&lt;aside&gt;</code><span>Contenido secundario o complementario.</span></li>
+            <li><code>&lt;footer&gt;</code><span>El pie. Avisos, enlaces, créditos.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>19</span></div>
+  </section>
+
+  <!-- ============ 16 VOCABULARIO DEL FRONT ============ -->
+  <section data-label="16 Vocabulario front">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Vocabulario del front</span></div>
+    <div class="frame">
+      <p class="eyebrow">El idioma de la web · si lo nombras, la IA lo construye</p>
+      <h1 class="title">Vocabulario que tienes que <em>reconocer</em>.</h1>
+      <div class="vocab">
+        <div class="term"><span class="es">Cabecera fija</span><span class="name">Navbar</span><span class="desc">La barra superior con logo y menú.</span></div>
+        <div class="term"><span class="es">Sección de bienvenida</span><span class="name">Hero</span><span class="desc">La primera pantalla: titular grande + llamada a la acción.</span></div>
+        <div class="term"><span class="es">Llamada a la acción</span><span class="name">CTA</span><span class="desc">El botón principal: "Apúntate", "Empieza ahora".</span></div>
+        <div class="term"><span class="es">Tarjeta</span><span class="name">Card</span><span class="desc">Un bloque rectangular que agrupa una unidad de info.</span></div>
+        <div class="term"><span class="es">Cuadrícula</span><span class="name">Grid</span><span class="desc">Filas y columnas. Cards en cuadrícula es lo más común.</span></div>
+        <div class="term"><span class="es">Barra lateral</span><span class="name">Sidebar</span><span class="desc">Columna secundaria, normalmente a la izquierda.</span></div>
+        <div class="term"><span class="es">Migas de pan</span><span class="name">Breadcrumbs</span><span class="desc">Inicio › Categoría › Producto. Dónde estoy.</span></div>
+        <div class="term"><span class="es">Ventana flotante</span><span class="name">Modal</span><span class="desc">Diálogo que aparece encima atenuando el fondo.</span></div>
+        <div class="term"><span class="es">Pestañas</span><span class="name">Tabs</span><span class="desc">Varias vistas en el mismo espacio, una a la vez.</span></div>
+        <div class="term"><span class="es">Acordeón</span><span class="name">Accordion</span><span class="desc">Bloques colapsables. Típico para preguntas frecuentes.</span></div>
+        <div class="term"><span class="es">Etiqueta</span><span class="name">Badge</span><span class="desc">Pequeña pastilla: "Nuevo", "Pro", "−20%".</span></div>
+        <div class="term"><span class="es">Pie de página</span><span class="name">Footer</span><span class="desc">Cierre con enlaces legales, redes y contacto.</span></div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>20</span></div>
+  </section>
+
+  <!-- ============ 17 ATRIBUTOS CLAVE ============ -->
+  <section data-label="17 Atributos">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Atributos clave</span></div>
+    <div class="frame">
+      <p class="eyebrow">Atributos que vas a usar todo el rato</p>
+      <h1 class="title">Cinco atributos que <em>basta con saber</em>.</h1>
+      <div class="usecases">
+        <div class="usecase-row">
+          <div class="tag">class</div>
+          <div class="what">Ponerle un "tipo" a un elemento para darle estilo después con CSS.</div>
+          <div class="where">class="boton-principal", class="card destacada".</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">id</div>
+          <div class="what">Identificador único en la página. Solo uno con cada id.</div>
+          <div class="where">id="formulario-contacto". Útil para enlazar y para JS.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">href</div>
+          <div class="what">A dónde lleva un enlace.</div>
+          <div class="where">href="/precios", href="https://ejemplo.com".</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">src</div>
+          <div class="what">De dónde sale la imagen (o el vídeo, el script…).</div>
+          <div class="where">src="logo.png", src="/img/hero.jpg".</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">alt</div>
+          <div class="what">Descripción de una imagen para quien no la pueda ver.</div>
+          <div class="where">Accesibilidad y SEO. Nunca lo dejes vacío en imágenes con contenido.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>21</span></div>
+  </section>
+
+  <!-- ============ 18 SECTION BREAK · IA ============ -->
+  <section data-label="18 Seccion 05 IA" class="brick">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Sección 05</span></div>
+    <div class="frame sect">
+      <div class="num" style="color:var(--bg);">05</div>
+      <h2 class="name" style="color:var(--bg);">Cómo pedírselo<br>a la IA.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>22</span></div>
+  </section>
+
+  <!-- ============ 19 ANATOMÍA DE UN PROMPT ============ -->
+  <section data-label="19 Anatomia prompt">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Anatomía de un prompt</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cómo se compone una buena petición</p>
+      <h1 class="title">Un prompt útil tiene <em>cuatro partes</em>.</h1>
+      <div class="prompt-anatomy">
+        <div><span class="label-tag">CONTEXTO</span><span class="text">Estoy aprendiendo HTML. Quiero una página estática, sin frameworks.</span></div>
+        <div><span class="label-tag">OBJETIVO</span><span class="text">Hazme una página "Sobre mí" con un hero, una sección de proyectos y un footer.</span></div>
+        <div><span class="label-tag">RESTRICCIONES</span><span class="text">Solo HTML (sin CSS aún). Usa etiquetas semánticas. Que sea válido y comentado.</span></div>
+        <div><span class="label-tag">FORMATO</span><span class="text">Dame el archivo completo en un solo bloque de código.</span></div>
+      </div>
+      <p class="lede" style="margin-top: 48px;">Las cuatro partes no son obligatorias siempre, pero recordarlas evita el 90% de los "no era esto lo que quería".</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>23</span></div>
+  </section>
+
+  <!-- ============ 20 PROMPT MALO vs BUENO ============ -->
+  <section data-label="20 Prompt malo vs bueno">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Antes / después</span></div>
+    <div class="frame">
+      <p class="eyebrow">El mismo objetivo, dos resultados distintos</p>
+      <h1 class="title">Antes &amp; después de un <em>prompt</em>.</h1>
+      <div class="prompts">
+        <div class="prompt-card bad">
+          <div class="label">— Prompt vago</div>
+          <p class="quote">"Hazme una web sobre mí."</p>
+          <div class="why">La IA tiene que inventar todo: estructura, tono, contenido, secciones. El resultado raramente coincide con lo que querías.</div>
+        </div>
+        <div class="prompt-card good">
+          <div class="label">+ Prompt accionable</div>
+          <p class="quote">"Hazme un archivo HTML llamado <b>index.html</b> con: un &lt;header&gt; con mi nombre, una &lt;section&gt; hero con un titular y un subtítulo, una &lt;section&gt; de proyectos con 3 cards (título + descripción), y un &lt;footer&gt; con un enlace a mi correo."</p>
+          <div class="why">Sabes el vocabulario (header, hero, cards, footer) → la IA traduce, tú revisas. Ese es el oficio nuevo.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>24</span></div>
+  </section>
+
+  <!-- ============ 21 SECTION BREAK · PRÁCTICA ============ -->
+  <section data-label="21 Seccion 06 Practica">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Sección 06</span></div>
+    <div class="frame sect">
+      <div class="num">06</div>
+      <h2 class="name">Hora de construir.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>25</span></div>
+  </section>
+
+  <!-- ============ 22 RETO 1 ============ -->
+  <section data-label="22 Reto 1" class="challenge">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Reto práctico · 01</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 01 · 15 minutos</p>
+          <h1 class="title">Tarjeta de <em>presentación</em></h1>
+          <p class="brief">Construye una página de una sola pantalla con tu nombre, una frase que te describa, una foto (puede ser placeholder) y tus enlaces. Sin CSS aún. Solo HTML.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Archivo</div><div class="v">index.html</div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">15 minutos</div></div>
+            <div class="spec-row"><div class="k">Herramientas</div><div class="v">Tu editor (VS Code, Cursor) + la IA que prefieras</div></div>
+            <div class="spec-row"><div class="k">Entrega</div><div class="v">Compártelo en el chat del curso</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Debe contener</div>
+          <h2>Requisitos mínimos</h2>
+          <ul>
+            <li>Un &lt;h1&gt; con tu nombre</li>
+            <li>Un &lt;p&gt; con tu descripción</li>
+            <li>Una imagen con su atributo alt</li>
+            <li>Una lista de al menos 3 enlaces</li>
+            <li>Usa &lt;header&gt;, &lt;main&gt; y &lt;footer&gt;</li>
+          </ul>
+          <div class="footer-note">→ Pídeselo primero a la IA. Después léelo línea a línea y entiende cada etiqueta.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>26</span></div>
+  </section>
+
+  <!-- ============ 23 RETO 2 ============ -->
+  <section data-label="23 Reto 2" class="challenge">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Reto práctico · 02</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 02 · 25 minutos</p>
+          <h1 class="title">Página <em>Sobre mí</em></h1>
+          <p class="brief">Misma persona, página real. Varias secciones, navegación, contenido propio. Aquí ya practicas el vocabulario del front que vimos antes.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Archivo</div><div class="v">sobre-mi.html</div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">25 minutos</div></div>
+            <div class="spec-row"><div class="k">Recomendado</div><div class="v">Empieza describiendo en español lo que quieres antes de pedírselo a la IA</div></div>
+            <div class="spec-row"><div class="k">Entrega</div><div class="v">Comparte el HTML y el prompt que usaste</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Secciones obligatorias</div>
+          <h2>Estructura</h2>
+          <ul>
+            <li>Navbar con 4 enlaces internos</li>
+            <li>Hero con titular y CTA</li>
+            <li>Sección "Sobre mí" con dos párrafos</li>
+            <li>Sección "Proyectos" con 3 cards</li>
+            <li>Sección "Contacto" con email y redes</li>
+            <li>Footer con copyright</li>
+          </ul>
+          <div class="footer-note">→ Importante: deja comentarios explicando qué hace cada bloque. Eso te obliga a entenderlo.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>27</span></div>
+  </section>
+
+  <!-- ============ 24 CIERRE ============ -->
+  <section data-label="24 Cierre">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 01 · HTML</span><span>Cierre y siguiente</span></div>
+    <div class="frame closing">
+      <p class="eyebrow">Lo que te llevas hoy</p>
+      <h1 class="display">Ya hablas <em>HTML</em>.</h1>
+      <p class="lede" style="margin-top: 32px; max-width: 1300px;">Reconoces los bloques de una página, conoces el vocabulario del front y sabes pedirle a la IA exactamente lo que necesitas. El siguiente paso es darle forma.</p>
+      <div class="next">
+        <div>
+          <div class="k">Próximo tema</div>
+          <div class="v">Tema 02 — Componentes UI. El catálogo del front.</div>
+        </div>
+        <div>
+          <div class="k">Antes de la próxima sesión</div>
+          <div class="v">Termina los dos retos y trae dudas concretas.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>28 / 28</span></div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>
