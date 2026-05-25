@@ -49,24 +49,6 @@ Cada tema es una presentación HTML autónoma construida con el web component `<
 
 En móvil/tablet, tocar la mitad izquierda o derecha de la pantalla navega entre slides.
 
-## Desarrollo local
-
-No hay build. Basta con servir los archivos estáticos:
-
-```bash
-# Python
-python -m http.server 8000
-
-# Node
-npx serve .
-```
-
-Y abrir <http://localhost:8000>.
-
-## Despliegue
-
-El sitio se publica automáticamente en **GitHub Pages** desde la rama `main` mediante el workflow de [`.github/workflows`](.github/workflows).
-
 ---
 
 Curso con IA · 2026
