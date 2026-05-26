@@ -1094,6 +1094,66 @@
     border-radius: 50%;
   }
 
+  /* ===== Game card preview ===== */
+  .challenge-right .game-card{
+    position: relative;
+    width: 260px;
+    margin: 0 auto 22px;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,.35);
+  }
+  .challenge-right .game-card .gc-img{
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background: linear-gradient(135deg, #4A4640, #1A1814);
+  }
+  .challenge-right .game-card .gc-tag{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .challenge-right .game-card .gc-body{
+    padding: 14px 16px 16px;
+    background: #ffffff;
+    color: #1A1814;
+  }
+  .challenge-right .game-card .gc-title{
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.1;
+    margin: 0 0 4px;
+    font-weight: 600;
+    color: #1A1814;
+  }
+  .challenge-right .game-card .gc-meta{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #8A8278;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin: 0 0 8px;
+  }
+  .challenge-right .game-card .gc-price{
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: .02em;
+  }
+
   /* ===== Closing ===== */
   .closing .display{
     font-family: var(--serif);
@@ -2134,8 +2194,50 @@
     <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>33</span></div>
   </section>
 
-  <!-- ============ 34 CIERRE ============ -->
-  <section data-label="34 Cierre">
+  <!-- ============ 34 RETO 2 · TARJETA DE VIDEOJUEGO ============ -->
+  <section data-label="34 Reto Tarjeta de Videojuego" class="challenge">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Reto práctico · 02</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 02 · 35 minutos</p>
+          <h1 class="title">Tarjeta de <em>videojuego</em></h1>
+          <p class="brief">La ficha de tu juego favorito al estilo Steam: imagen cuadrada, título, plataforma, precio y una etiqueta superpuesta (<code>OFERTA</code>, <code>−30%</code>, <code>PEGI 12</code>…).</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Archivo</div><div class="v">juego.html + style.css (CSS externo)</div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">35 minutos</div></div>
+            <div class="spec-row"><div class="k">Imagen</div><div class="v">cuadrada 1:1 · images/videogame.png</div></div>
+            <div class="spec-row"><div class="k">Entrega</div><div class="v">HTML, CSS y el prompt que usaste</div></div>
+          </div>
+        </div>
+        <div class="challenge-right" style="padding: 32px 36px 32px;">
+          <div class="game-card">
+            <img class="gc-img" src="images/videogame.png" alt="Portada del videojuego">
+            <span class="gc-tag">−30%</span>
+            <div class="gc-body">
+              <h3 class="gc-title">Hollow Knight</h3>
+              <p class="gc-meta">PC · Acción · PEGI 12</p>
+              <span class="gc-price">10,49 €</span>
+            </div>
+          </div>
+          <div class="stamp">Debe contener</div>
+          <h2 style="margin: 0 0 16px;">Requisitos</h2>
+          <ul>
+            <li>Imagen cuadrada (1:1) con etiqueta en una esquina</li>
+            <li>Patrón position: relative + position: absolute</li>
+            <li>Título, plataforma y precio bien jerarquizados</li>
+            <li>CSS externo, border-radius en card y tag</li>
+          </ul>
+          <div class="footer-note">→ Pídeselo a la IA describiendo la card que ves aquí. Después léelo línea a línea.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>34</span></div>
+  </section>
+
+  <!-- ============ 35 CIERRE ============ -->
+  <section data-label="35 Cierre">
     <div class="chrome"></div>
     <div class="meta"><span>Tema 03 · CSS</span><span>Cierre y siguiente</span></div>
     <div class="frame closing">
@@ -2153,7 +2255,7 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>34 / 34</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>35 / 35</span></div>
   </section>
 
 </deck-stage>
