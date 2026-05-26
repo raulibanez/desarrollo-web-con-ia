@@ -678,11 +678,38 @@
       };
       window.addEventListener('tweakchange', this._onTweakChange);
       this._snapshotAuthorCss();
+      // External <link rel="stylesheet"> sheets may not have populated
+      // their .cssRules by the time we run the first snapshot (e.g. a
+      // late-arriving same-origin CSS file). Watch any not-yet-loaded
+      // link in <head> and re-snapshot + re-sync thumbs when it finishes,
+      // so the rail picks up rules from those sheets too.
+      this._watchPendingStylesheets();
       // Build the rail now that it's enabled — slotchange already fired,
       // so _renderRail's early-return skipped the initial build.
       this._syncRailHidden();
       this._renderRail();
       this._fit();
+    }
+
+    /** One-shot load listeners for any <link rel="stylesheet"> whose
+     *  .sheet is not yet usable. Cross-origin sheets are watched too
+     *  (they'd still be skipped in the snapshot, but cost nothing). */
+    _watchPendingStylesheets() {
+      const links = document.querySelectorAll('link[rel~="stylesheet"]');
+      links.forEach((link) => {
+        let ready = false;
+        try { ready = !!(link.sheet && link.sheet.cssRules); } catch (e) { ready = true; }
+        if (ready) return;
+        const onLoad = () => {
+          link.removeEventListener('load', onLoad);
+          this._snapshotAuthorCss();
+          const cs = getComputedStyle(this);
+          (this._thumbs || []).forEach((t) => {
+            if (t.host) this._syncThumbHostAttrs(t.host, cs);
+          });
+        };
+        link.addEventListener('load', onLoad);
+      });
     }
 
     /** Snapshot document stylesheets into a constructable sheet that each
@@ -698,10 +725,16 @@
       // Rewrite :root → :host and mirror <html>'s data-*/class/lang onto
       // each thumb host (see _syncThumbHostAttrs) so the same selectors
       // match inside the thumbnail's shadow tree.
+      const __debugSheets = [];
       const authorCss = Array.from(document.styleSheets).map((sh) => {
         try {
-          return Array.from(sh.cssRules).map((r) => r.cssText).join('\n');
-        } catch (e) { return ''; }
+          const rules = Array.from(sh.cssRules);
+          __debugSheets.push({ href: sh.href || '(inline)', rules: rules.length, ok: true });
+          return rules.map((r) => r.cssText).join('\n');
+        } catch (e) {
+          __debugSheets.push({ href: sh.href || '(inline)', rules: 0, ok: false, err: e.name });
+          return '';
+        }
       }).join('\n')
         // The shadow host is featureless outside the functional :host(...)
         // form, so any compound on :root — [attr], .class, #id, :pseudo —
@@ -727,6 +760,11 @@
         this._adoptedSheet = null;
         this._authorCss = authorCss;
       }
+      console.log('[deck-stage] snapshot:', {
+        totalCssLength: authorCss.length,
+        sheets: __debugSheets,
+        sampleStart: authorCss.slice(0, 300),
+      });
     }
 
     _syncThumbHostAttrs(host, cs) {
