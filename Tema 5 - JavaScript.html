@@ -752,48 +752,48 @@
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 05 · JavaScript</span><span>Tipos primitivos</span></div>
     <div class="frame">
-      <p class="eyebrow">Los datos básicos de JS</p>
-      <h1 class="title">Cinco tipos para casi <em>todo</em>.</h1>
+      <p class="eyebrow">Tipos de datos básicos</p>
+      <h1 class="title">Lo que JS puede guardar en una <em>variable</em>.</h1>
       <div class="vocab">
         <div class="term">
           <span class="name">String</span>
-          <span class="es">Texto</span>
+          <span class="es">Primitivo · texto</span>
           <span class="desc">Cualquier cadena entre comillas. <code>"Ana"</code>, <code>'7'</code>, <code>`hola`</code></span>
         </div>
         <div class="term">
           <span class="name">Number</span>
-          <span class="es">Número</span>
+          <span class="es">Primitivo · número</span>
           <span class="desc">Enteros y decimales. <code>3</code>, <code>0.5</code>, <code>-12</code></span>
         </div>
         <div class="term">
           <span class="name">Boolean</span>
-          <span class="es">Sí/No</span>
+          <span class="es">Primitivo · sí/no</span>
           <span class="desc">Solo dos valores. <code>true</code> o <code>false</code></span>
         </div>
         <div class="term">
           <span class="name">undefined</span>
-          <span class="es">Sin definir</span>
+          <span class="es">Primitivo · sin definir</span>
           <span class="desc">Aún no tiene valor. JS lo pone por ti cuando declaras sin asignar.</span>
         </div>
         <div class="term">
           <span class="name">null</span>
-          <span class="es">Vacío a propósito</span>
+          <span class="es">Primitivo · vacío a propósito</span>
           <span class="desc">Tú decides que no hay valor. <code>let user = null</code></span>
         </div>
         <div class="term">
-          <span class="name">typeof</span>
-          <span class="es">Comprobar tipo</span>
-          <span class="desc">Te dice qué tipo es algo. <code>typeof 7</code> → <code>"number"</code></span>
-        </div>
-        <div class="term">
           <span class="name">Array</span>
-          <span class="es">Lista</span>
-          <span class="desc">Lo verás en JS avanzado. <code>[1, 2, 3]</code></span>
+          <span class="es">Estructura · lista</span>
+          <span class="desc">Varios valores en orden. Lo vemos en Tema 06. <code>[1, 2, 3]</code></span>
         </div>
         <div class="term">
           <span class="name">Object</span>
-          <span class="es">Ficha</span>
+          <span class="es">Estructura · ficha</span>
           <span class="desc">Pares clave-valor. <code>{ nombre: "Ana", edad: 30 }</code></span>
+        </div>
+        <div class="term">
+          <span class="name">typeof</span>
+          <span class="es">Operador</span>
+          <span class="desc">No es un tipo, lo descubre. <code>typeof 7</code> → <code>"number"</code></span>
         </div>
       </div>
     </div>
@@ -1130,7 +1130,7 @@
         <div class="op-row"><div class="sym">%</div><div class="what"><em>Módulo</em>: el resto de la división</div><div class="ex"><code>10 % 3</code> → <code>1</code> · útil para "¿es múltiplo?"</div></div>
         <div class="op-row"><div class="sym">**</div><div class="what">Potencia</div><div class="ex"><code>2 ** 8</code> → <code>256</code></div></div>
       </div>
-      <p style="font-family: var(--mono); color: var(--ink-3); font-size: 24px; margin-top: 16px;">PEMDAS: primero ( ), luego ** , luego * y / , luego + y −. Usa paréntesis si dudas.</p>
+      <p style="font-family: var(--mono); color: var(--ink-3); font-size: 24px; margin-top: 16px;">Orden de evaluación: paréntesis primero, luego potencias <code>**</code>, después <code>*</code> y <code>/</code>, y al final <code>+</code> y <code>−</code>. Si dudas, paréntesis.</p>
     </div>
     <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>23</span></div>
   </section>
@@ -1180,18 +1180,19 @@
       <div class="solution-grid">
         <div class="pane code">
           <div class="pane-head"><span>dog-years.js</span><span class="dots">●●●</span></div>
-          <div class="pane-body"><span class="js-kw">const</span> <span class="js-prop">raw</span> <span class="js-punct">=</span> <span class="js-builtin">prompt</span><span class="js-punct">(</span><span class="js-str">"Edad del perro:"</span><span class="js-punct">);</span>
-<span class="js-kw">const</span> <span class="js-prop">dogAge</span> <span class="js-punct">=</span> <span class="js-builtin">Number</span><span class="js-punct">(</span><span class="js-prop">raw</span><span class="js-punct">);</span>
+          <div class="pane-body"><span class="js-com">// el cálculo, encapsulado para poder reusarlo</span>
+<span class="js-kw">function</span> <span class="js-fn">humanYears</span><span class="js-punct">(</span><span class="js-prop">dogAge</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-kw">return</span> <span class="js-punct">(</span><span class="js-prop">dogAge</span> <span class="js-punct">-</span> <span class="js-num">2</span><span class="js-punct">)</span> <span class="js-punct">*</span> <span class="js-num">4</span> <span class="js-punct">+</span> <span class="js-num">21</span><span class="js-punct">;</span>
+<span class="js-punct">}</span>
 
-<span class="js-com">// PEMDAS: paréntesis primero</span>
-<span class="js-kw">const</span> <span class="js-prop">human</span> <span class="js-punct">=</span> <span class="js-punct">(</span><span class="js-prop">dogAge</span> <span class="js-punct">-</span> <span class="js-num">2</span><span class="js-punct">)</span> <span class="js-punct">*</span> <span class="js-num">4</span> <span class="js-punct">+</span> <span class="js-num">21</span><span class="js-punct">;</span>
-
-<span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`En años humanos: ${</span><span class="js-prop">human</span><span class="js-str">}`</span><span class="js-punct">);</span>
+<span class="js-com">// pedirlo al usuario y mostrarlo</span>
+<span class="js-kw">const</span> <span class="js-prop">raw</span> <span class="js-punct">=</span> <span class="js-builtin">prompt</span><span class="js-punct">(</span><span class="js-str">"Edad del perro:"</span><span class="js-punct">);</span>
+<span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`En años humanos: ${</span><span class="js-fn">humanYears</span><span class="js-str">(</span><span class="js-builtin">Number</span><span class="js-str">(</span><span class="js-prop">raw</span><span class="js-str">))}`</span><span class="js-punct">);</span>
           </div>
         </div>
         <div class="pane console">
           <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
-          <div class="pane-body"><span class="console-line input"><span class="js-fn">human</span><span class="js-punct">(</span><span class="js-num">2</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">21</span></span><span class="console-line input"><span class="js-fn">human</span><span class="js-punct">(</span><span class="js-num">5</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">33</span></span><span class="console-line input"><span class="js-fn">human</span><span class="js-punct">(</span><span class="js-num">10</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">53</span></span><span class="console-line alert">En años humanos: 33</span>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">humanYears</span><span class="js-punct">(</span><span class="js-num">2</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">21</span></span><span class="console-line input"><span class="js-fn">humanYears</span><span class="js-punct">(</span><span class="js-num">5</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">33</span></span><span class="console-line input"><span class="js-fn">humanYears</span><span class="js-punct">(</span><span class="js-num">10</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">53</span></span><span class="console-line alert">En años humanos: 33</span><span class="console-line comment">// el script pide al usuario; la función la pruebas en consola.</span>
           </div>
         </div>
       </div>
@@ -1287,7 +1288,7 @@
 <span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-num">7.9</span><span class="js-punct">);</span>  <span class="js-com">// 7</span>
 <span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-num">2.1</span><span class="js-punct">);</span>  <span class="js-com">// 2</span>
 
-<span class="js-com">// Math.random: número entre 0 y 1</span>
+<span class="js-com">// Math.random: decimal entre 0 y 1 (sin llegar al 1)</span>
 <span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">();</span>     <span class="js-com">// 0.8432...</span>
           </div>
         </div>
@@ -1498,7 +1499,7 @@
         <div><span class="label-tag">CON QUÉ</span> <span class="text">"Usa solo lo que ya he visto: const, slice, toUpperCase, toLowerCase. Nada de regex."</span></div>
         <div><span class="label-tag">CÓMO ENTREGARLO</span> <span class="text">"Devuelve el código y debajo, en 2 líneas, explícame por qué funciona."</span></div>
       </div>
-      <p style="margin-top: auto; font-family: var(--mono); color: var(--ink-3); font-size: 24px;">Sin estas 4 partes, la IA inventa. Con las 4, la IA te enseña.</p>
+      <p style="margin-top: auto; font-family: var(--mono); color: var(--ink-3); font-size: 24px;">Cuanto más concreto el prompt, más útil la respuesta — y más fácil entender lo que te devuelve.</p>
     </div>
     <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>36</span></div>
   </section>
@@ -1535,7 +1536,7 @@
     <div class="frame closing">
       <p class="eyebrow">Lo que te llevas hoy</p>
       <h1 class="display">Ya hablas <em>JavaScript</em>.</h1>
-      <p class="lede" style="margin-top: 32px; max-width: 1300px;">Sabes guardar datos, manipular texto y números, encapsular acciones en funciones y pedirle a la IA cosas que realmente puedes evaluar. Lo siguiente es enseñarle a tu programa a <em>decidir</em> y a <em>repetir</em>.</p>
+      <p class="lede" style="margin-top: 32px; max-width: 1300px;">Has tocado las piezas básicas: variables, strings, números y funciones. Y sabes pedirle a la IA cosas concretas que tú mismo puedes leer y comprobar. Lo siguiente: que tu programa <em>decida</em> y <em>repita</em>.</p>
       <div class="next">
         <div>
           <div class="k">Próximo tema</div>
