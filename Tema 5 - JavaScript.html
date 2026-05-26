@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Curso Web con IA · Tema 5 — JavaScript</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+  :root{
+    --bg:#F2EEE5;
+    --bg-2:#E8E3D6;
+    --ink:#1A1814;
+    --ink-2:#4A4640;
+    --ink-3:#8A8278;
+    --rule:#D4CFC2;
+    --accent:#C84A1F;
+    --accent-soft:#E8956A;
+    --code-bg:#1A1814;
+    --code-fg:#F2EEE5;
+    --code-comment:#8A8278;
+    --code-tag:#E8956A;
+    --code-attr:#D9C26E;
+    --code-string:#B8C97A;
+    --code-text:#F2EEE5;
+
+    --type-display: 168px;
+    --type-title: 72px;
+    --type-subtitle: 44px;
+    --type-body: 30px;
+    --type-small: 24px;
+    --type-code: 26px;
+    --type-tiny: 24px;
+
+    --pad-x: 96px;
+    --pad-top: 88px;
+    --pad-bottom: 88px;
+    --gap-title: 48px;
+    --gap-item: 22px;
+
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "IBM Plex Sans", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", Menlo, monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#0b0b0b; }
+  body{ font-family: var(--sans); color: var(--ink); }
+
+  deck-stage section{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: var(--type-body);
+    line-height: 1.4;
+    overflow: hidden;
+  }
+
+  /* Chrome */
+  .chrome{ position:absolute; inset:0; pointer-events:none; }
+  .chrome::before{
+    content:""; position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: 56px;
+    border-top: 1px solid var(--rule);
+  }
+  .chrome::after{
+    content:""; position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    bottom: 56px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .meta{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: 24px;
+    display:flex; justify-content:space-between;
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: var(--ink-3); letter-spacing: .04em; text-transform: uppercase;
+  }
+  .meta-foot{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    bottom: 22px;
+    display:flex; justify-content:space-between;
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: var(--ink-3); letter-spacing: .04em; text-transform: uppercase;
+  }
+
+  .dark{ background: var(--ink); color: var(--code-fg); }
+  .dark .chrome::before, .dark .chrome::after{ border-color: #34302A; }
+  .dark .meta, .dark .meta-foot{ color: #6E665A; }
+
+  .brick{ background: var(--accent); color: var(--bg); }
+  .brick .chrome::before, .brick .chrome::after{ border-color: rgba(242,238,229,.25); }
+  .brick .meta, .brick .meta-foot{ color: rgba(242,238,229,.65); }
+
+  /* Home corner */
+  .home-corner{
+    position:absolute; top:24px; left:32px; z-index:5;
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: var(--ink-3); text-decoration: none;
+    transition: color .15s ease, transform .15s ease;
+  }
+  .home-corner:hover{ color: var(--accent); transform: translateX(-2px); }
+  .dark .home-corner{ color:#6E665A; }
+  .dark .home-corner:hover{ color: var(--accent-soft); }
+
+  .frame{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: var(--pad-top); bottom: var(--pad-bottom);
+    display:flex; flex-direction:column;
+  }
+  .eyebrow{
+    font-family: var(--mono); font-size: var(--type-small);
+    color: var(--accent); letter-spacing: .08em;
+    text-transform: uppercase; margin: 0 0 24px; font-weight: 500;
+  }
+  .dark .eyebrow{ color: var(--accent-soft); }
+
+  h1.title{
+    font-family: var(--serif); font-weight:500;
+    font-size: var(--type-title); line-height: 1.05;
+    letter-spacing: -.015em; margin: 0 0 var(--gap-title);
+    text-wrap: balance;
+  }
+  h1.title em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .dark h1.title em{ color: var(--accent-soft); }
+
+  p.lede{
+    font-family: var(--serif); font-size: var(--type-subtitle);
+    line-height: 1.25; margin: 0 0 40px; color: var(--ink-2);
+    font-weight: 400; text-wrap: pretty; max-width: 1500px;
+  }
+  .dark p.lede{ color:#C9C2B4; }
+  p, li{ text-wrap: pretty; }
+
+  /* Cover */
+  .cover{ display:flex; flex-direction:column; }
+  .cover .display{
+    font-family: var(--serif); font-size: var(--type-display);
+    line-height: .9; letter-spacing: -.04em; margin: 0; font-weight: 500;
+  }
+  .cover .display em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .cover .kicker{
+    font-family: var(--mono); font-size: var(--type-small);
+    color: var(--ink-3); letter-spacing: .12em;
+    text-transform: uppercase; margin-bottom: 40px;
+  }
+  .cover .sub{
+    font-family: var(--serif); font-size: 56px; line-height: 1.2;
+    color: var(--ink-2); margin-top: 56px;
+    font-style: italic; font-weight: 400; max-width: 1300px;
+  }
+  .cover .stamp{
+    margin-top:auto; display:flex; gap:64px; align-items:flex-end;
+    font-family: var(--mono); font-size: var(--type-small);
+    color: var(--ink-2); letter-spacing: .04em;
+  }
+  .cover .stamp span b{
+    display:block; color: var(--ink); font-weight: 500;
+    font-family: var(--sans); font-size: var(--type-small);
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+
+  /* Syllabus */
+  .syllabus{
+    list-style: none; margin: 0; padding: 0;
+    border-top: 1px solid var(--ink); margin-top: 4px;
+  }
+  .syllabus li{
+    display:grid;
+    grid-template-columns: 90px 420px 1fr 200px;
+    gap: 32px; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding: 22px 8px;
+  }
+  .syllabus .num{ font-family: var(--mono); color: var(--ink-3); font-size: 28px; font-weight: 500; letter-spacing: .02em; }
+  .syllabus .name{ font-family: var(--serif); color: var(--ink); font-size: 42px; line-height: 1; font-weight: 500; letter-spacing: -.01em; }
+  .syllabus .desc{ font-family: var(--sans); color: var(--ink-2); font-size: 28px; line-height: 1.3; }
+  .syllabus .here{ font-family: var(--mono); color: var(--ink-3); font-size: 24px; text-transform: uppercase; letter-spacing: .08em; text-align: right; }
+  .syllabus li.current{ background: var(--ink); margin: 0 -16px; padding: 24px 24px; border-bottom: 1px solid var(--ink); }
+  .syllabus li.current .num{ color: var(--accent-soft); }
+  .syllabus li.current .name{ color: var(--bg); font-style: italic; }
+  .syllabus li.current .desc{ color:#C9C2B4; }
+  .syllabus li.current .here{ color: var(--accent-soft); }
+
+  .syllabus.cols-2{
+    display:grid; grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(9, auto);
+    grid-auto-flow: column; column-gap: 64px;
+    border-top: 1px solid var(--ink); margin-top: 4px;
+    list-style: none; padding: 0;
+  }
+  .syllabus.cols-2 li{
+    display:grid; grid-template-columns: 56px 1fr;
+    gap: 18px; align-items: baseline;
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 8px; margin: 0;
+  }
+  .syllabus.cols-2 .num{ font-size: 22px; }
+  .syllabus.cols-2 .name{ font-size: 30px; line-height: 1.05; }
+  .syllabus.cols-2 .desc{ display:none; }
+  .syllabus.cols-2 .here{ display:none; }
+  .syllabus.cols-2 li.current{
+    background: var(--ink); margin: 0; padding: 14px 14px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  /* Section break */
+  .sect{ display:flex; flex-direction:column; justify-content:center; }
+  .sect .num{
+    font-family: var(--serif); font-style: italic;
+    font-size: 240px; line-height: .85;
+    color: var(--accent); font-weight: 400; margin-bottom: 32px;
+  }
+  .sect .name{
+    font-family: var(--serif); font-size: 96px; line-height: 1;
+    color: var(--ink); margin: 0; letter-spacing: -.02em;
+  }
+
+  /* Quote slide */
+  .quote-slide{ display:flex; flex-direction:column; justify-content:center; }
+  .quote-slide blockquote{
+    font-family: var(--serif); font-style: italic;
+    font-size: 100px; line-height: 1.05;
+    margin: 0; letter-spacing: -.02em; font-weight: 400;
+    max-width: 1500px;
+  }
+  .quote-slide blockquote .ac{ color: var(--accent); font-style: normal; font-weight: 500; }
+  .quote-slide cite{
+    margin-top: 56px; font-family: var(--mono); font-size: var(--type-small);
+    font-style: normal; color: var(--ink-3);
+    letter-spacing: .08em; text-transform: uppercase;
+  }
+
+  /* Two col */
+  .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 0; }
+  .col h3{
+    font-family: var(--mono); font-size: var(--type-small);
+    text-transform: uppercase; letter-spacing: .08em;
+    color: var(--accent); margin: 0 0 16px; font-weight: 500;
+  }
+  .col p{
+    font-family: var(--serif); font-size: 40px; line-height: 1.25;
+    margin: 0; color: var(--ink); font-weight: 400;
+  }
+
+  /* Three col pillars */
+  .three-col{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px; margin-top: 0; }
+  .pillar{ border-top: 2px solid var(--ink); padding-top: 28px; display:flex; flex-direction:column; }
+  .pillar .lang{ font-family: var(--mono); font-size: var(--type-small); color: var(--accent); letter-spacing: .08em; text-transform: uppercase; font-weight: 500; }
+  .pillar h4{ font-family: var(--serif); font-size: 64px; margin: 8px 0 16px; font-weight: 500; letter-spacing: -.01em; }
+  .pillar p{ font-family: var(--sans); font-size: var(--type-body); color: var(--ink-2); line-height: 1.35; margin: 0; }
+  .pillar .role{ font-family: var(--mono); font-size: var(--type-small); color: var(--ink-3); margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--rule); }
+
+  /* Index */
+  .index-grid{
+    display:grid; grid-template-columns: 1fr 1fr;
+    column-gap: 96px; row-gap: 28px; margin-top: 12px;
+  }
+  .index-item{
+    display:grid; grid-template-columns: 64px 1fr;
+    align-items:baseline; border-top: 1px solid var(--rule); padding-top: 22px;
+  }
+  .index-item .n{ font-family: var(--mono); color: var(--accent); font-size: var(--type-small); font-weight: 500; }
+  .index-item .t{ font-family: var(--serif); font-size: 36px; line-height: 1.2; color: var(--ink); }
+  .index-item .t small{
+    display:block; font-family: var(--sans);
+    font-size: var(--type-small); color: var(--ink-3); margin-top: 4px;
+  }
+
+  /* Code panes (reused for solution slides too) */
+  .split{ display:grid; grid-template-columns: 1fr 1fr; gap: 32px; flex: 1; min-height: 0; }
+  .pane{ border: 1px solid var(--rule); display:flex; flex-direction:column; overflow: hidden; }
+  .pane-head{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    text-transform: uppercase; letter-spacing: .1em;
+    padding: 14px 22px; border-bottom: 1px solid var(--rule);
+    color: var(--ink-3); background: var(--bg-2);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .pane-head .dots{ color: var(--ink-3); letter-spacing: 2px; }
+  .pane-body{ flex: 1; overflow: hidden; padding: 28px 32px; }
+  .pane.code{ background: var(--code-bg); border-color: var(--code-bg); }
+  .pane.code .pane-head{ background:#24211C; border-color:#34302A; color:#8A8278; }
+  .pane.code .pane-body{
+    font-family: var(--mono); font-size: var(--type-code);
+    line-height: 1.55; color: var(--code-text);
+    white-space: pre; tab-size: 2;
+  }
+
+  /* Console pane (DevTools-style) */
+  .pane.console{ background:#0E0D0B; border-color:#0E0D0B; }
+  .pane.console .pane-head{ background:#1A1814; border-color:#2C2823; color:#8A8278; }
+  .pane.console .pane-body{
+    font-family: var(--mono); font-size: var(--type-code);
+    line-height: 1.65; color:#F2EEE5;
+    padding: 24px 28px;
+  }
+  .console-line{ display:block; padding: 2px 0; }
+  .console-line.input{ color:#C9C2B4; }
+  .console-line.input::before{ content: "> "; color: var(--accent-soft); }
+  .console-line.output{ color:#F2EEE5; padding-left: 22px; }
+  .console-line.comment{ color:#6E665A; font-style: italic; padding-left: 22px; }
+  .console-line.alert{
+    color:#1A1814; background: var(--accent-soft);
+    padding: 4px 14px; margin: 6px 0;
+    display: inline-block;
+    font-weight: 500;
+  }
+  .console-line.alert::before{
+    content: "alert · ";
+    color:#5A3A28; font-size: 0.85em;
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-right: 6px;
+  }
+
+  /* JS syntax tokens (used inside .pane.code .pane-body) */
+  .js-kw{ color: var(--accent-soft); }
+  .js-str{ color: var(--code-string); }
+  .js-num{ color: var(--code-attr); }
+  .js-fn{ color:#D9C26E; }
+  .js-builtin{ color:#C4D7E5; }
+  .js-com{ color: var(--code-comment); font-style: italic; }
+  .js-punct{ color:#8A8278; }
+  .js-prop{ color:#F2EEE5; }
+
+  /* Solution layout */
+  .solution-grid{
+    display:grid; grid-template-columns: 1fr 1fr;
+    gap: 40px; flex: 1; min-height: 0;
+  }
+
+  /* Challenge slide */
+  .challenge .frame{ padding: 0; }
+  .challenge-grid{
+    display:grid; grid-template-columns: 1.4fr 1fr;
+    gap: 80px; flex: 1; min-height: 0;
+  }
+  .challenge-left{ display:flex; flex-direction:column; }
+  .challenge-left .brief{
+    font-family: var(--serif); font-size: 38px; line-height: 1.3;
+    color: var(--ink); margin: 0 0 32px; max-width: 900px;
+  }
+  .challenge-left .specs{ border-top: 1px solid var(--ink); margin-top: auto; }
+  .challenge-left .spec-row{
+    display:grid; grid-template-columns: 220px 1fr;
+    padding: 16px 0; border-bottom: 1px solid var(--rule);
+    align-items: baseline; gap: 24px;
+  }
+  .challenge-left .spec-row .k{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: var(--ink-3); letter-spacing: .08em; text-transform: uppercase;
+  }
+  .challenge-left .spec-row .v{
+    font-family: var(--sans); font-size: var(--type-small);
+    color: var(--ink); line-height: 1.35;
+  }
+  .challenge-right{
+    background: var(--ink); color: var(--bg);
+    padding: 48px; display:flex; flex-direction:column;
+  }
+  .challenge-right .stamp{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent-soft); margin-bottom: 24px;
+  }
+  .challenge-right h2{
+    font-family: var(--serif); font-size: 54px; line-height: 1.05;
+    margin: 0 0 28px; font-weight: 500; letter-spacing: -.01em;
+  }
+  .challenge-right ul{ list-style: none; margin: 0; padding: 0; }
+  .challenge-right ul li{
+    font-family: var(--sans); font-size: var(--type-small);
+    line-height: 1.4; padding: 14px 0;
+    border-bottom: 1px solid #34302A; color:#D9D2C0;
+    display:grid; grid-template-columns: 32px 1fr; gap: 12px;
+  }
+  .challenge-right ul li::before{
+    content: "□"; color: var(--accent-soft); font-family: var(--mono);
+  }
+  .challenge-right .next-hint{
+    margin-top: auto; padding-top: 32px;
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: var(--accent-soft); letter-spacing: .04em;
+  }
+
+  /* Vocab grid (typeof, primitivos) */
+  .vocab{
+    display:grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+  .vocab .term{
+    background: var(--bg); padding: 28px 28px;
+    display:flex; flex-direction:column; gap: 6px;
+    min-height: 160px;
+  }
+  .vocab .term .name{
+    font-family: var(--serif); font-size: 36px;
+    color: var(--ink); font-weight: 500; line-height: 1;
+  }
+  .vocab .term .es{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: var(--accent); letter-spacing: .04em; text-transform: uppercase;
+  }
+  .vocab .term .desc{
+    font-family: var(--sans); font-size: 22px;
+    color: var(--ink-2); line-height: 1.3; margin-top: 4px;
+  }
+
+  /* Operator table */
+  .oplist{
+    margin-top: 8px; border-top: 1px solid var(--ink);
+  }
+  .op-row{
+    display:grid; grid-template-columns: 160px 1fr 1fr;
+    gap: 48px; border-bottom: 1px solid var(--rule);
+    padding: 20px 0; align-items: baseline;
+  }
+  .op-row .sym{
+    font-family: var(--mono); font-size: 40px;
+    color: var(--accent); font-weight: 500;
+  }
+  .op-row .what{
+    font-family: var(--serif); font-size: 30px;
+    line-height: 1.25; color: var(--ink);
+  }
+  .op-row .ex{
+    font-family: var(--mono); font-size: var(--type-small);
+    color: var(--ink-3); line-height: 1.4;
+  }
+
+  /* Prompt anatomy slide */
+  .prompt-anatomy{
+    background: var(--ink); color: var(--code-fg);
+    padding: 40px 48px; font-family: var(--mono);
+    font-size: var(--type-small); line-height: 1.7;
+    margin-top: 8px; border-left: 4px solid var(--accent);
+  }
+  .prompt-anatomy .label-tag{
+    color: var(--accent-soft); font-weight: 500;
+    display: inline-block; width: 220px;
+  }
+  .prompt-anatomy .text{ color:#D9D2C0; }
+
+  /* Prompt compare */
+  .prompts{ display:grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 12px; }
+  .prompt-card{
+    border: 1px solid var(--rule); padding: 36px;
+    display:flex; flex-direction:column; background: var(--bg);
+  }
+  .prompt-card.bad{ border-top: 4px solid #8A8278; }
+  .prompt-card.good{ border-top: 4px solid var(--accent); }
+  .prompt-card .label{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 16px;
+  }
+  .prompt-card.good .label{ color: var(--accent); }
+  .prompt-card .quote{
+    font-family: var(--serif); font-size: 28px;
+    line-height: 1.3; color: var(--ink);
+    margin: 0 0 24px; font-style: italic;
+  }
+  .prompt-card .why{
+    margin-top:auto; font-family: var(--sans);
+    font-size: var(--type-small); color: var(--ink-2);
+    border-top: 1px solid var(--rule);
+    padding-top: 16px; line-height: 1.4;
+  }
+
+  /* Closing */
+  .closing .display{
+    font-family: var(--serif); font-size: 128px;
+    line-height: .95; margin: 0; letter-spacing: -.03em; font-weight: 500;
+  }
+  .closing .display em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .closing .next{
+    margin-top: auto; display:grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; border-top: 1px solid var(--ink); padding-top: 40px;
+  }
+  .closing .next .k{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 12px;
+  }
+  .closing .next .v{
+    font-family: var(--serif); font-size: 40px;
+    line-height: 1.2; color: var(--ink);
+  }
+
+  /* History timeline */
+  .timeline{
+    margin-top: 8px; border-top: 1px solid var(--ink);
+  }
+  .tl-row{
+    display:grid; grid-template-columns: 180px 1fr;
+    gap: 48px; border-bottom: 1px solid var(--rule);
+    padding: 20px 0; align-items: baseline;
+  }
+  .tl-row .year{
+    font-family: var(--mono); font-size: 32px;
+    color: var(--accent); font-weight: 500;
+  }
+  .tl-row .ev{
+    font-family: var(--serif); font-size: 30px;
+    line-height: 1.3; color: var(--ink);
+  }
+  .tl-row .ev small{
+    display:block; font-family: var(--sans);
+    font-size: var(--type-small); color: var(--ink-3);
+    margin-top: 4px; line-height: 1.35;
+  }
+
+  /* String demo */
+  .string-demo{
+    font-family: var(--mono); font-size: 56px;
+    color: var(--ink); margin: 24px 0;
+    padding: 32px; background: var(--bg-2);
+    border-left: 4px solid var(--accent);
+    letter-spacing: -.01em;
+  }
+  .string-demo .hl{ color: var(--accent); }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ============ 01 PORTADA ============ -->
+  <section data-label="01 Portada">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Aplicaciones web · SMR</span><span>2026</span></div>
+    <div class="frame cover">
+      <div class="kicker">Aplicaciones web · SMR</div>
+      <h1 class="display">Java<em>Script</em></h1>
+      <p class="sub">El lenguaje que hace que<br>la web <em>piense</em>.</p>
+      <div class="stamp">
+        <span><b>Duración</b>90 minutos</span>
+        <span><b>Formato</b>Teoría + retos en vivo</span>
+        <span><b>Requisito</b>HTML y CSS básicos</span>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Desarrollo Web con IA</span><span>Tema 05 · JavaScript</span></div>
+  </section>
+
+  <!-- ============ 02 MAPA DE LA ASIGNATURA ============ -->
+  <section data-label="02 Mapa de la asignatura">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Aplicaciones web · SMR</span><span>Mapa</span></div>
+    <div class="frame">
+      <p class="eyebrow">18 temas</p>
+      <h1 class="title">Por dónde vamos a <em>pasar</em></h1>
+      <ol class="syllabus cols-2">
+        <li><span class="num">01</span><span class="name">HTML</span></li>
+        <li><span class="num">02</span><span class="name">Componentes UI</span></li>
+        <li><span class="num">03</span><span class="name">CSS</span></li>
+        <li><span class="num">04</span><span class="name">CSS avanzado</span></li>
+        <li class="current"><span class="num">05</span><span class="name">JavaScript</span></li>
+        <li><span class="num">06</span><span class="name">JavaScript avanzado</span></li>
+        <li><span class="num">07</span><span class="name">DOM y eventos</span></li>
+        <li><span class="num">08</span><span class="name">APIs y datos</span></li>
+        <li><span class="num">09</span><span class="name">Git y GitHub</span></li>
+        <li><span class="num">10</span><span class="name">Node</span></li>
+        <li><span class="num">11</span><span class="name">SQL</span></li>
+        <li><span class="num">12</span><span class="name">PostgreSQL</span></li>
+        <li><span class="num">13</span><span class="name">React</span></li>
+        <li><span class="num">14</span><span class="name">React avanzado</span></li>
+        <li><span class="num">15</span><span class="name">Diseño con Tailwind e IA</span></li>
+        <li><span class="num">16</span><span class="name">Despliegue</span></li>
+        <li><span class="num">17</span><span class="name">Aplicación full-stack</span></li>
+        <li><span class="num">18</span><span class="name">Apps móviles con Expo</span></li>
+      </ol>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>02</span></div>
+  </section>
+
+  <!-- ============ 03 FILOSOFÍA ============ -->
+  <section data-label="03 Filosofia">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Filosofía</span></div>
+    <div class="frame quote-slide">
+      <blockquote>
+        El HTML pone <span class="ac">lo que hay</span>.<br>
+        El CSS reparte <span class="ac">el sitio</span>.<br>
+        JavaScript decide <span class="ac">qué pasa</span>.
+      </blockquote>
+      <cite>— Las tres patas del front</cite>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>Filosofía</span></div>
+  </section>
+
+  <!-- ============ 04 CÓMO APRENDEMOS ============ -->
+  <section data-label="04 Como aprendemos">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Cómo aprendemos</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cómo vamos a trabajar hoy</p>
+      <h1 class="title">Teoría corta, <em>retos</em> seguidos.</h1>
+      <div class="two-col">
+        <div class="col">
+          <h3>Cada bloque</h3>
+          <p>Una explicación de 5 minutos. Justo lo que necesitas para entender el concepto.</p>
+        </div>
+        <div class="col">
+          <h3>Inmediatamente después</h3>
+          <p>Un reto. Lo intentas tú. La solución está en el siguiente slide, lista para comparar.</p>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>04</span></div>
+  </section>
+
+  <!-- ============ 05 ÍNDICE ============ -->
+  <section data-label="05 Indice">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Índice</span></div>
+    <div class="frame">
+      <p class="eyebrow">Lo que vamos a ver</p>
+      <h1 class="title">Seis bloques, <em>cinco retos</em>.</h1>
+      <div class="index-grid">
+        <div class="index-item"><span class="n">01</span><div class="t">¿Qué es JavaScript?<small>Los tres pilares · ejecutar JS</small></div></div>
+        <div class="index-item"><span class="n">02</span><div class="t">Datos y variables<small>Tipos · let, const · prompt</small></div></div>
+        <div class="index-item"><span class="n">03</span><div class="t">Strings<small>Concatenar · length · slice</small></div></div>
+        <div class="index-item"><span class="n">04</span><div class="t">Números<small>Aritmética · módulo · precedencia</small></div></div>
+        <div class="index-item"><span class="n">05</span><div class="t">Funciones<small>Crear · llamar · devolver</small></div></div>
+        <div class="index-item"><span class="n">06</span><div class="t">Hablando con la IA<small>Pedirle código JS útil</small></div></div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>05</span></div>
+  </section>
+
+  <!-- ============ 06 SECCIÓN 01 ¿QUÉ ES JS? ============ -->
+  <section data-label="06 Seccion 01 Que es JS" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Sección 01</span></div>
+    <div class="frame sect">
+      <div class="num">01</div>
+      <h2 class="name" style="color: var(--bg);">¿Qué es JavaScript?</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>06</span></div>
+  </section>
+
+  <!-- ============ 07 LOS TRES PILARES ============ -->
+  <section data-label="07 Tres pilares">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Tres pilares</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cada lenguaje, un trabajo</p>
+      <h1 class="title">HTML estructura. CSS pinta. JS <em>actúa</em>.</h1>
+      <div class="three-col">
+        <div class="pillar">
+          <span class="lang">HTML</span>
+          <h4>Estructura</h4>
+          <p>Qué hay en la página: títulos, párrafos, imágenes, formularios. El esqueleto.</p>
+          <div class="role">Sustantivos</div>
+        </div>
+        <div class="pillar">
+          <span class="lang">CSS</span>
+          <h4>Aspecto</h4>
+          <p>Cómo se ve: colores, tipografía, espacios, dónde se coloca cada bloque.</p>
+          <div class="role">Adjetivos</div>
+        </div>
+        <div class="pillar">
+          <span class="lang">JS</span>
+          <h4>Comportamiento</h4>
+          <p>Qué pasa cuando el usuario hace algo: clics, cálculos, validar, decidir.</p>
+          <div class="role">Verbos</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>07</span></div>
+  </section>
+
+  <!-- ============ 08 HISTORIA ============ -->
+  <section data-label="08 Historia">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Historia</span></div>
+    <div class="frame">
+      <p class="eyebrow">Breve historia</p>
+      <h1 class="title">Diez días, treinta <em>años</em>.</h1>
+      <div class="timeline">
+        <div class="tl-row"><div class="year">1995</div><div class="ev">Brendan Eich crea JavaScript en <em>10 días</em> para Netscape.<small>Se llamó Mocha, luego LiveScript, y por marketing acabó siendo "JavaScript".</small></div></div>
+        <div class="tl-row"><div class="year">1997</div><div class="ev">Se estandariza con el nombre <em>ECMAScript</em>.<small>El estándar real del lenguaje. Lo que dicen los navegadores que entienden.</small></div></div>
+        <div class="tl-row"><div class="year">2009</div><div class="ev">Node.js: JavaScript también <em>fuera del navegador</em>.<small>Servidores, herramientas, scripts. Mismo lenguaje, otros entornos.</small></div></div>
+        <div class="tl-row"><div class="year">2015</div><div class="ev">ES6/ES2015: <em>let, const, arrow functions, clases</em>.<small>El gran salto. Casi todo el JS moderno se escribe a partir de aquí.</small></div></div>
+        <div class="tl-row"><div class="year">Hoy</div><div class="ev">El lenguaje <em>más usado del mundo</em> según GitHub y Stack Overflow.<small>Front, back, móvil, escritorio, IoT, scripts de IA. Está en todas partes.</small></div></div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>08</span></div>
+  </section>
+
+  <!-- ============ 09 CÓMO EJECUTAMOS JS ============ -->
+  <section data-label="09 Como ejecutamos JS">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Cómo se ejecuta</span></div>
+    <div class="frame">
+      <p class="eyebrow">Sin instalar nada</p>
+      <h1 class="title">Tu navegador ya <em>sabe</em> ejecutar JS.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>index.html</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-punct">&lt;</span><span class="js-kw">!DOCTYPE</span> <span class="js-prop">html</span><span class="js-punct">&gt;</span>
+<span class="js-punct">&lt;</span><span class="js-kw">html</span><span class="js-punct">&gt;</span>
+<span class="js-punct">&lt;</span><span class="js-kw">body</span><span class="js-punct">&gt;</span>
+  <span class="js-punct">&lt;</span><span class="js-kw">h1</span><span class="js-punct">&gt;</span>Hola<span class="js-punct">&lt;/</span><span class="js-kw">h1</span><span class="js-punct">&gt;</span>
+
+  <span class="js-punct">&lt;</span><span class="js-kw">script</span><span class="js-punct">&gt;</span>
+    <span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">"¡Hola, mundo!"</span><span class="js-punct">);</span>
+  <span class="js-punct">&lt;/</span><span class="js-kw">script</span><span class="js-punct">&gt;</span>
+<span class="js-punct">&lt;/</span><span class="js-kw">body</span><span class="js-punct">&gt;</span>
+<span class="js-punct">&lt;/</span><span class="js-kw">html</span><span class="js-punct">&gt;</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola · Chrome DevTools</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-num">2</span> <span class="js-punct">+</span> <span class="js-num">2</span></span><span class="console-line output"><span class="js-num">4</span></span><span class="console-line input"><span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-str">"Hola"</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-str">Hola</span></span><span class="console-line comment">// F12 → Consola en cualquier navegador</span><span class="console-line comment">// también: Sources → Snippets para guardar trozos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>09</span></div>
+  </section>
+
+  <!-- ============ 10 SECCIÓN 02 DATOS Y VARIABLES ============ -->
+  <section data-label="10 Seccion 02 Datos" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Sección 02</span></div>
+    <div class="frame sect">
+      <div class="num">02</div>
+      <h2 class="name" style="color: var(--bg);">Datos y variables.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>10</span></div>
+  </section>
+
+  <!-- ============ 11 TIPOS PRIMITIVOS ============ -->
+  <section data-label="11 Tipos primitivos">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Tipos primitivos</span></div>
+    <div class="frame">
+      <p class="eyebrow">Los datos básicos de JS</p>
+      <h1 class="title">Cinco tipos para casi <em>todo</em>.</h1>
+      <div class="vocab">
+        <div class="term">
+          <span class="name">String</span>
+          <span class="es">Texto</span>
+          <span class="desc">Cualquier cadena entre comillas. <code>"Ana"</code>, <code>'7'</code>, <code>`hola`</code></span>
+        </div>
+        <div class="term">
+          <span class="name">Number</span>
+          <span class="es">Número</span>
+          <span class="desc">Enteros y decimales. <code>3</code>, <code>0.5</code>, <code>-12</code></span>
+        </div>
+        <div class="term">
+          <span class="name">Boolean</span>
+          <span class="es">Sí/No</span>
+          <span class="desc">Solo dos valores. <code>true</code> o <code>false</code></span>
+        </div>
+        <div class="term">
+          <span class="name">undefined</span>
+          <span class="es">Sin definir</span>
+          <span class="desc">Aún no tiene valor. JS lo pone por ti cuando declaras sin asignar.</span>
+        </div>
+        <div class="term">
+          <span class="name">null</span>
+          <span class="es">Vacío a propósito</span>
+          <span class="desc">Tú decides que no hay valor. <code>let user = null</code></span>
+        </div>
+        <div class="term">
+          <span class="name">typeof</span>
+          <span class="es">Comprobar tipo</span>
+          <span class="desc">Te dice qué tipo es algo. <code>typeof 7</code> → <code>"number"</code></span>
+        </div>
+        <div class="term">
+          <span class="name">Array</span>
+          <span class="es">Lista</span>
+          <span class="desc">Lo verás en JS avanzado. <code>[1, 2, 3]</code></span>
+        </div>
+        <div class="term">
+          <span class="name">Object</span>
+          <span class="es">Ficha</span>
+          <span class="desc">Pares clave-valor. <code>{ nombre: "Ana", edad: 30 }</code></span>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>11</span></div>
+  </section>
+
+  <!-- ============ 12 VARIABLES ============ -->
+  <section data-label="12 Variables">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Variables</span></div>
+    <div class="frame">
+      <p class="eyebrow">let, const y un viejo conocido</p>
+      <h1 class="title">Una caja con <em>nombre</em>.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>variables.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-com">// const: no va a cambiar</span>
+<span class="js-kw">const</span> <span class="js-prop">PI</span> <span class="js-punct">=</span> <span class="js-num">3.14159</span><span class="js-punct">;</span>
+
+<span class="js-com">// let: va a cambiar</span>
+<span class="js-kw">let</span> <span class="js-prop">score</span> <span class="js-punct">=</span> <span class="js-num">0</span><span class="js-punct">;</span>
+<span class="js-prop">score</span> <span class="js-punct">=</span> <span class="js-num">10</span><span class="js-punct">;</span>
+
+<span class="js-com">// pedir al usuario</span>
+<span class="js-kw">const</span> <span class="js-prop">name</span> <span class="js-punct">=</span> <span class="js-builtin">prompt</span><span class="js-punct">(</span><span class="js-str">"¿Cómo te llamas?"</span><span class="js-punct">);</span>
+
+<span class="js-com">// mostrar al usuario</span>
+<span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">"Hola "</span> <span class="js-punct">+</span> <span class="js-prop">name</span><span class="js-punct">);</span>
+
+<span class="js-com">// var: el de los 90. Mejor evítalo.</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-builtin">typeof</span> <span class="js-prop">PI</span></span><span class="console-line output"><span class="js-str">"number"</span></span><span class="console-line input"><span class="js-prop">score</span></span><span class="console-line output"><span class="js-num">10</span></span><span class="console-line alert">Hola Ana</span><span class="console-line comment">// regla práctica:</span><span class="console-line comment">// const por defecto, let si va a cambiar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>12</span></div>
+  </section>
+
+  <!-- ============ 13 RETO 01 SWAP ============ -->
+  <section data-label="13 Reto 01 Swap" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Reto 01</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 01 · 5 min</p>
+          <h1 class="title">Intercambia <em>dos variables</em></h1>
+          <p class="brief">Tienes <code>a = 3</code> y <code>b = 8</code>. Después del intercambio, <code>a</code> debe valer <code>8</code> y <code>b</code> debe valer <code>3</code>. Hazlo sin escribir los números directamente.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Empieza con</div><div class="v"><code>let a = 3; let b = 8;</code></div></div>
+            <div class="spec-row"><div class="k">Comprueba</div><div class="v"><code>console.log(a, b);</code> debe imprimir <code>8 3</code></div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">5 minutos</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Debe cumplir</div>
+          <h2>Restricciones</h2>
+          <ul>
+            <li>No puedes redeclarar a ni b</li>
+            <li>No puedes escribir 3 ni 8 en tu solución</li>
+            <li>Puedes usar todas las variables auxiliares que quieras</li>
+            <li>Tres líneas como máximo</li>
+          </ul>
+          <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>13</span></div>
+  </section>
+
+  <!-- ============ 14 SOLUCIÓN 01 SWAP ============ -->
+  <section data-label="14 Solucion 01 Swap">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Solución 01</span></div>
+    <div class="frame">
+      <p class="eyebrow">Solución · Reto 01</p>
+      <h1 class="title">Una variable <em>temporal</em>.</h1>
+      <div class="solution-grid">
+        <div class="pane code">
+          <div class="pane-head"><span>swap.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">let</span> <span class="js-prop">a</span> <span class="js-punct">=</span> <span class="js-num">3</span><span class="js-punct">;</span>
+<span class="js-kw">let</span> <span class="js-prop">b</span> <span class="js-punct">=</span> <span class="js-num">8</span><span class="js-punct">;</span>
+
+<span class="js-com">// guarda a en una caja extra</span>
+<span class="js-kw">let</span> <span class="js-prop">temp</span> <span class="js-punct">=</span> <span class="js-prop">a</span><span class="js-punct">;</span>
+<span class="js-prop">a</span> <span class="js-punct">=</span> <span class="js-prop">b</span><span class="js-punct">;</span>
+<span class="js-prop">b</span> <span class="js-punct">=</span> <span class="js-prop">temp</span><span class="js-punct">;</span>
+
+<span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-prop">a</span><span class="js-punct">,</span> <span class="js-prop">b</span><span class="js-punct">);</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-prop">a</span></span><span class="console-line output"><span class="js-num">8</span></span><span class="console-line input"><span class="js-prop">b</span></span><span class="console-line output"><span class="js-num">3</span></span><span class="console-line input"><span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-prop">a</span><span class="js-punct">,</span> <span class="js-prop">b</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">8</span> <span class="js-num">3</span></span><span class="console-line comment">// si haces a = b primero, pierdes a.</span><span class="console-line comment">// temp lo guarda antes de pisarlo.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>14</span></div>
+  </section>
+
+  <!-- ============ 15 NAMING ============ -->
+  <section data-label="15 Naming">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Naming</span></div>
+    <div class="frame">
+      <p class="eyebrow">Convenciones de nombre</p>
+      <h1 class="title">Los nombres importan. <em>Mucho.</em></h1>
+      <div class="two-col">
+        <div class="col">
+          <h3>Sí — camelCase con sentido</h3>
+          <p style="font-family: var(--mono); font-size: 30px; color: var(--ink); line-height: 1.6;">userName<br>monthlyIncome<br>isLoggedIn<br>getUserById</p>
+        </div>
+        <div class="col">
+          <h3>No — vago, raro o críptico</h3>
+          <p style="font-family: var(--mono); font-size: 30px; color: var(--ink-3); line-height: 1.6;">x, x2, data<br>UserName, user_name<br>flag, temp1<br>doStuff</p>
+        </div>
+      </div>
+      <div class="prompt-anatomy" style="margin-top: auto;">
+        <div><span class="label-tag">Regla</span> <span class="text">camelCase: empieza minúscula y la siguiente palabra empieza mayúscula.</span></div>
+        <div><span class="label-tag">Test</span> <span class="text">¿Otro programador entiende qué guarda esa variable solo leyendo el nombre? Si no, cámbialo.</span></div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>15</span></div>
+  </section>
+
+  <!-- ============ 16 SECCIÓN 03 STRINGS ============ -->
+  <section data-label="16 Seccion 03 Strings" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Sección 03</span></div>
+    <div class="frame sect">
+      <div class="num">03</div>
+      <h2 class="name" style="color: var(--bg);">Strings.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>16</span></div>
+  </section>
+
+  <!-- ============ 17 CONCATENACIÓN ============ -->
+  <section data-label="17 Concatenacion">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Concatenación</span></div>
+    <div class="frame">
+      <p class="eyebrow">Pegando textos</p>
+      <h1 class="title">El <em>+</em> también funciona con palabras.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>concat.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">const</span> <span class="js-prop">name</span> <span class="js-punct">=</span> <span class="js-str">"Ana"</span><span class="js-punct">;</span>
+<span class="js-kw">const</span> <span class="js-prop">age</span> <span class="js-punct">=</span> <span class="js-num">25</span><span class="js-punct">;</span>
+
+<span class="js-com">// concatenación clásica</span>
+<span class="js-kw">const</span> <span class="js-prop">msg1</span> <span class="js-punct">=</span> <span class="js-str">"Hola "</span> <span class="js-punct">+</span> <span class="js-prop">name</span> <span class="js-punct">+</span> <span class="js-str">", tienes "</span> <span class="js-punct">+</span> <span class="js-prop">age</span><span class="js-punct">;</span>
+
+<span class="js-com">// template literals (más limpio)</span>
+<span class="js-kw">const</span> <span class="js-prop">msg2</span> <span class="js-punct">=</span> <span class="js-str">`Hola ${</span><span class="js-prop">name</span><span class="js-str">}, tienes ${</span><span class="js-prop">age</span><span class="js-str">}`</span><span class="js-punct">;</span>
+
+<span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-prop">msg1</span><span class="js-punct">);</span>
+<span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-prop">msg2</span><span class="js-punct">);</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line output"><span class="js-str">Hola Ana, tienes 25</span></span><span class="console-line output"><span class="js-str">Hola Ana, tienes 25</span></span><span class="console-line comment">// dos formas, mismo resultado.</span><span class="console-line comment">// con `backticks` puedes meter ${variables}</span><span class="console-line comment">// y saltos de línea reales.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>17</span></div>
+  </section>
+
+  <!-- ============ 18 .length ============ -->
+  <section data-label="18 length">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>.length</span></div>
+    <div class="frame">
+      <p class="eyebrow">¿Cuántos caracteres tiene?</p>
+      <h1 class="title">El antiguo <em>límite de Twitter</em>.</h1>
+      <div class="string-demo">
+        <span class="hl">"</span>Twitter cabe en 280 caracteres<span class="hl">"</span><span class="hl">.length</span>
+      </div>
+      <div class="split" style="margin-top: 24px;">
+        <div class="pane code">
+          <div class="pane-head"><span>length.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">const</span> <span class="js-prop">tweet</span> <span class="js-punct">=</span> <span class="js-builtin">prompt</span><span class="js-punct">(</span><span class="js-str">"Tu tweet:"</span><span class="js-punct">);</span>
+
+<span class="js-kw">const</span> <span class="js-prop">left</span> <span class="js-punct">=</span> <span class="js-num">280</span> <span class="js-punct">-</span> <span class="js-prop">tweet</span><span class="js-punct">.</span><span class="js-prop">length</span><span class="js-punct">;</span>
+
+<span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`Te quedan ${</span><span class="js-prop">left</span><span class="js-str">} caracteres`</span><span class="js-punct">);</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-str">"hola"</span><span class="js-punct">.</span><span class="js-prop">length</span></span><span class="console-line output"><span class="js-num">4</span></span><span class="console-line input"><span class="js-str">""</span><span class="js-punct">.</span><span class="js-prop">length</span></span><span class="console-line output"><span class="js-num">0</span></span><span class="console-line alert">Te quedan 248 caracteres</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>18</span></div>
+  </section>
+
+  <!-- ============ 19 .slice ============ -->
+  <section data-label="19 slice">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>.slice</span></div>
+    <div class="frame">
+      <p class="eyebrow">Trocear un string</p>
+      <h1 class="title">Cortar por <em>posiciones</em>.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>slice.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">const</span> <span class="js-prop">s</span> <span class="js-punct">=</span> <span class="js-str">"JavaScript"</span><span class="js-punct">;</span>
+
+<span class="js-com">// posiciones:  0 1 2 3 4 5 6 7 8 9</span>
+<span class="js-com">// letras:      J a v a S c r i p t</span>
+
+<span class="js-prop">s</span><span class="js-punct">.</span><span class="js-fn">slice</span><span class="js-punct">(</span><span class="js-num">0</span><span class="js-punct">,</span> <span class="js-num">4</span><span class="js-punct">);</span>   <span class="js-com">// "Java"</span>
+<span class="js-prop">s</span><span class="js-punct">.</span><span class="js-fn">slice</span><span class="js-punct">(</span><span class="js-num">4</span><span class="js-punct">);</span>      <span class="js-com">// "Script"</span>
+<span class="js-prop">s</span><span class="js-punct">.</span><span class="js-fn">slice</span><span class="js-punct">(</span><span class="js-num">0</span><span class="js-punct">,</span> <span class="js-num">1</span><span class="js-punct">);</span>   <span class="js-com">// "J"</span>
+<span class="js-prop">s</span><span class="js-punct">.</span><span class="js-fn">slice</span><span class="js-punct">(</span><span class="js-punct">-</span><span class="js-num">3</span><span class="js-punct">);</span>     <span class="js-com">// "ipt"</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-prop">s</span><span class="js-punct">[</span><span class="js-num">0</span><span class="js-punct">]</span></span><span class="console-line output"><span class="js-str">"J"</span></span><span class="console-line input"><span class="js-prop">s</span><span class="js-punct">.</span><span class="js-fn">toUpperCase</span><span class="js-punct">()</span></span><span class="console-line output"><span class="js-str">"JAVASCRIPT"</span></span><span class="console-line input"><span class="js-prop">s</span><span class="js-punct">.</span><span class="js-fn">toLowerCase</span><span class="js-punct">()</span></span><span class="console-line output"><span class="js-str">"javascript"</span></span><span class="console-line comment">// slice(start, end) → no incluye end</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>19</span></div>
+  </section>
+
+  <!-- ============ 20 RETO 02 CAPITALIZE ============ -->
+  <section data-label="20 Reto 02 Capitalize" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Reto 02</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 02 · 7 min</p>
+          <h1 class="title">Capitaliza el <em>nombre</em></h1>
+          <p class="brief">Pide un nombre con <code>prompt</code>, y muestra con <code>alert</code> el mismo nombre con <em>solo</em> la primera letra en mayúscula. Da igual cómo lo escriba el usuario.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Entrada</div><div class="v"><code>"ana"</code> · <code>"PEDRO"</code> · <code>"mArÍa"</code></div></div>
+            <div class="spec-row"><div class="k">Salida</div><div class="v"><code>"Ana"</code> · <code>"Pedro"</code> · <code>"María"</code></div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">7 minutos</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Pistas</div>
+          <h2>Lo que ya conoces</h2>
+          <ul>
+            <li>name[0] te da la primera letra</li>
+            <li>.toUpperCase() pone en mayúsculas</li>
+            <li>.toLowerCase() pone en minúsculas</li>
+            <li>.slice(1) te da todo menos la primera letra</li>
+            <li>+ pega dos strings</li>
+          </ul>
+          <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>20</span></div>
+  </section>
+
+  <!-- ============ 21 SOLUCIÓN 02 CAPITALIZE ============ -->
+  <section data-label="21 Solucion 02 Capitalize">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Solución 02</span></div>
+    <div class="frame">
+      <p class="eyebrow">Solución · Reto 02</p>
+      <h1 class="title">Primera <em>arriba</em>, resto <em>abajo</em>.</h1>
+      <div class="solution-grid">
+        <div class="pane code">
+          <div class="pane-head"><span>capitalize.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">const</span> <span class="js-prop">raw</span> <span class="js-punct">=</span> <span class="js-builtin">prompt</span><span class="js-punct">(</span><span class="js-str">"Tu nombre:"</span><span class="js-punct">);</span>
+
+<span class="js-kw">const</span> <span class="js-prop">first</span> <span class="js-punct">=</span> <span class="js-prop">raw</span><span class="js-punct">[</span><span class="js-num">0</span><span class="js-punct">].</span><span class="js-fn">toUpperCase</span><span class="js-punct">();</span>
+<span class="js-kw">const</span> <span class="js-prop">rest</span>  <span class="js-punct">=</span> <span class="js-prop">raw</span><span class="js-punct">.</span><span class="js-fn">slice</span><span class="js-punct">(</span><span class="js-num">1</span><span class="js-punct">).</span><span class="js-fn">toLowerCase</span><span class="js-punct">();</span>
+
+<span class="js-kw">const</span> <span class="js-prop">nice</span> <span class="js-punct">=</span> <span class="js-prop">first</span> <span class="js-punct">+</span> <span class="js-prop">rest</span><span class="js-punct">;</span>
+
+<span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`Hola, ${</span><span class="js-prop">nice</span><span class="js-str">}`</span><span class="js-punct">);</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-prop">raw</span></span><span class="console-line output"><span class="js-str">"mArÍa"</span></span><span class="console-line input"><span class="js-prop">first</span></span><span class="console-line output"><span class="js-str">"M"</span></span><span class="console-line input"><span class="js-prop">rest</span></span><span class="console-line output"><span class="js-str">"aría"</span></span><span class="console-line input"><span class="js-prop">nice</span></span><span class="console-line output"><span class="js-str">"María"</span></span><span class="console-line alert">Hola, María</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>21</span></div>
+  </section>
+
+  <!-- ============ 22 SECCIÓN 04 NÚMEROS ============ -->
+  <section data-label="22 Seccion 04 Numeros" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Sección 04</span></div>
+    <div class="frame sect">
+      <div class="num">04</div>
+      <h2 class="name" style="color: var(--bg);">Números.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>22</span></div>
+  </section>
+
+  <!-- ============ 23 ARITMÉTICA ============ -->
+  <section data-label="23 Aritmetica">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Aritmética</span></div>
+    <div class="frame">
+      <p class="eyebrow">Operadores aritméticos</p>
+      <h1 class="title">Lo de siempre, más uno <em>nuevo</em>.</h1>
+      <div class="oplist">
+        <div class="op-row"><div class="sym">+</div><div class="what">Suma</div><div class="ex"><code>2 + 3</code> → <code>5</code></div></div>
+        <div class="op-row"><div class="sym">−</div><div class="what">Resta</div><div class="ex"><code>10 - 4</code> → <code>6</code></div></div>
+        <div class="op-row"><div class="sym">*</div><div class="what">Multiplicación</div><div class="ex"><code>6 * 7</code> → <code>42</code></div></div>
+        <div class="op-row"><div class="sym">/</div><div class="what">División</div><div class="ex"><code>20 / 4</code> → <code>5</code></div></div>
+        <div class="op-row"><div class="sym">%</div><div class="what"><em>Módulo</em>: el resto de la división</div><div class="ex"><code>10 % 3</code> → <code>1</code> · útil para "¿es múltiplo?"</div></div>
+        <div class="op-row"><div class="sym">**</div><div class="what">Potencia</div><div class="ex"><code>2 ** 8</code> → <code>256</code></div></div>
+      </div>
+      <p style="font-family: var(--mono); color: var(--ink-3); font-size: 24px; margin-top: 16px;">PEMDAS: primero ( ), luego ** , luego * y / , luego + y −. Usa paréntesis si dudas.</p>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>23</span></div>
+  </section>
+
+  <!-- ============ 24 RETO 03 DOG YEARS ============ -->
+  <section data-label="24 Reto 03 Dog years" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Reto 03</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 03 · 8 min</p>
+          <h1 class="title">Dog years → <em>human years</em></h1>
+          <p class="brief">Convierte la edad de un perro a "años humanos" con esta fórmula veterinaria: los <strong>2 primeros años</strong> de un perro equivalen a <strong>21 humanos</strong> en total, y cada año adicional son <strong>4 años humanos</strong>.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Fórmula</div><div class="v"><code>(dogAge − 2) × 4 + 21</code></div></div>
+            <div class="spec-row"><div class="k">Casos</div><div class="v"><code>2</code> → <code>21</code> · <code>5</code> → <code>33</code> · <code>10</code> → <code>53</code></div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">8 minutos</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Debe cumplir</div>
+          <h2>Requisitos</h2>
+          <ul>
+            <li>Pide la edad del perro con prompt</li>
+            <li>Convierte la respuesta a número con Number()</li>
+            <li>Aplica la fórmula tal cual</li>
+            <li>Muestra el resultado con alert</li>
+            <li>Comprueba los 3 casos del enunciado</li>
+          </ul>
+          <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>24</span></div>
+  </section>
+
+  <!-- ============ 25 SOLUCIÓN 03 DOG YEARS ============ -->
+  <section data-label="25 Solucion 03 Dog years">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Solución 03</span></div>
+    <div class="frame">
+      <p class="eyebrow">Solución · Reto 03</p>
+      <h1 class="title">La fórmula, tal <em>cual</em>.</h1>
+      <div class="solution-grid">
+        <div class="pane code">
+          <div class="pane-head"><span>dog-years.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">const</span> <span class="js-prop">raw</span> <span class="js-punct">=</span> <span class="js-builtin">prompt</span><span class="js-punct">(</span><span class="js-str">"Edad del perro:"</span><span class="js-punct">);</span>
+<span class="js-kw">const</span> <span class="js-prop">dogAge</span> <span class="js-punct">=</span> <span class="js-builtin">Number</span><span class="js-punct">(</span><span class="js-prop">raw</span><span class="js-punct">);</span>
+
+<span class="js-com">// PEMDAS: paréntesis primero</span>
+<span class="js-kw">const</span> <span class="js-prop">human</span> <span class="js-punct">=</span> <span class="js-punct">(</span><span class="js-prop">dogAge</span> <span class="js-punct">-</span> <span class="js-num">2</span><span class="js-punct">)</span> <span class="js-punct">*</span> <span class="js-num">4</span> <span class="js-punct">+</span> <span class="js-num">21</span><span class="js-punct">;</span>
+
+<span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`En años humanos: ${</span><span class="js-prop">human</span><span class="js-str">}`</span><span class="js-punct">);</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">human</span><span class="js-punct">(</span><span class="js-num">2</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">21</span></span><span class="console-line input"><span class="js-fn">human</span><span class="js-punct">(</span><span class="js-num">5</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">33</span></span><span class="console-line input"><span class="js-fn">human</span><span class="js-punct">(</span><span class="js-num">10</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">53</span></span><span class="console-line alert">En años humanos: 33</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>25</span></div>
+  </section>
+
+  <!-- ============ 26 INCREMENTOS ============ -->
+  <section data-label="26 Incrementos">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>++ y compuestos</span></div>
+    <div class="frame">
+      <p class="eyebrow">Asignaciones compuestas</p>
+      <h1 class="title">Sumar a lo que <em>ya hay</em>.</h1>
+      <div class="oplist">
+        <div class="op-row"><div class="sym">++</div><div class="what">Suma uno y guarda</div><div class="ex"><code>score++</code> ≡ <code>score = score + 1</code></div></div>
+        <div class="op-row"><div class="sym">−−</div><div class="what">Resta uno y guarda</div><div class="ex"><code>lives--</code> ≡ <code>lives = lives - 1</code></div></div>
+        <div class="op-row"><div class="sym">+=</div><div class="what">Suma y guarda</div><div class="ex"><code>total += 10</code> ≡ <code>total = total + 10</code></div></div>
+        <div class="op-row"><div class="sym">−=</div><div class="what">Resta y guarda</div><div class="ex"><code>hp -= 25</code> ≡ <code>hp = hp - 25</code></div></div>
+        <div class="op-row"><div class="sym">*=</div><div class="what">Multiplica y guarda</div><div class="ex"><code>price *= 2</code> ≡ <code>price = price * 2</code></div></div>
+        <div class="op-row"><div class="sym">/=</div><div class="what">Divide y guarda</div><div class="ex"><code>budget /= 4</code> ≡ <code>budget = budget / 4</code></div></div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>26</span></div>
+  </section>
+
+  <!-- ============ 27 SECCIÓN 05 FUNCIONES ============ -->
+  <section data-label="27 Seccion 05 Funciones" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Sección 05</span></div>
+    <div class="frame sect">
+      <div class="num">05</div>
+      <h2 class="name" style="color: var(--bg);">Funciones.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>27</span></div>
+  </section>
+
+  <!-- ============ 28 CREAR Y LLAMAR ============ -->
+  <section data-label="28 Crear y llamar">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Crear y llamar</span></div>
+    <div class="frame">
+      <p class="eyebrow">Un trozo de código con nombre</p>
+      <h1 class="title">Defines una <em>vez</em>. La llamas <em>muchas</em>.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>milk.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-com">// definir (no se ejecuta todavía)</span>
+<span class="js-kw">function</span> <span class="js-fn">getMilk</span><span class="js-punct">()</span> <span class="js-punct">{</span>
+  <span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-str">"1. Coger las llaves"</span><span class="js-punct">);</span>
+  <span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-str">"2. Ir al supermercado"</span><span class="js-punct">);</span>
+  <span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-str">"3. Comprar leche"</span><span class="js-punct">);</span>
+  <span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-str">"4. Volver a casa"</span><span class="js-punct">);</span>
+<span class="js-punct">}</span>
+
+<span class="js-com">// llamar (ahora sí se ejecuta)</span>
+<span class="js-fn">getMilk</span><span class="js-punct">();</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">getMilk</span><span class="js-punct">()</span></span><span class="console-line output"><span class="js-str">1. Coger las llaves</span></span><span class="console-line output"><span class="js-str">2. Ir al supermercado</span></span><span class="console-line output"><span class="js-str">3. Comprar leche</span></span><span class="console-line output"><span class="js-str">4. Volver a casa</span></span><span class="console-line comment">// definir sin llamar = nada pasa.</span><span class="console-line comment">// llamar = se ejecutan las líneas de dentro.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>28</span></div>
+  </section>
+
+  <!-- ============ 29 PARÁMETROS ============ -->
+  <section data-label="29 Parametros">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Parámetros</span></div>
+    <div class="frame">
+      <p class="eyebrow">Funciones que reciben datos</p>
+      <h1 class="title">Lo que va entre <em>paréntesis</em>.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>params.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-com">// recibe un nombre</span>
+<span class="js-kw">function</span> <span class="js-fn">greet</span><span class="js-punct">(</span><span class="js-prop">name</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`Hola, ${</span><span class="js-prop">name</span><span class="js-str">}!`</span><span class="js-punct">);</span>
+<span class="js-punct">}</span>
+
+<span class="js-fn">greet</span><span class="js-punct">(</span><span class="js-str">"Ana"</span><span class="js-punct">);</span>
+<span class="js-fn">greet</span><span class="js-punct">(</span><span class="js-str">"Pedro"</span><span class="js-punct">);</span>
+
+<span class="js-com">// Math.floor: redondea hacia abajo</span>
+<span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-num">7.9</span><span class="js-punct">);</span>  <span class="js-com">// 7</span>
+<span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-num">2.1</span><span class="js-punct">);</span>  <span class="js-com">// 2</span>
+
+<span class="js-com">// Math.random: número entre 0 y 1</span>
+<span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">();</span>     <span class="js-com">// 0.8432...</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line alert">Hola, Ana!</span><span class="console-line alert">Hola, Pedro!</span><span class="console-line input"><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-num">7.9</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">7</span></span><span class="console-line input"><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">()</span></span><span class="console-line output"><span class="js-num">0.8432167</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>29</span></div>
+  </section>
+
+  <!-- ============ 30 RETO 04 LIFE IN WEEKS ============ -->
+  <section data-label="30 Reto 04 Life in weeks" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Reto 04</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 04 · 10 min</p>
+          <h1 class="title">Tu vida en <em>semanas</em></h1>
+          <p class="brief">Crea una función <code>lifeInWeeks(age)</code> que reciba tu edad y muestre con <code>alert</code> cuántos <em>días, semanas y meses</em> te quedan, asumiendo que vivirás 90 años.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Firma</div><div class="v"><code>function lifeInWeeks(age) { ... }</code></div></div>
+            <div class="spec-row"><div class="k">Datos</div><div class="v">1 año = 365 días = 52 semanas = 12 meses</div></div>
+            <div class="spec-row"><div class="k">Test</div><div class="v"><code>lifeInWeeks(56)</code> → "12410 días, 1768 semanas y 408 meses"</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Debe cumplir</div>
+          <h2>Requisitos</h2>
+          <ul>
+            <li>Función con un parámetro: age</li>
+            <li>Calcula años restantes (90 − age)</li>
+            <li>Multiplica por 365, 52 y 12</li>
+            <li>Muestra el mensaje con template literal</li>
+            <li>Pruébala con varias edades</li>
+          </ul>
+          <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>30</span></div>
+  </section>
+
+  <!-- ============ 31 SOLUCIÓN 04 LIFE IN WEEKS ============ -->
+  <section data-label="31 Solucion 04 Life in weeks">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Solución 04</span></div>
+    <div class="frame">
+      <p class="eyebrow">Solución · Reto 04</p>
+      <h1 class="title">Función + <em>multiplicaciones</em>.</h1>
+      <div class="solution-grid">
+        <div class="pane code">
+          <div class="pane-head"><span>life-in-weeks.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">function</span> <span class="js-fn">lifeInWeeks</span><span class="js-punct">(</span><span class="js-prop">age</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-kw">const</span> <span class="js-prop">years</span>  <span class="js-punct">=</span> <span class="js-num">90</span> <span class="js-punct">-</span> <span class="js-prop">age</span><span class="js-punct">;</span>
+  <span class="js-kw">const</span> <span class="js-prop">days</span>   <span class="js-punct">=</span> <span class="js-prop">years</span> <span class="js-punct">*</span> <span class="js-num">365</span><span class="js-punct">;</span>
+  <span class="js-kw">const</span> <span class="js-prop">weeks</span>  <span class="js-punct">=</span> <span class="js-prop">years</span> <span class="js-punct">*</span> <span class="js-num">52</span><span class="js-punct">;</span>
+  <span class="js-kw">const</span> <span class="js-prop">months</span> <span class="js-punct">=</span> <span class="js-prop">years</span> <span class="js-punct">*</span> <span class="js-num">12</span><span class="js-punct">;</span>
+
+  <span class="js-builtin">alert</span><span class="js-punct">(</span>
+    <span class="js-str">`${</span><span class="js-prop">days</span><span class="js-str">} días, ${</span><span class="js-prop">weeks</span><span class="js-str">} semanas `</span> <span class="js-punct">+</span>
+    <span class="js-str">`y ${</span><span class="js-prop">months</span><span class="js-str">} meses`</span>
+  <span class="js-punct">);</span>
+<span class="js-punct">}</span>
+
+<span class="js-fn">lifeInWeeks</span><span class="js-punct">(</span><span class="js-num">56</span><span class="js-punct">);</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">lifeInWeeks</span><span class="js-punct">(</span><span class="js-num">56</span><span class="js-punct">)</span></span><span class="console-line alert">12410 días, 1768 semanas y 408 meses</span><span class="console-line input"><span class="js-fn">lifeInWeeks</span><span class="js-punct">(</span><span class="js-num">20</span><span class="js-punct">)</span></span><span class="console-line alert">25550 días, 3640 semanas y 840 meses</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>31</span></div>
+  </section>
+
+  <!-- ============ 32 RETURN ============ -->
+  <section data-label="32 Return">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>return</span></div>
+    <div class="frame">
+      <p class="eyebrow">Funciones que devuelven</p>
+      <h1 class="title">No <em>muestran</em>: <em>entregan</em>.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>return.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-com">// devuelve el cambio</span>
+<span class="js-kw">function</span> <span class="js-fn">change</span><span class="js-punct">(</span><span class="js-prop">paid</span><span class="js-punct">,</span> <span class="js-prop">price</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-kw">return</span> <span class="js-prop">paid</span> <span class="js-punct">-</span> <span class="js-prop">price</span><span class="js-punct">;</span>
+<span class="js-punct">}</span>
+
+<span class="js-com">// devuelve true/false</span>
+<span class="js-kw">function</span> <span class="js-fn">isEven</span><span class="js-punct">(</span><span class="js-prop">n</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-kw">return</span> <span class="js-prop">n</span> <span class="js-punct">%</span> <span class="js-num">2</span> <span class="js-punct">===</span> <span class="js-num">0</span><span class="js-punct">;</span>
+<span class="js-punct">}</span>
+
+<span class="js-com">// usar el valor devuelto</span>
+<span class="js-kw">const</span> <span class="js-prop">tip</span> <span class="js-punct">=</span> <span class="js-fn">change</span><span class="js-punct">(</span><span class="js-num">20</span><span class="js-punct">,</span> <span class="js-num">17.5</span><span class="js-punct">);</span>
+<span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-prop">tip</span><span class="js-punct">);</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">change</span><span class="js-punct">(</span><span class="js-num">20</span><span class="js-punct">,</span> <span class="js-num">17.5</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">2.5</span></span><span class="console-line input"><span class="js-fn">isEven</span><span class="js-punct">(</span><span class="js-num">10</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">true</span></span><span class="console-line input"><span class="js-fn">isEven</span><span class="js-punct">(</span><span class="js-num">7</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">false</span></span><span class="console-line comment">// alert MUESTRA. return ENTREGA</span><span class="console-line comment">// para que otro código lo use.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>32</span></div>
+  </section>
+
+  <!-- ============ 33 RETO 05 BMI ============ -->
+  <section data-label="33 Reto 05 BMI" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Reto 05</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 05 · 10 min</p>
+          <h1 class="title">BMI <em>Calculator</em></h1>
+          <p class="brief">Crea una función <code>bmi(weight, height)</code> que <em>devuelva</em> (con return) el índice de masa corporal redondeado al entero más cercano. La fórmula es <code>peso / altura²</code>, con la altura en metros.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Firma</div><div class="v"><code>function bmi(weight, height) { ... }</code></div></div>
+            <div class="spec-row"><div class="k">Fórmula</div><div class="v"><code>weight / height ** 2</code> · redondea con <code>Math.round</code></div></div>
+            <div class="spec-row"><div class="k">Test</div><div class="v"><code>bmi(65, 1.65)</code> → <code>24</code> · <code>bmi(80, 1.78)</code> → <code>25</code></div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Debe cumplir</div>
+          <h2>Requisitos</h2>
+          <ul>
+            <li>Usa return, no alert</li>
+            <li>Usa Math.round para redondear</li>
+            <li>Puedes usar ** 2 o Math.pow(height, 2)</li>
+            <li>Llama a la función desde la consola con varios valores</li>
+            <li>5 líneas o menos dentro de la función</li>
+          </ul>
+          <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>33</span></div>
+  </section>
+
+  <!-- ============ 34 SOLUCIÓN 05 BMI ============ -->
+  <section data-label="34 Solucion 05 BMI">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Solución 05</span></div>
+    <div class="frame">
+      <p class="eyebrow">Solución · Reto 05</p>
+      <h1 class="title">Una línea de <em>verdad</em>.</h1>
+      <div class="solution-grid">
+        <div class="pane code">
+          <div class="pane-head"><span>bmi.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">function</span> <span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-prop">weight</span><span class="js-punct">,</span> <span class="js-prop">height</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-kw">const</span> <span class="js-prop">raw</span> <span class="js-punct">=</span> <span class="js-prop">weight</span> <span class="js-punct">/</span> <span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">pow</span><span class="js-punct">(</span><span class="js-prop">height</span><span class="js-punct">,</span> <span class="js-num">2</span><span class="js-punct">);</span>
+  <span class="js-kw">return</span> <span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">round</span><span class="js-punct">(</span><span class="js-prop">raw</span><span class="js-punct">);</span>
+<span class="js-punct">}</span>
+
+<span class="js-com">// usar el valor devuelto</span>
+<span class="js-kw">const</span> <span class="js-prop">mine</span> <span class="js-punct">=</span> <span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-num">65</span><span class="js-punct">,</span> <span class="js-num">1.65</span><span class="js-punct">);</span>
+<span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-str">`Tu BMI: ${</span><span class="js-prop">mine</span><span class="js-str">}`</span><span class="js-punct">);</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-num">65</span><span class="js-punct">,</span> <span class="js-num">1.65</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">24</span></span><span class="console-line input"><span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-num">80</span><span class="js-punct">,</span> <span class="js-num">1.78</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">25</span></span><span class="console-line input"><span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-num">90</span><span class="js-punct">,</span> <span class="js-num">1.70</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">31</span></span><span class="console-line output"><span class="js-str">Tu BMI: 24</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>34</span></div>
+  </section>
+
+  <!-- ============ 35 SECCIÓN 06 HABLANDO CON LA IA ============ -->
+  <section data-label="35 Seccion 06 IA" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Sección 06</span></div>
+    <div class="frame sect">
+      <div class="num">06</div>
+      <h2 class="name" style="color: var(--bg);">Hablando con la IA.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>35</span></div>
+  </section>
+
+  <!-- ============ 36 4 PARTES DE UN PROMPT ============ -->
+  <section data-label="36 4 partes prompt">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Anatomía de un prompt</span></div>
+    <div class="frame">
+      <p class="eyebrow">Pedir bien una función JS</p>
+      <h1 class="title">Cuatro partes que <em>no se saltan</em>.</h1>
+      <div class="prompt-anatomy">
+        <div><span class="label-tag">QUIÉN ERES</span> <span class="text">"Eres un programador JS principiante. Quiero entender, no copiar."</span></div>
+        <div><span class="label-tag">QUÉ QUIERES</span> <span class="text">"Escríbeme una función <code>capitalize(name)</code> que devuelva el nombre con la primera letra en mayúscula y el resto en minúscula."</span></div>
+        <div><span class="label-tag">CON QUÉ</span> <span class="text">"Usa solo lo que ya he visto: const, slice, toUpperCase, toLowerCase. Nada de regex."</span></div>
+        <div><span class="label-tag">CÓMO ENTREGARLO</span> <span class="text">"Devuelve el código y debajo, en 2 líneas, explícame por qué funciona."</span></div>
+      </div>
+      <p style="margin-top: auto; font-family: var(--mono); color: var(--ink-3); font-size: 24px;">Sin estas 4 partes, la IA inventa. Con las 4, la IA te enseña.</p>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>36</span></div>
+  </section>
+
+  <!-- ============ 37 ANTES / DESPUÉS ============ -->
+  <section data-label="37 Antes despues">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Antes / Después</span></div>
+    <div class="frame">
+      <p class="eyebrow">El mismo objetivo, dos prompts</p>
+      <h1 class="title">Vago vs. <em>específico</em>.</h1>
+      <div class="prompts">
+        <div class="prompt-card bad">
+          <div class="label">Prompt flojo</div>
+          <p class="quote">"Hazme algo para calcular el BMI."</p>
+          <div class="why">La IA tiene que adivinar todo: nombre de la función, parámetros, unidades, si imprime o devuelve, qué hacer con decimales. Lo que te devuelva no será lo que tú esperabas.</div>
+        </div>
+        <div class="prompt-card good">
+          <div class="label">Prompt útil</div>
+          <p class="quote">"Función <code>bmi(weight, height)</code> en kg y metros. Devuelve el BMI redondeado con <code>Math.round</code>. Sin <code>alert</code>. Explícame en 2 líneas qué hace la fórmula."</p>
+          <div class="why">Nombre, parámetros, unidades, qué devolver, cómo redondear, qué evitar y qué quieres entender. La IA puede acertar a la primera y tú aprendes algo nuevo en el proceso.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>37</span></div>
+  </section>
+
+  <!-- ============ 38 CIERRE ============ -->
+  <section data-label="38 Cierre">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Cierre y siguiente</span></div>
+    <div class="frame closing">
+      <p class="eyebrow">Lo que te llevas hoy</p>
+      <h1 class="display">Ya hablas <em>JavaScript</em>.</h1>
+      <p class="lede" style="margin-top: 32px; max-width: 1300px;">Sabes guardar datos, manipular texto y números, encapsular acciones en funciones y pedirle a la IA cosas que realmente puedes evaluar. Lo siguiente es enseñarle a tu programa a <em>decidir</em> y a <em>repetir</em>.</p>
+      <div class="next">
+        <div>
+          <div class="k">Próximo tema</div>
+          <div class="v">Tema 06 — JavaScript avanzado. Lógica, decisiones y bucles.</div>
+        </div>
+        <div>
+          <div class="k">Antes de la próxima sesión</div>
+          <div class="v">Termina los 5 retos. Pídele a la IA una variante de cada uno y resuélvela.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>38 / 38</span></div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>

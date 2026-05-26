@@ -897,6 +897,38 @@
   .syllabus li.current .name{ color: var(--bg); font-style: italic; }
   .syllabus li.current .desc{ color: #C9C2B4; }
   .syllabus li.current .here{ color: var(--accent-soft); }
+
+  /* 2-column variant for 18-tema syllabus */
+  .syllabus.cols-2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(9, auto);
+    grid-auto-flow: column;
+    column-gap: 64px;
+    border-top: 1px solid var(--ink);
+    margin-top: 4px;
+    list-style: none;
+    padding: 0;
+  }
+  .syllabus.cols-2 li{
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 18px;
+    align-items: baseline;
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 8px;
+    margin: 0;
+  }
+  .syllabus.cols-2 .num{ font-size: 22px; }
+  .syllabus.cols-2 .name{ font-size: 30px; line-height: 1.05; }
+  .syllabus.cols-2 .desc{ display: none; }
+  .syllabus.cols-2 .here{ display: none; }
+  .syllabus.cols-2 li.current{
+    background: var(--ink);
+    margin: 0;
+    padding: 14px 14px;
+    border-bottom: 1px solid var(--ink);
+  }
 </style>
 </head>
 <body>
@@ -927,57 +959,27 @@
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Aplicaciones web · SMR</span><span>Mapa</span></div>
     <div class="frame">
-      <p class="eyebrow">8 temas</p>
+      <p class="eyebrow">18 temas</p>
       <h1 class="title">Por dónde vamos a <em>pasar</em></h1>
-      <ol class="syllabus">
-        <li class="current">
-          <span class="num">01</span>
-          <span class="name">HTML</span>
-          <span class="desc">La estructura: qué hay y en qué orden.</span>
-          <span class="here">Aquí estás hoy</span>
-        </li>
-        <li>
-          <span class="num">02</span>
-          <span class="name">Componentes UI</span>
-          <span class="desc">El catálogo del front: navbars, drawers, toasts, pricing tables…</span>
-          <span class="here"></span>
-        </li>
-        <li>
-          <span class="num">03</span>
-          <span class="name">CSS</span>
-          <span class="desc">Estilos: colores, tipografía, espacios.</span>
-          <span class="here"></span>
-        </li>
-        <li>
-          <span class="num">04</span>
-          <span class="name">CSS avanzado</span>
-          <span class="desc">Layout, flexbox, grid y responsive.</span>
-          <span class="here"></span>
-        </li>
-        <li>
-          <span class="num">05</span>
-          <span class="name">JavaScript</span>
-          <span class="desc">El lenguaje: variables, funciones, lógica.</span>
-          <span class="here"></span>
-        </li>
-        <li>
-          <span class="num">06</span>
-          <span class="name">DOM y eventos</span>
-          <span class="desc">JavaScript dentro del navegador.</span>
-          <span class="here"></span>
-        </li>
-        <li>
-          <span class="num">07</span>
-          <span class="name">APIs y datos</span>
-          <span class="desc">Fetch, asincronía, conectar con servicios.</span>
-          <span class="here"></span>
-        </li>
-        <li>
-          <span class="num">08</span>
-          <span class="name">Despliegue</span>
-          <span class="desc">De tu portátil a una URL pública.</span>
-          <span class="here"></span>
-        </li>
+      <ol class="syllabus cols-2">
+        <li class="current"><span class="num">01</span><span class="name">HTML</span></li>
+        <li><span class="num">02</span><span class="name">Componentes UI</span></li>
+        <li><span class="num">03</span><span class="name">CSS</span></li>
+        <li><span class="num">04</span><span class="name">CSS avanzado</span></li>
+        <li><span class="num">05</span><span class="name">JavaScript</span></li>
+        <li><span class="num">06</span><span class="name">JavaScript avanzado</span></li>
+        <li><span class="num">07</span><span class="name">DOM y eventos</span></li>
+        <li><span class="num">08</span><span class="name">APIs y datos</span></li>
+        <li><span class="num">09</span><span class="name">Git y GitHub</span></li>
+        <li><span class="num">10</span><span class="name">Node</span></li>
+        <li><span class="num">11</span><span class="name">SQL</span></li>
+        <li><span class="num">12</span><span class="name">PostgreSQL</span></li>
+        <li><span class="num">13</span><span class="name">React</span></li>
+        <li><span class="num">14</span><span class="name">React avanzado</span></li>
+        <li><span class="num">15</span><span class="name">Diseño con Tailwind e IA</span></li>
+        <li><span class="num">16</span><span class="name">Despliegue</span></li>
+        <li><span class="num">17</span><span class="name">Aplicación full-stack</span></li>
+        <li><span class="num">18</span><span class="name">Apps móviles con Expo</span></li>
       </ol>
     </div>
     <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>02</span></div>

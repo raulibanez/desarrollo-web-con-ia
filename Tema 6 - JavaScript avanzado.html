@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Curso Web con IA · Tema 6 — JavaScript avanzado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+  :root{
+    --bg:#F2EEE5;
+    --bg-2:#E8E3D6;
+    --ink:#1A1814;
+    --ink-2:#4A4640;
+    --ink-3:#8A8278;
+    --rule:#D4CFC2;
+    --accent:#C84A1F;
+    --accent-soft:#E8956A;
+    --code-bg:#1A1814;
+    --code-fg:#F2EEE5;
+    --code-comment:#8A8278;
+    --code-tag:#E8956A;
+    --code-attr:#D9C26E;
+    --code-string:#B8C97A;
+    --code-text:#F2EEE5;
+
+    --type-display: 168px;
+    --type-title: 72px;
+    --type-subtitle: 44px;
+    --type-body: 30px;
+    --type-small: 24px;
+    --type-code: 26px;
+    --type-tiny: 24px;
+
+    --pad-x: 96px;
+    --pad-top: 88px;
+    --pad-bottom: 88px;
+    --gap-title: 48px;
+    --gap-item: 22px;
+
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "IBM Plex Sans", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", Menlo, monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#0b0b0b; }
+  body{ font-family: var(--sans); color: var(--ink); }
+
+  deck-stage section{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: var(--type-body);
+    line-height: 1.4;
+    overflow: hidden;
+  }
+
+  .chrome{ position:absolute; inset:0; pointer-events:none; }
+  .chrome::before{
+    content:""; position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: 56px; border-top: 1px solid var(--rule);
+  }
+  .chrome::after{
+    content:""; position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    bottom: 56px; border-bottom: 1px solid var(--rule);
+  }
+  .meta{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: 24px;
+    display:flex; justify-content:space-between;
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: var(--ink-3); letter-spacing: .04em; text-transform: uppercase;
+  }
+  .meta-foot{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    bottom: 22px;
+    display:flex; justify-content:space-between;
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: var(--ink-3); letter-spacing: .04em; text-transform: uppercase;
+  }
+
+  .dark{ background: var(--ink); color: var(--code-fg); }
+  .dark .chrome::before, .dark .chrome::after{ border-color: #34302A; }
+  .dark .meta, .dark .meta-foot{ color: #6E665A; }
+
+  .brick{ background: var(--accent); color: var(--bg); }
+  .brick .chrome::before, .brick .chrome::after{ border-color: rgba(242,238,229,.25); }
+  .brick .meta, .brick .meta-foot{ color: rgba(242,238,229,.65); }
+
+  .home-corner{
+    position:absolute; top:24px; left:32px; z-index:5;
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: var(--ink-3); text-decoration: none;
+    transition: color .15s ease, transform .15s ease;
+  }
+  .home-corner:hover{ color: var(--accent); transform: translateX(-2px); }
+  .dark .home-corner{ color:#6E665A; }
+  .dark .home-corner:hover{ color: var(--accent-soft); }
+
+  .frame{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: var(--pad-top); bottom: var(--pad-bottom);
+    display:flex; flex-direction:column;
+  }
+  .eyebrow{
+    font-family: var(--mono); font-size: var(--type-small);
+    color: var(--accent); letter-spacing: .08em;
+    text-transform: uppercase; margin: 0 0 24px; font-weight: 500;
+  }
+  .dark .eyebrow{ color: var(--accent-soft); }
+
+  h1.title{
+    font-family: var(--serif); font-weight:500;
+    font-size: var(--type-title); line-height: 1.05;
+    letter-spacing: -.015em; margin: 0 0 var(--gap-title);
+    text-wrap: balance;
+  }
+  h1.title em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .dark h1.title em{ color: var(--accent-soft); }
+
+  p.lede{
+    font-family: var(--serif); font-size: var(--type-subtitle);
+    line-height: 1.25; margin: 0 0 40px; color: var(--ink-2);
+    font-weight: 400; text-wrap: pretty; max-width: 1500px;
+  }
+  .dark p.lede{ color:#C9C2B4; }
+  p, li{ text-wrap: pretty; }
+
+  /* Cover */
+  .cover{ display:flex; flex-direction:column; }
+  .cover .display{
+    font-family: var(--serif); font-size: var(--type-display);
+    line-height: .9; letter-spacing: -.04em; margin: 0; font-weight: 500;
+  }
+  .cover .display em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .cover .display-2{
+    font-family: var(--serif); font-size: 136px;
+    line-height: .9; letter-spacing: -.04em; margin: 0;
+    font-weight: 500; font-style: italic; color: var(--accent);
+  }
+  .cover .kicker{
+    font-family: var(--mono); font-size: var(--type-small);
+    color: var(--ink-3); letter-spacing: .12em;
+    text-transform: uppercase; margin-bottom: 40px;
+  }
+  .cover .sub{
+    font-family: var(--serif); font-size: 56px; line-height: 1.2;
+    color: var(--ink-2); margin-top: 56px;
+    font-style: italic; font-weight: 400; max-width: 1300px;
+  }
+  .cover .stamp{
+    margin-top:auto; display:flex; gap:64px; align-items:flex-end;
+    font-family: var(--mono); font-size: var(--type-small);
+    color: var(--ink-2); letter-spacing: .04em;
+  }
+  .cover .stamp span b{
+    display:block; color: var(--ink); font-weight: 500;
+    font-family: var(--sans); font-size: var(--type-small);
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+
+  /* Syllabus */
+  .syllabus{
+    list-style: none; margin: 0; padding: 0;
+    border-top: 1px solid var(--ink); margin-top: 4px;
+  }
+  .syllabus li{
+    display:grid;
+    grid-template-columns: 90px 420px 1fr 200px;
+    gap: 32px; align-items: baseline;
+    border-bottom: 1px solid var(--rule); padding: 22px 8px;
+  }
+  .syllabus .num{ font-family: var(--mono); color: var(--ink-3); font-size: 28px; font-weight: 500; letter-spacing: .02em; }
+  .syllabus .name{ font-family: var(--serif); color: var(--ink); font-size: 42px; line-height: 1; font-weight: 500; letter-spacing: -.01em; }
+  .syllabus .desc{ font-family: var(--sans); color: var(--ink-2); font-size: 28px; line-height: 1.3; }
+  .syllabus .here{ font-family: var(--mono); color: var(--ink-3); font-size: 24px; text-transform: uppercase; letter-spacing: .08em; text-align: right; }
+  .syllabus li.current{ background: var(--ink); margin: 0 -16px; padding: 24px 24px; border-bottom: 1px solid var(--ink); }
+  .syllabus li.current .num{ color: var(--accent-soft); }
+  .syllabus li.current .name{ color: var(--bg); font-style: italic; }
+  .syllabus li.current .desc{ color:#C9C2B4; }
+  .syllabus li.current .here{ color: var(--accent-soft); }
+
+  .syllabus.cols-2{
+    display:grid; grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(9, auto);
+    grid-auto-flow: column; column-gap: 64px;
+    border-top: 1px solid var(--ink); margin-top: 4px;
+    list-style: none; padding: 0;
+  }
+  .syllabus.cols-2 li{
+    display:grid; grid-template-columns: 56px 1fr;
+    gap: 18px; align-items: baseline;
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 8px; margin: 0;
+  }
+  .syllabus.cols-2 .num{ font-size: 22px; }
+  .syllabus.cols-2 .name{ font-size: 30px; line-height: 1.05; }
+  .syllabus.cols-2 .desc{ display:none; }
+  .syllabus.cols-2 .here{ display:none; }
+  .syllabus.cols-2 li.current{
+    background: var(--ink); margin: 0; padding: 14px 14px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  /* Section break */
+  .sect{ display:flex; flex-direction:column; justify-content:center; }
+  .sect .num{
+    font-family: var(--serif); font-style: italic;
+    font-size: 240px; line-height: .85;
+    color: var(--accent); font-weight: 400; margin-bottom: 32px;
+  }
+  .sect .name{
+    font-family: var(--serif); font-size: 96px; line-height: 1;
+    color: var(--ink); margin: 0; letter-spacing: -.02em;
+  }
+
+  /* Quote slide */
+  .quote-slide{ display:flex; flex-direction:column; justify-content:center; }
+  .quote-slide blockquote{
+    font-family: var(--serif); font-style: italic;
+    font-size: 92px; line-height: 1.05;
+    margin: 0; letter-spacing: -.02em; font-weight: 400;
+    max-width: 1500px;
+  }
+  .quote-slide blockquote .ac{ color: var(--accent); font-style: normal; font-weight: 500; }
+  .quote-slide cite{
+    margin-top: 56px; font-family: var(--mono); font-size: var(--type-small);
+    font-style: normal; color: var(--ink-3);
+    letter-spacing: .08em; text-transform: uppercase;
+  }
+
+  /* Two col */
+  .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 0; }
+  .col h3{
+    font-family: var(--mono); font-size: var(--type-small);
+    text-transform: uppercase; letter-spacing: .08em;
+    color: var(--accent); margin: 0 0 16px; font-weight: 500;
+  }
+  .col p{
+    font-family: var(--serif); font-size: 40px; line-height: 1.25;
+    margin: 0; color: var(--ink); font-weight: 400;
+  }
+
+  /* Index */
+  .index-grid{
+    display:grid; grid-template-columns: 1fr 1fr;
+    column-gap: 96px; row-gap: 28px; margin-top: 12px;
+  }
+  .index-item{
+    display:grid; grid-template-columns: 64px 1fr;
+    align-items:baseline; border-top: 1px solid var(--rule); padding-top: 22px;
+  }
+  .index-item .n{ font-family: var(--mono); color: var(--accent); font-size: var(--type-small); font-weight: 500; }
+  .index-item .t{ font-family: var(--serif); font-size: 36px; line-height: 1.2; color: var(--ink); }
+  .index-item .t small{
+    display:block; font-family: var(--sans);
+    font-size: var(--type-small); color: var(--ink-3); margin-top: 4px;
+  }
+
+  /* Panes */
+  .split{ display:grid; grid-template-columns: 1fr 1fr; gap: 32px; flex: 1; min-height: 0; }
+  .pane{ border: 1px solid var(--rule); display:flex; flex-direction:column; overflow: hidden; }
+  .pane-head{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    text-transform: uppercase; letter-spacing: .1em;
+    padding: 14px 22px; border-bottom: 1px solid var(--rule);
+    color: var(--ink-3); background: var(--bg-2);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .pane-head .dots{ color: var(--ink-3); letter-spacing: 2px; }
+  .pane-body{ flex: 1; overflow: hidden; padding: 28px 32px; }
+  .pane.code{ background: var(--code-bg); border-color: var(--code-bg); }
+  .pane.code .pane-head{ background:#24211C; border-color:#34302A; color:#8A8278; }
+  .pane.code .pane-body{
+    font-family: var(--mono); font-size: var(--type-code);
+    line-height: 1.55; color: var(--code-text);
+    white-space: pre; tab-size: 2;
+  }
+
+  /* Console */
+  .pane.console{ background:#0E0D0B; border-color:#0E0D0B; }
+  .pane.console .pane-head{ background:#1A1814; border-color:#2C2823; color:#8A8278; }
+  .pane.console .pane-body{
+    font-family: var(--mono); font-size: var(--type-code);
+    line-height: 1.65; color:#F2EEE5;
+    padding: 24px 28px;
+  }
+  .console-line{ display:block; padding: 2px 0; }
+  .console-line.input{ color:#C9C2B4; }
+  .console-line.input::before{ content: "> "; color: var(--accent-soft); }
+  .console-line.output{ color:#F2EEE5; padding-left: 22px; }
+  .console-line.comment{ color:#6E665A; font-style: italic; padding-left: 22px; }
+  .console-line.alert{
+    color:#1A1814; background: var(--accent-soft);
+    padding: 4px 14px; margin: 6px 0;
+    display: inline-block; font-weight: 500;
+  }
+  .console-line.alert::before{
+    content: "alert · "; color:#5A3A28; font-size: 0.85em;
+    text-transform: uppercase; letter-spacing: .08em; margin-right: 6px;
+  }
+
+  /* JS syntax */
+  .js-kw{ color: var(--accent-soft); }
+  .js-str{ color: var(--code-string); }
+  .js-num{ color: var(--code-attr); }
+  .js-fn{ color:#D9C26E; }
+  .js-builtin{ color:#C4D7E5; }
+  .js-com{ color: var(--code-comment); font-style: italic; }
+  .js-punct{ color:#8A8278; }
+  .js-prop{ color:#F2EEE5; }
+
+  .solution-grid{
+    display:grid; grid-template-columns: 1fr 1fr;
+    gap: 40px; flex: 1; min-height: 0;
+  }
+
+  /* Challenge */
+  .challenge .frame{ padding: 0; }
+  .challenge-grid{
+    display:grid; grid-template-columns: 1.4fr 1fr;
+    gap: 80px; flex: 1; min-height: 0;
+  }
+  .challenge-left{ display:flex; flex-direction:column; }
+  .challenge-left .brief{
+    font-family: var(--serif); font-size: 38px; line-height: 1.3;
+    color: var(--ink); margin: 0 0 32px; max-width: 900px;
+  }
+  .challenge-left .specs{ border-top: 1px solid var(--ink); margin-top: auto; }
+  .challenge-left .spec-row{
+    display:grid; grid-template-columns: 220px 1fr;
+    padding: 16px 0; border-bottom: 1px solid var(--rule);
+    align-items: baseline; gap: 24px;
+  }
+  .challenge-left .spec-row .k{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: var(--ink-3); letter-spacing: .08em; text-transform: uppercase;
+  }
+  .challenge-left .spec-row .v{
+    font-family: var(--sans); font-size: var(--type-small);
+    color: var(--ink); line-height: 1.35;
+  }
+  .challenge-right{
+    background: var(--ink); color: var(--bg);
+    padding: 48px; display:flex; flex-direction:column;
+  }
+  .challenge-right .stamp{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent-soft); margin-bottom: 24px;
+  }
+  .challenge-right h2{
+    font-family: var(--serif); font-size: 54px; line-height: 1.05;
+    margin: 0 0 28px; font-weight: 500; letter-spacing: -.01em;
+  }
+  .challenge-right ul{ list-style: none; margin: 0; padding: 0; }
+  .challenge-right ul li{
+    font-family: var(--sans); font-size: var(--type-small);
+    line-height: 1.4; padding: 14px 0;
+    border-bottom: 1px solid #34302A; color:#D9D2C0;
+    display:grid; grid-template-columns: 32px 1fr; gap: 12px;
+  }
+  .challenge-right ul li::before{
+    content: "□"; color: var(--accent-soft); font-family: var(--mono);
+  }
+  .challenge-right .next-hint{
+    margin-top: auto; padding-top: 32px;
+    font-family: var(--mono); font-size: var(--type-tiny);
+    color: var(--accent-soft); letter-spacing: .04em;
+  }
+
+  /* Operator/comparator table */
+  .oplist{ margin-top: 8px; border-top: 1px solid var(--ink); }
+  .op-row{
+    display:grid; grid-template-columns: 160px 1fr 1fr;
+    gap: 48px; border-bottom: 1px solid var(--rule);
+    padding: 20px 0; align-items: baseline;
+  }
+  .op-row .sym{
+    font-family: var(--mono); font-size: 40px;
+    color: var(--accent); font-weight: 500;
+  }
+  .op-row .what{
+    font-family: var(--serif); font-size: 30px;
+    line-height: 1.25; color: var(--ink);
+  }
+  .op-row .ex{
+    font-family: var(--mono); font-size: var(--type-small);
+    color: var(--ink-3); line-height: 1.4;
+  }
+
+  /* Flow diagram (decisions) */
+  .flow{
+    margin-top: 24px;
+    display: grid; grid-template-columns: 1fr; gap: 16px;
+    border-top: 1px solid var(--ink); padding-top: 32px;
+  }
+  .flow-row{
+    display: grid; grid-template-columns: 60px 1fr;
+    gap: 24px; align-items: center;
+  }
+  .flow-row .step{
+    font-family: var(--mono); font-size: var(--type-small);
+    color: var(--accent); font-weight: 500;
+    border: 1px solid var(--accent);
+    width: 60px; height: 60px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .flow-row .desc{
+    font-family: var(--serif); font-size: 36px;
+    line-height: 1.25; color: var(--ink);
+  }
+  .flow-row .desc code{
+    font-family: var(--mono); font-size: 30px;
+    color: var(--accent); background: var(--bg-2);
+    padding: 2px 12px;
+  }
+  .flow-row.yes .step{ color: #2A8A4E; border-color: #2A8A4E; }
+  .flow-row.no  .step{ color: var(--ink-3); border-color: var(--ink-3); }
+
+  /* Prompt anatomy */
+  .prompt-anatomy{
+    background: var(--ink); color: var(--code-fg);
+    padding: 40px 48px; font-family: var(--mono);
+    font-size: var(--type-small); line-height: 1.7;
+    margin-top: 8px; border-left: 4px solid var(--accent);
+  }
+  .prompt-anatomy .label-tag{
+    color: var(--accent-soft); font-weight: 500;
+    display: inline-block; width: 220px;
+  }
+  .prompt-anatomy .text{ color:#D9D2C0; }
+
+  /* Closing */
+  .closing .display{
+    font-family: var(--serif); font-size: 128px;
+    line-height: .95; margin: 0; letter-spacing: -.03em; font-weight: 500;
+  }
+  .closing .display em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .closing .next{
+    margin-top: auto; display:grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; border-top: 1px solid var(--ink); padding-top: 40px;
+  }
+  .closing .next .k{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 12px;
+  }
+  .closing .next .v{
+    font-family: var(--serif); font-size: 40px;
+    line-height: 1.2; color: var(--ink);
+  }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ============ 01 PORTADA ============ -->
+  <section data-label="01 Portada">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Aplicaciones web · SMR</span><span>2026</span></div>
+    <div class="frame cover">
+      <div class="kicker">Aplicaciones web · SMR</div>
+      <h1 class="display">JavaScript</h1>
+      <h1 class="display-2">avanzado</h1>
+      <p class="sub">Decidir, repetir, y empezar<br>a programar <em>de verdad</em>.</p>
+      <div class="stamp">
+        <span><b>Duración</b>90 minutos</span>
+        <span><b>Formato</b>6 retos en vivo</span>
+        <span><b>Requisito</b>Haber visto Tema 05</span>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Desarrollo Web con IA</span><span>Tema 06 · JavaScript avanzado</span></div>
+  </section>
+
+  <!-- ============ 02 MAPA ============ -->
+  <section data-label="02 Mapa de la asignatura">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Aplicaciones web · SMR</span><span>Mapa</span></div>
+    <div class="frame">
+      <p class="eyebrow">18 temas</p>
+      <h1 class="title">Por dónde vamos a <em>pasar</em></h1>
+      <ol class="syllabus cols-2">
+        <li><span class="num">01</span><span class="name">HTML</span></li>
+        <li><span class="num">02</span><span class="name">Componentes UI</span></li>
+        <li><span class="num">03</span><span class="name">CSS</span></li>
+        <li><span class="num">04</span><span class="name">CSS avanzado</span></li>
+        <li><span class="num">05</span><span class="name">JavaScript</span></li>
+        <li class="current"><span class="num">06</span><span class="name">JavaScript avanzado</span></li>
+        <li><span class="num">07</span><span class="name">DOM y eventos</span></li>
+        <li><span class="num">08</span><span class="name">APIs y datos</span></li>
+        <li><span class="num">09</span><span class="name">Git y GitHub</span></li>
+        <li><span class="num">10</span><span class="name">Node</span></li>
+        <li><span class="num">11</span><span class="name">SQL</span></li>
+        <li><span class="num">12</span><span class="name">PostgreSQL</span></li>
+        <li><span class="num">13</span><span class="name">React</span></li>
+        <li><span class="num">14</span><span class="name">React avanzado</span></li>
+        <li><span class="num">15</span><span class="name">Diseño con Tailwind e IA</span></li>
+        <li><span class="num">16</span><span class="name">Despliegue</span></li>
+        <li><span class="num">17</span><span class="name">Aplicación full-stack</span></li>
+        <li><span class="num">18</span><span class="name">Apps móviles con Expo</span></li>
+      </ol>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>02</span></div>
+  </section>
+
+  <!-- ============ 03 FILOSOFÍA ============ -->
+  <section data-label="03 Filosofia">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Filosofía</span></div>
+    <div class="frame quote-slide">
+      <blockquote>
+        Un programa son <span class="ac">decisiones</span>,<br>
+        <span class="ac">repeticiones</span> y <span class="ac">colecciones</span>.<br>
+        Lo demás es decoración.
+      </blockquote>
+      <cite>— Lo que de verdad hace un programa</cite>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>Filosofía</span></div>
+  </section>
+
+  <!-- ============ 04 CÓMO APRENDEMOS ============ -->
+  <section data-label="04 Como aprendemos">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Cómo aprendemos</span></div>
+    <div class="frame">
+      <p class="eyebrow">Más retos, menos teoría</p>
+      <h1 class="title">Hoy son <em>seis retos</em>.</h1>
+      <div class="two-col">
+        <div class="col">
+          <h3>El truco</h3>
+          <p>Antes de teclear, escribe en español lo que vas a hacer. Solo entonces traducirlo a JS.</p>
+        </div>
+        <div class="col">
+          <h3>Aprender ≠ leer</h3>
+          <p>Cada reto que <em>intentas</em> y luego comparas con la solución vale por diez slides leídos.</p>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>04</span></div>
+  </section>
+
+  <!-- ============ 05 ÍNDICE ============ -->
+  <section data-label="05 Indice">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Índice</span></div>
+    <div class="frame">
+      <p class="eyebrow">Lo que vamos a ver</p>
+      <h1 class="title">Seis bloques, <em>seis retos</em>.</h1>
+      <div class="index-grid">
+        <div class="index-item"><span class="n">01</span><div class="t">Decisiones<small>random · if · ===</small></div></div>
+        <div class="index-item"><span class="n">02</span><div class="t">Lógica encadenada<small>isLeap(year)</small></div></div>
+        <div class="index-item"><span class="n">03</span><div class="t">Colecciones<small>Arrays · push · pop</small></div></div>
+        <div class="index-item"><span class="n">04</span><div class="t">Repetir<small>while · for · FizzBuzz</small></div></div>
+        <div class="index-item"><span class="n">05</span><div class="t">El reto final<small>Fibonacci</small></div></div>
+        <div class="index-item"><span class="n">06</span><div class="t">IA + cierre<small>Describe el flujo, pide el código</small></div></div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>05</span></div>
+  </section>
+
+  <!-- ============ 06 SECCIÓN 01 DECISIONES ============ -->
+  <section data-label="06 Seccion 01 Decisiones" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Sección 01</span></div>
+    <div class="frame sect">
+      <div class="num">01</div>
+      <h2 class="name" style="color: var(--bg);">Decisiones.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>06</span></div>
+  </section>
+
+  <!-- ============ 07 RANDOM + FLOOR ============ -->
+  <section data-label="07 Random y Floor">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Math.random</span></div>
+    <div class="frame">
+      <p class="eyebrow">Azar controlado</p>
+      <h1 class="title">Un número entre <em>1 y 100</em>.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>random.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-com">// Math.random: [0, 1) decimal</span>
+<span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">();</span>            <span class="js-com">// 0.0432...</span>
+
+<span class="js-com">// escalar a 0..100</span>
+<span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">()</span> <span class="js-punct">*</span> <span class="js-num">100</span><span class="js-punct">;</span>      <span class="js-com">// 0.0..99.999</span>
+
+<span class="js-com">// quitar decimales con Math.floor</span>
+<span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">()</span> <span class="js-punct">*</span> <span class="js-num">100</span><span class="js-punct">);</span>  <span class="js-com">// 0..99</span>
+
+<span class="js-com">// rango 1..100</span>
+<span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">()</span> <span class="js-punct">*</span> <span class="js-num">100</span><span class="js-punct">)</span> <span class="js-punct">+</span> <span class="js-num">1</span><span class="js-punct">;</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">()</span></span><span class="console-line output"><span class="js-num">0.7341</span></span><span class="console-line input"><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">()</span> <span class="js-punct">*</span> <span class="js-num">100</span></span><span class="console-line output"><span class="js-num">73.4198</span></span><span class="console-line input"><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">()</span> <span class="js-punct">*</span> <span class="js-num">100</span><span class="js-punct">)</span> <span class="js-punct">+</span> <span class="js-num">1</span></span><span class="console-line output"><span class="js-num">74</span></span><span class="console-line comment">// receta: random*N → floor → (+1)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>07</span></div>
+  </section>
+
+  <!-- ============ 08 RETO 01 LOVE CALCULATOR ============ -->
+  <section data-label="08 Reto 01 Love" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Reto 01</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 01 · 5 min</p>
+          <h1 class="title">Love <em>Calculator</em></h1>
+          <p class="brief">Crea una función <code>loveScore()</code> que devuelva un número entero aleatorio entre <strong>1 y 100</strong> (ambos incluidos), y lo muestre como porcentaje de "compatibilidad".</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Rango</div><div class="v">1 ≤ score ≤ 100 (enteros)</div></div>
+            <div class="spec-row"><div class="k">Salida</div><div class="v"><code>alert("Tu nivel de amor es 73%")</code></div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">5 minutos</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Debe cumplir</div>
+          <h2>Pistas</h2>
+          <ul>
+            <li>Math.random() devuelve un decimal en [0, 1)</li>
+            <li>Multiplícalo por 100 para escalarlo</li>
+            <li>Math.floor() te quita los decimales</li>
+            <li>Suma 1 al final para que nunca salga 0</li>
+            <li>Llámala 5 veces para comprobar el rango</li>
+          </ul>
+          <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>08</span></div>
+  </section>
+
+  <!-- ============ 09 SOLUCIÓN 01 LOVE ============ -->
+  <section data-label="09 Solucion 01 Love">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Solución 01</span></div>
+    <div class="frame">
+      <p class="eyebrow">Solución · Reto 01</p>
+      <h1 class="title">La receta de <em>siempre</em>.</h1>
+      <div class="solution-grid">
+        <div class="pane code">
+          <div class="pane-head"><span>love.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">function</span> <span class="js-fn">loveScore</span><span class="js-punct">()</span> <span class="js-punct">{</span>
+  <span class="js-kw">const</span> <span class="js-prop">score</span> <span class="js-punct">=</span> <span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span>
+    <span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">()</span> <span class="js-punct">*</span> <span class="js-num">100</span>
+  <span class="js-punct">)</span> <span class="js-punct">+</span> <span class="js-num">1</span><span class="js-punct">;</span>
+
+  <span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`Tu nivel de amor es ${</span><span class="js-prop">score</span><span class="js-str">}%`</span><span class="js-punct">);</span>
+  <span class="js-kw">return</span> <span class="js-prop">score</span><span class="js-punct">;</span>
+<span class="js-punct">}</span>
+
+<span class="js-fn">loveScore</span><span class="js-punct">();</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">loveScore</span><span class="js-punct">()</span></span><span class="console-line alert">Tu nivel de amor es 73%</span><span class="console-line output"><span class="js-num">73</span></span><span class="console-line input"><span class="js-fn">loveScore</span><span class="js-punct">()</span></span><span class="console-line alert">Tu nivel de amor es 12%</span><span class="console-line output"><span class="js-num">12</span></span><span class="console-line comment">// nunca verás 0 ni 101.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>09</span></div>
+  </section>
+
+  <!-- ============ 10 IF / ELSE IF / ELSE ============ -->
+  <section data-label="10 If else">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>if / else if / else</span></div>
+    <div class="frame">
+      <p class="eyebrow">Tomar decisiones</p>
+      <h1 class="title">Si esto, <em>haz</em> aquello.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>decisions.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">function</span> <span class="js-fn">loveMessage</span><span class="js-punct">(</span><span class="js-prop">score</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-kw">if</span> <span class="js-punct">(</span><span class="js-prop">score</span> <span class="js-punct">&lt;</span> <span class="js-num">30</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+    <span class="js-kw">return</span> <span class="js-str">"Vais a tener problemas."</span><span class="js-punct">;</span>
+  <span class="js-punct">}</span> <span class="js-kw">else</span> <span class="js-kw">if</span> <span class="js-punct">(</span><span class="js-prop">score</span> <span class="js-punct">&lt;</span> <span class="js-num">70</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+    <span class="js-kw">return</span> <span class="js-str">"La cosa va bien."</span><span class="js-punct">;</span>
+  <span class="js-punct">}</span> <span class="js-kw">else</span> <span class="js-punct">{</span>
+    <span class="js-kw">return</span> <span class="js-str">"Sois almas gemelas."</span><span class="js-punct">;</span>
+  <span class="js-punct">}</span>
+<span class="js-punct">}</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">loveMessage</span><span class="js-punct">(</span><span class="js-num">12</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-str">"Vais a tener problemas."</span></span><span class="console-line input"><span class="js-fn">loveMessage</span><span class="js-punct">(</span><span class="js-num">50</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-str">"La cosa va bien."</span></span><span class="console-line input"><span class="js-fn">loveMessage</span><span class="js-punct">(</span><span class="js-num">95</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-str">"Sois almas gemelas."</span></span><span class="console-line comment">// JS prueba en orden: el primero que se cumple gana.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>10</span></div>
+  </section>
+
+  <!-- ============ 11 COMPARADORES ============ -->
+  <section data-label="11 Comparadores">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Comparadores</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cómo se compara en JS</p>
+      <h1 class="title">Usa <em>===</em>, no ==.</h1>
+      <div class="oplist">
+        <div class="op-row"><div class="sym">===</div><div class="what">Estrictamente igual (valor + tipo)</div><div class="ex"><code>7 === 7</code> → <code>true</code> · <code>7 === "7"</code> → <code>false</code></div></div>
+        <div class="op-row"><div class="sym">!==</div><div class="what">Estrictamente distinto</div><div class="ex"><code>3 !== 4</code> → <code>true</code></div></div>
+        <div class="op-row"><div class="sym">&gt;  &lt;</div><div class="what">Mayor / menor que</div><div class="ex"><code>10 &gt; 5</code> → <code>true</code></div></div>
+        <div class="op-row"><div class="sym">&gt;=  &lt;=</div><div class="what">Mayor / menor o igual</div><div class="ex"><code>10 &gt;= 10</code> → <code>true</code></div></div>
+        <div class="op-row"><div class="sym">==</div><div class="what">Igual con conversión (¡peligroso!)</div><div class="ex"><code>7 == "7"</code> → <code>true</code> · <code>0 == ""</code> → <code>true</code></div></div>
+      </div>
+      <p style="font-family: var(--mono); color: var(--ink-3); font-size: 24px; margin-top: 16px;">Regla práctica del curso: <strong>siempre ===</strong>. Olvídate del == y vivirás más tranquilo.</p>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>11</span></div>
+  </section>
+
+  <!-- ============ 12 OPERADORES LÓGICOS ============ -->
+  <section data-label="12 Logicos">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>&amp;&amp; || !</span></div>
+    <div class="frame">
+      <p class="eyebrow">Combinar condiciones</p>
+      <h1 class="title">Y, O y <em>no</em>.</h1>
+      <div class="oplist">
+        <div class="op-row"><div class="sym">&amp;&amp;</div><div class="what"><em>Y</em>: las dos deben cumplirse</div><div class="ex"><code>age &gt;= 18 &amp;&amp; hasLicense</code></div></div>
+        <div class="op-row"><div class="sym">||</div><div class="what"><em>O</em>: basta con una</div><div class="ex"><code>isAdmin || isOwner</code></div></div>
+        <div class="op-row"><div class="sym">!</div><div class="what"><em>No</em>: niega la condición</div><div class="ex"><code>!isLoggedIn</code></div></div>
+      </div>
+      <div class="split" style="margin-top: 24px;">
+        <div class="pane code">
+          <div class="pane-head"><span>combine.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">function</span> <span class="js-fn">canDrive</span><span class="js-punct">(</span><span class="js-prop">age</span><span class="js-punct">,</span> <span class="js-prop">hasLicense</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-kw">return</span> <span class="js-prop">age</span> <span class="js-punct">&gt;=</span> <span class="js-num">18</span> <span class="js-punct">&amp;&amp;</span> <span class="js-prop">hasLicense</span><span class="js-punct">;</span>
+<span class="js-punct">}</span></div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">canDrive</span><span class="js-punct">(</span><span class="js-num">20</span><span class="js-punct">,</span> <span class="js-num">true</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">true</span></span><span class="console-line input"><span class="js-fn">canDrive</span><span class="js-punct">(</span><span class="js-num">20</span><span class="js-punct">,</span> <span class="js-num">false</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">false</span></span><span class="console-line input"><span class="js-fn">canDrive</span><span class="js-punct">(</span><span class="js-num">16</span><span class="js-punct">,</span> <span class="js-num">true</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">false</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>12</span></div>
+  </section>
+
+  <!-- ============ 13 SECCIÓN 02 LÓGICA ENCADENADA ============ -->
+  <section data-label="13 Seccion 02 Logica" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Sección 02</span></div>
+    <div class="frame sect">
+      <div class="num">02</div>
+      <h2 class="name" style="color: var(--bg);">Lógica encadenada.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>13</span></div>
+  </section>
+
+  <!-- ============ 14 REGLAS AÑO BISIESTO ============ -->
+  <section data-label="14 Reglas bisiesto">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Año bisiesto</span></div>
+    <div class="frame">
+      <p class="eyebrow">Las reglas reales del calendario</p>
+      <h1 class="title">¿Es <em>bisiesto</em> este año?</h1>
+      <div class="flow">
+        <div class="flow-row yes">
+          <div class="step">1</div>
+          <div class="desc">Si el año es divisible por <code>4</code> → puede que sí.</div>
+        </div>
+        <div class="flow-row no">
+          <div class="step">2</div>
+          <div class="desc">Pero si <em>también</em> es divisible por <code>100</code> → en principio, <strong>no</strong>.</div>
+        </div>
+        <div class="flow-row yes">
+          <div class="step">3</div>
+          <div class="desc">Salvo que <em>además</em> sea divisible por <code>400</code> → entonces <strong>sí</strong>.</div>
+        </div>
+      </div>
+      <p style="font-family: var(--mono); color: var(--ink-3); font-size: 24px; margin-top: 24px;">Ejemplos: 2000 sí · 1900 no · 2024 sí · 2023 no. Usa el operador <code>%</code> para "es divisible por".</p>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>14</span></div>
+  </section>
+
+  <!-- ============ 15 RETO 02 ISLEAP ============ -->
+  <section data-label="15 Reto 02 isLeap" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Reto 02</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 02 · 10 min</p>
+          <h1 class="title">Función <em>isLeap(year)</em></h1>
+          <p class="brief">Implementa <code>isLeap(year)</code>: recibe un año y <em>devuelve</em> <code>true</code> si es bisiesto, <code>false</code> si no. Usa solo las reglas de la transparencia anterior.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Firma</div><div class="v"><code>function isLeap(year) { return ... }</code></div></div>
+            <div class="spec-row"><div class="k">Casos</div><div class="v"><code>2000</code> → <code>true</code> · <code>1900</code> → <code>false</code> · <code>2024</code> → <code>true</code> · <code>2023</code> → <code>false</code></div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">10 minutos</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Debe cumplir</div>
+          <h2>Restricciones</h2>
+          <ul>
+            <li>Usa return (no alert, no console.log)</li>
+            <li>Solo if / else if / else</li>
+            <li>Solo el operador % y comparadores</li>
+            <li>Tu función debe pasar los 4 casos del enunciado</li>
+            <li>10 líneas o menos</li>
+          </ul>
+          <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>15</span></div>
+  </section>
+
+  <!-- ============ 16 SOLUCIÓN 02 ISLEAP ============ -->
+  <section data-label="16 Solucion 02 isLeap">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Solución 02</span></div>
+    <div class="frame">
+      <p class="eyebrow">Solución · Reto 02</p>
+      <h1 class="title">Tres preguntas <em>anidadas</em>.</h1>
+      <div class="solution-grid">
+        <div class="pane code">
+          <div class="pane-head"><span>is-leap.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">function</span> <span class="js-fn">isLeap</span><span class="js-punct">(</span><span class="js-prop">year</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-kw">if</span> <span class="js-punct">(</span><span class="js-prop">year</span> <span class="js-punct">%</span> <span class="js-num">4</span> <span class="js-punct">===</span> <span class="js-num">0</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+    <span class="js-kw">if</span> <span class="js-punct">(</span><span class="js-prop">year</span> <span class="js-punct">%</span> <span class="js-num">100</span> <span class="js-punct">===</span> <span class="js-num">0</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+      <span class="js-kw">if</span> <span class="js-punct">(</span><span class="js-prop">year</span> <span class="js-punct">%</span> <span class="js-num">400</span> <span class="js-punct">===</span> <span class="js-num">0</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+        <span class="js-kw">return</span> <span class="js-num">true</span><span class="js-punct">;</span>
+      <span class="js-punct">}</span>
+      <span class="js-kw">return</span> <span class="js-num">false</span><span class="js-punct">;</span>
+    <span class="js-punct">}</span>
+    <span class="js-kw">return</span> <span class="js-num">true</span><span class="js-punct">;</span>
+  <span class="js-punct">}</span>
+  <span class="js-kw">return</span> <span class="js-num">false</span><span class="js-punct">;</span>
+<span class="js-punct">}</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">isLeap</span><span class="js-punct">(</span><span class="js-num">2000</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">true</span></span><span class="console-line input"><span class="js-fn">isLeap</span><span class="js-punct">(</span><span class="js-num">1900</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">false</span></span><span class="console-line input"><span class="js-fn">isLeap</span><span class="js-punct">(</span><span class="js-num">2024</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">true</span></span><span class="console-line input"><span class="js-fn">isLeap</span><span class="js-punct">(</span><span class="js-num">2023</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">false</span></span><span class="console-line comment">// versión 1-línea con &&/||:</span><span class="console-line comment">// return (y%4===0 && y%100!==0) || y%400===0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>16</span></div>
+  </section>
+
+  <!-- ============ 17 SECCIÓN 03 COLECCIONES ============ -->
+  <section data-label="17 Seccion 03 Colecciones" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Sección 03</span></div>
+    <div class="frame sect">
+      <div class="num">03</div>
+      <h2 class="name" style="color: var(--bg);">Colecciones.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>17</span></div>
+  </section>
+
+  <!-- ============ 18 ARRAYS BÁSICOS ============ -->
+  <section data-label="18 Arrays basicos">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Arrays</span></div>
+    <div class="frame">
+      <p class="eyebrow">Listas ordenadas</p>
+      <h1 class="title">Una caja con <em>muchos</em> dentro.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>arrays.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-com">// crear</span>
+<span class="js-kw">const</span> <span class="js-prop">fruits</span> <span class="js-punct">=</span> <span class="js-punct">[</span><span class="js-str">"manzana"</span><span class="js-punct">,</span> <span class="js-str">"pera"</span><span class="js-punct">,</span> <span class="js-str">"plátano"</span><span class="js-punct">];</span>
+
+<span class="js-com">// acceder por índice (empieza en 0)</span>
+<span class="js-prop">fruits</span><span class="js-punct">[</span><span class="js-num">0</span><span class="js-punct">];</span>            <span class="js-com">// "manzana"</span>
+<span class="js-prop">fruits</span><span class="js-punct">[</span><span class="js-prop">fruits</span><span class="js-punct">.</span><span class="js-prop">length</span> <span class="js-punct">-</span> <span class="js-num">1</span><span class="js-punct">];</span>  <span class="js-com">// "plátano"</span>
+
+<span class="js-com">// añadir y quitar</span>
+<span class="js-prop">fruits</span><span class="js-punct">.</span><span class="js-fn">push</span><span class="js-punct">(</span><span class="js-str">"uva"</span><span class="js-punct">);</span>     <span class="js-com">// al final</span>
+<span class="js-prop">fruits</span><span class="js-punct">.</span><span class="js-fn">pop</span><span class="js-punct">();</span>            <span class="js-com">// quita el último</span>
+
+<span class="js-com">// ¿está dentro?</span>
+<span class="js-prop">fruits</span><span class="js-punct">.</span><span class="js-fn">includes</span><span class="js-punct">(</span><span class="js-str">"pera"</span><span class="js-punct">);</span> <span class="js-com">// true</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-prop">fruits</span></span><span class="console-line output"><span class="js-punct">[</span><span class="js-str">"manzana"</span><span class="js-punct">,</span> <span class="js-str">"pera"</span><span class="js-punct">,</span> <span class="js-str">"plátano"</span><span class="js-punct">]</span></span><span class="console-line input"><span class="js-prop">fruits</span><span class="js-punct">.</span><span class="js-prop">length</span></span><span class="console-line output"><span class="js-num">3</span></span><span class="console-line input"><span class="js-prop">fruits</span><span class="js-punct">[</span><span class="js-num">1</span><span class="js-punct">]</span></span><span class="console-line output"><span class="js-str">"pera"</span></span><span class="console-line input"><span class="js-prop">fruits</span><span class="js-punct">.</span><span class="js-fn">includes</span><span class="js-punct">(</span><span class="js-str">"kiwi"</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">false</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>18</span></div>
+  </section>
+
+  <!-- ============ 19 MÉTODOS DE ARRAY ============ -->
+  <section data-label="19 Metodos array">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Métodos de array</span></div>
+    <div class="frame">
+      <p class="eyebrow">Los más útiles</p>
+      <h1 class="title">Cinco para <em>empezar</em>.</h1>
+      <div class="oplist">
+        <div class="op-row"><div class="sym">.length</div><div class="what">Cuántos elementos tiene</div><div class="ex"><code>[10,20,30].length</code> → <code>3</code></div></div>
+        <div class="op-row"><div class="sym">.push()</div><div class="what">Añade al final</div><div class="ex"><code>arr.push("nuevo")</code></div></div>
+        <div class="op-row"><div class="sym">.pop()</div><div class="what">Quita y devuelve el último</div><div class="ex"><code>const last = arr.pop()</code></div></div>
+        <div class="op-row"><div class="sym">.includes()</div><div class="what">¿Contiene este valor?</div><div class="ex"><code>names.includes("Ana")</code></div></div>
+        <div class="op-row"><div class="sym">.indexOf()</div><div class="what">Posición del valor (o −1)</div><div class="ex"><code>names.indexOf("Ana")</code> → <code>2</code></div></div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>19</span></div>
+  </section>
+
+  <!-- ============ 20 RETO 03 WHO'S BUYING LUNCH ============ -->
+  <section data-label="20 Reto 03 Lunch" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Reto 03</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 03 · 8 min</p>
+          <h1 class="title">¿Quién <em>paga la comida</em>?</h1>
+          <p class="brief">Tienes un array <code>people</code> con varios nombres. Escribe una función <code>whosPaying(people)</code> que muestre con <code>alert</code> el nombre de uno <em>al azar</em>: ese paga.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Entrada</div><div class="v"><code>["Ana", "Luis", "Marta", "Pedro"]</code></div></div>
+            <div class="spec-row"><div class="k">Salida</div><div class="v"><code>alert("Hoy paga Marta")</code></div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">8 minutos</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Debe cumplir</div>
+          <h2>Pistas</h2>
+          <ul>
+            <li>Math.random() * people.length da un decimal en [0, n)</li>
+            <li>Math.floor() te quita los decimales → índice válido</li>
+            <li>people[indice] te da el nombre</li>
+            <li>Debe funcionar para arrays de cualquier tamaño</li>
+            <li>Pruébala con 3 ejecuciones seguidas</li>
+          </ul>
+          <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>20</span></div>
+  </section>
+
+  <!-- ============ 21 SOLUCIÓN 03 LUNCH ============ -->
+  <section data-label="21 Solucion 03 Lunch">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Solución 03</span></div>
+    <div class="frame">
+      <p class="eyebrow">Solución · Reto 03</p>
+      <h1 class="title">Índice <em>al azar</em>.</h1>
+      <div class="solution-grid">
+        <div class="pane code">
+          <div class="pane-head"><span>lunch.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">function</span> <span class="js-fn">whosPaying</span><span class="js-punct">(</span><span class="js-prop">people</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-kw">const</span> <span class="js-prop">i</span> <span class="js-punct">=</span> <span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span>
+    <span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">()</span> <span class="js-punct">*</span> <span class="js-prop">people</span><span class="js-punct">.</span><span class="js-prop">length</span>
+  <span class="js-punct">);</span>
+
+  <span class="js-kw">const</span> <span class="js-prop">name</span> <span class="js-punct">=</span> <span class="js-prop">people</span><span class="js-punct">[</span><span class="js-prop">i</span><span class="js-punct">];</span>
+  <span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`Hoy paga ${</span><span class="js-prop">name</span><span class="js-str">}`</span><span class="js-punct">);</span>
+<span class="js-punct">}</span>
+
+<span class="js-kw">const</span> <span class="js-prop">team</span> <span class="js-punct">=</span> <span class="js-punct">[</span><span class="js-str">"Ana"</span><span class="js-punct">,</span> <span class="js-str">"Luis"</span><span class="js-punct">,</span> <span class="js-str">"Marta"</span><span class="js-punct">,</span> <span class="js-str">"Pedro"</span><span class="js-punct">];</span>
+<span class="js-fn">whosPaying</span><span class="js-punct">(</span><span class="js-prop">team</span><span class="js-punct">);</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">whosPaying</span><span class="js-punct">(</span><span class="js-prop">team</span><span class="js-punct">)</span></span><span class="console-line alert">Hoy paga Marta</span><span class="console-line input"><span class="js-fn">whosPaying</span><span class="js-punct">(</span><span class="js-prop">team</span><span class="js-punct">)</span></span><span class="console-line alert">Hoy paga Ana</span><span class="console-line input"><span class="js-fn">whosPaying</span><span class="js-punct">(</span><span class="js-prop">team</span><span class="js-punct">)</span></span><span class="console-line alert">Hoy paga Pedro</span><span class="console-line comment">// funciona con cualquier array.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>21</span></div>
+  </section>
+
+  <!-- ============ 22 SECCIÓN 04 REPETIR ============ -->
+  <section data-label="22 Seccion 04 Repetir" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Sección 04</span></div>
+    <div class="frame sect">
+      <div class="num">04</div>
+      <h2 class="name" style="color: var(--bg);">Repetir.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>22</span></div>
+  </section>
+
+  <!-- ============ 23 WHILE ============ -->
+  <section data-label="23 While">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>while</span></div>
+    <div class="frame">
+      <p class="eyebrow">Mientras se cumpla una condición</p>
+      <h1 class="title">Cuenta atrás con <em>while</em>.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>while.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">let</span> <span class="js-prop">n</span> <span class="js-punct">=</span> <span class="js-num">5</span><span class="js-punct">;</span>
+
+<span class="js-kw">while</span> <span class="js-punct">(</span><span class="js-prop">n</span> <span class="js-punct">&gt;</span> <span class="js-num">0</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-prop">n</span><span class="js-punct">);</span>
+  <span class="js-prop">n</span><span class="js-punct">--;</span>
+<span class="js-punct">}</span>
+
+<span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-str">"¡Despegue!"</span><span class="js-punct">);</span>
+
+<span class="js-com">// IMPORTANTE: si n-- desaparece,</span>
+<span class="js-com">// el bucle no termina nunca</span>
+<span class="js-com">// (bucle infinito).</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line output"><span class="js-num">5</span></span><span class="console-line output"><span class="js-num">4</span></span><span class="console-line output"><span class="js-num">3</span></span><span class="console-line output"><span class="js-num">2</span></span><span class="console-line output"><span class="js-num">1</span></span><span class="console-line output"><span class="js-str">¡Despegue!</span></span><span class="console-line comment">// pregunta clave: ¿qué pasa</span><span class="console-line comment">// con n en cada vuelta?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>23</span></div>
+  </section>
+
+  <!-- ============ 24 RETO 04 99 BOTTLES ============ -->
+  <section data-label="24 Reto 04 99 bottles" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Reto 04</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 04 · 8 min</p>
+          <h1 class="title">99 Bottles of <em>Beer</em></h1>
+          <p class="brief">Escribe un bucle <code>while</code> que imprima en consola del <strong>99 al 1</strong> el clásico: <em>"N bottles of beer on the wall, N bottles of beer..."</em>. Una línea por número.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Empieza</div><div class="v"><code>"99 bottles of beer on the wall, 99 bottles of beer..."</code></div></div>
+            <div class="spec-row"><div class="k">Termina</div><div class="v"><code>"1 bottle of beer on the wall, 1 bottle of beer..."</code></div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">8 minutos</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Debe cumplir</div>
+          <h2>Restricciones</h2>
+          <ul>
+            <li>Usa while, no for</li>
+            <li>El bucle debe terminar (¡no infinito!)</li>
+            <li>Usa template literal `${n} bottles...`</li>
+            <li>Singular/plural: 1 bottle, 2+ bottles</li>
+            <li>Comprueba en la consola la primera y la última línea</li>
+          </ul>
+          <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>24</span></div>
+  </section>
+
+  <!-- ============ 25 SOLUCIÓN 04 99 BOTTLES ============ -->
+  <section data-label="25 Solucion 04 99 bottles">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Solución 04</span></div>
+    <div class="frame">
+      <p class="eyebrow">Solución · Reto 04</p>
+      <h1 class="title">while y un <em>ternario</em>.</h1>
+      <div class="solution-grid">
+        <div class="pane code">
+          <div class="pane-head"><span>bottles.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">let</span> <span class="js-prop">n</span> <span class="js-punct">=</span> <span class="js-num">99</span><span class="js-punct">;</span>
+
+<span class="js-kw">while</span> <span class="js-punct">(</span><span class="js-prop">n</span> <span class="js-punct">&gt;=</span> <span class="js-num">1</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-kw">const</span> <span class="js-prop">word</span> <span class="js-punct">=</span> <span class="js-prop">n</span> <span class="js-punct">===</span> <span class="js-num">1</span> <span class="js-punct">?</span> <span class="js-str">"bottle"</span> <span class="js-punct">:</span> <span class="js-str">"bottles"</span><span class="js-punct">;</span>
+
+  <span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span>
+    <span class="js-str">`${</span><span class="js-prop">n</span><span class="js-str">} ${</span><span class="js-prop">word</span><span class="js-str">} of beer on the wall, `</span> <span class="js-punct">+</span>
+    <span class="js-str">`${</span><span class="js-prop">n</span><span class="js-str">} ${</span><span class="js-prop">word</span><span class="js-str">} of beer...`</span>
+  <span class="js-punct">);</span>
+
+  <span class="js-prop">n</span><span class="js-punct">--;</span>
+<span class="js-punct">}</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line output"><span class="js-str">99 bottles of beer on the wall, 99 bottles of beer...</span></span><span class="console-line output"><span class="js-str">98 bottles of beer on the wall, 98 bottles of beer...</span></span><span class="console-line comment">// ...</span><span class="console-line output"><span class="js-str">2 bottles of beer on the wall, 2 bottles of beer...</span></span><span class="console-line output"><span class="js-str">1 bottle of beer on the wall, 1 bottle of beer...</span></span><span class="console-line comment">// (a ? b : c) → si a, b; si no, c</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>25</span></div>
+  </section>
+
+  <!-- ============ 26 FOR ============ -->
+  <section data-label="26 For">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>for</span></div>
+    <div class="frame">
+      <p class="eyebrow">El mismo bucle, más compacto</p>
+      <h1 class="title">for: tres trozos en <em>una línea</em>.</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>for.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-com">// inicio · condición · paso</span>
+<span class="js-kw">for</span> <span class="js-punct">(</span><span class="js-kw">let</span> <span class="js-prop">i</span> <span class="js-punct">=</span> <span class="js-num">1</span><span class="js-punct">;</span> <span class="js-prop">i</span> <span class="js-punct">&lt;=</span> <span class="js-num">5</span><span class="js-punct">;</span> <span class="js-prop">i</span><span class="js-punct">++)</span> <span class="js-punct">{</span>
+  <span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-prop">i</span><span class="js-punct">);</span>
+<span class="js-punct">}</span>
+
+<span class="js-com">// recorrer un array</span>
+<span class="js-kw">const</span> <span class="js-prop">names</span> <span class="js-punct">=</span> <span class="js-punct">[</span><span class="js-str">"Ana"</span><span class="js-punct">,</span> <span class="js-str">"Luis"</span><span class="js-punct">,</span> <span class="js-str">"Marta"</span><span class="js-punct">];</span>
+
+<span class="js-kw">for</span> <span class="js-punct">(</span><span class="js-kw">let</span> <span class="js-prop">i</span> <span class="js-punct">=</span> <span class="js-num">0</span><span class="js-punct">;</span> <span class="js-prop">i</span> <span class="js-punct">&lt;</span> <span class="js-prop">names</span><span class="js-punct">.</span><span class="js-prop">length</span><span class="js-punct">;</span> <span class="js-prop">i</span><span class="js-punct">++)</span> <span class="js-punct">{</span>
+  <span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-prop">names</span><span class="js-punct">[</span><span class="js-prop">i</span><span class="js-punct">]);</span>
+<span class="js-punct">}</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line output"><span class="js-num">1</span></span><span class="console-line output"><span class="js-num">2</span></span><span class="console-line output"><span class="js-num">3</span></span><span class="console-line output"><span class="js-num">4</span></span><span class="console-line output"><span class="js-num">5</span></span><span class="console-line output"><span class="js-str">Ana</span></span><span class="console-line output"><span class="js-str">Luis</span></span><span class="console-line output"><span class="js-str">Marta</span></span><span class="console-line comment">// for y while son intercambiables.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>26</span></div>
+  </section>
+
+  <!-- ============ 27 RETO 05 FIZZBUZZ ============ -->
+  <section data-label="27 Reto 05 FizzBuzz" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Reto 05</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 05 · 12 min</p>
+          <h1 class="title"><em>FizzBuzz</em> del 1 al 100</h1>
+          <p class="brief">El clásico de las entrevistas. Recorre del 1 al 100 y para cada número: si es múltiplo de 3 imprime <code>"Fizz"</code>, de 5 <code>"Buzz"</code>, de los dos <code>"FizzBuzz"</code>, y si no, el número.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">1, 2</div><div class="v"><code>1, 2</code></div></div>
+            <div class="spec-row"><div class="k">3, 5</div><div class="v"><code>"Fizz", "Buzz"</code></div></div>
+            <div class="spec-row"><div class="k">15, 30, 45...</div><div class="v"><code>"FizzBuzz"</code></div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">12 minutos</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Debe cumplir</div>
+          <h2>Restricciones</h2>
+          <ul>
+            <li>Usa for, del 1 al 100</li>
+            <li>Comprueba primero el caso 15 (los dos)</li>
+            <li>Acumula los 100 resultados en un array con push</li>
+            <li>Al final, console.log(resultado)</li>
+            <li>La línea 15 del array debe ser "FizzBuzz"</li>
+          </ul>
+          <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>27</span></div>
+  </section>
+
+  <!-- ============ 28 SOLUCIÓN 05 FIZZBUZZ ============ -->
+  <section data-label="28 Solucion 05 FizzBuzz">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Solución 05</span></div>
+    <div class="frame">
+      <p class="eyebrow">Solución · Reto 05</p>
+      <h1 class="title">El orden de los <em>if</em> importa.</h1>
+      <div class="solution-grid">
+        <div class="pane code">
+          <div class="pane-head"><span>fizzbuzz.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">const</span> <span class="js-prop">out</span> <span class="js-punct">=</span> <span class="js-punct">[];</span>
+
+<span class="js-kw">for</span> <span class="js-punct">(</span><span class="js-kw">let</span> <span class="js-prop">i</span> <span class="js-punct">=</span> <span class="js-num">1</span><span class="js-punct">;</span> <span class="js-prop">i</span> <span class="js-punct">&lt;=</span> <span class="js-num">100</span><span class="js-punct">;</span> <span class="js-prop">i</span><span class="js-punct">++)</span> <span class="js-punct">{</span>
+  <span class="js-kw">if</span> <span class="js-punct">(</span><span class="js-prop">i</span> <span class="js-punct">%</span> <span class="js-num">15</span> <span class="js-punct">===</span> <span class="js-num">0</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+    <span class="js-prop">out</span><span class="js-punct">.</span><span class="js-fn">push</span><span class="js-punct">(</span><span class="js-str">"FizzBuzz"</span><span class="js-punct">);</span>
+  <span class="js-punct">}</span> <span class="js-kw">else</span> <span class="js-kw">if</span> <span class="js-punct">(</span><span class="js-prop">i</span> <span class="js-punct">%</span> <span class="js-num">3</span> <span class="js-punct">===</span> <span class="js-num">0</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+    <span class="js-prop">out</span><span class="js-punct">.</span><span class="js-fn">push</span><span class="js-punct">(</span><span class="js-str">"Fizz"</span><span class="js-punct">);</span>
+  <span class="js-punct">}</span> <span class="js-kw">else</span> <span class="js-kw">if</span> <span class="js-punct">(</span><span class="js-prop">i</span> <span class="js-punct">%</span> <span class="js-num">5</span> <span class="js-punct">===</span> <span class="js-num">0</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+    <span class="js-prop">out</span><span class="js-punct">.</span><span class="js-fn">push</span><span class="js-punct">(</span><span class="js-str">"Buzz"</span><span class="js-punct">);</span>
+  <span class="js-punct">}</span> <span class="js-kw">else</span> <span class="js-punct">{</span>
+    <span class="js-prop">out</span><span class="js-punct">.</span><span class="js-fn">push</span><span class="js-punct">(</span><span class="js-prop">i</span><span class="js-punct">);</span>
+  <span class="js-punct">}</span>
+<span class="js-punct">}</span>
+
+<span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-prop">out</span><span class="js-punct">);</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-prop">out</span><span class="js-punct">[</span><span class="js-num">0</span><span class="js-punct">]</span></span><span class="console-line output"><span class="js-num">1</span></span><span class="console-line input"><span class="js-prop">out</span><span class="js-punct">[</span><span class="js-num">2</span><span class="js-punct">]</span></span><span class="console-line output"><span class="js-str">"Fizz"</span></span><span class="console-line input"><span class="js-prop">out</span><span class="js-punct">[</span><span class="js-num">4</span><span class="js-punct">]</span></span><span class="console-line output"><span class="js-str">"Buzz"</span></span><span class="console-line input"><span class="js-prop">out</span><span class="js-punct">[</span><span class="js-num">14</span><span class="js-punct">]</span></span><span class="console-line output"><span class="js-str">"FizzBuzz"</span></span><span class="console-line input"><span class="js-prop">out</span><span class="js-punct">.</span><span class="js-prop">length</span></span><span class="console-line output"><span class="js-num">100</span></span><span class="console-line comment">// %15 PRIMERO. Si compruebas %3 antes,</span><span class="console-line comment">// nunca llegas a FizzBuzz.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>28</span></div>
+  </section>
+
+  <!-- ============ 29 SECCIÓN 05 EL RETO FINAL ============ -->
+  <section data-label="29 Seccion 05 Final" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Sección 05</span></div>
+    <div class="frame sect">
+      <div class="num">05</div>
+      <h2 class="name" style="color: var(--bg);">El reto final.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>29</span></div>
+  </section>
+
+  <!-- ============ 30 QUÉ ES FIBONACCI ============ -->
+  <section data-label="30 Que es Fibonacci">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Fibonacci</span></div>
+    <div class="frame">
+      <p class="eyebrow">La secuencia más famosa</p>
+      <h1 class="title">Cada número es la <em>suma</em> de los dos anteriores.</h1>
+      <div style="font-family: var(--mono); font-size: 64px; color: var(--ink); margin: 24px 0 16px; padding: 32px; background: var(--bg-2); border-left: 4px solid var(--accent); letter-spacing: .04em;">
+        0, 1, <span style="color: var(--accent);">1, 2, 3, 5, 8, 13, 21, 34, 55</span>, 89...
+      </div>
+      <div class="flow">
+        <div class="flow-row yes">
+          <div class="step">1</div>
+          <div class="desc">Empieza con <code>0</code> y <code>1</code> (los dos primeros, dados).</div>
+        </div>
+        <div class="flow-row yes">
+          <div class="step">2</div>
+          <div class="desc">Para el siguiente: <em>suma los dos anteriores</em>. <code>0 + 1 = 1</code>.</div>
+        </div>
+        <div class="flow-row yes">
+          <div class="step">3</div>
+          <div class="desc">Repite hasta tener <code>n</code> números. <code>1 + 1 = 2</code>, <code>1 + 2 = 3</code>, <code>2 + 3 = 5</code>...</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>30</span></div>
+  </section>
+
+  <!-- ============ 31 RETO 06 FIBONACCI ============ -->
+  <section data-label="31 Reto 06 Fibonacci" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Reto 06</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto 06 · 15 min</p>
+          <h1 class="title"><em>fibonacciGenerator(n)</em></h1>
+          <p class="brief">Escribe una función que reciba un número <code>n</code> y <em>devuelva</em> un array con los <code>n</code> primeros números de Fibonacci. Sin <code>alert</code>, sin <code>console.log</code>: <strong>solo return</strong>.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Firma</div><div class="v"><code>function fibonacciGenerator(n) { return [...]; }</code></div></div>
+            <div class="spec-row"><div class="k">Test 1</div><div class="v"><code>fibonacciGenerator(1)</code> → <code>[0]</code></div></div>
+            <div class="spec-row"><div class="k">Test 2</div><div class="v"><code>fibonacciGenerator(2)</code> → <code>[0, 1]</code></div></div>
+            <div class="spec-row"><div class="k">Test 3</div><div class="v"><code>fibonacciGenerator(10)</code> → <code>[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</code></div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">Debe cumplir</div>
+          <h2>Pistas</h2>
+          <ul>
+            <li>Empieza el array con [0, 1]</li>
+            <li>Cuidado con n = 0, n = 1: casos base</li>
+            <li>El bucle empieza en i = 2 (ya tienes 2 elementos)</li>
+            <li>arr[i] = arr[i-1] + arr[i-2]</li>
+            <li>Acumula con push hasta arr.length === n</li>
+          </ul>
+          <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>31</span></div>
+  </section>
+
+  <!-- ============ 32 SOLUCIÓN 06 FIBONACCI ============ -->
+  <section data-label="32 Solucion 06 Fibonacci">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Solución 06</span></div>
+    <div class="frame">
+      <p class="eyebrow">Solución · Reto 06</p>
+      <h1 class="title">Casos base + <em>bucle</em>.</h1>
+      <div class="solution-grid">
+        <div class="pane code">
+          <div class="pane-head"><span>fibonacci.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-kw">function</span> <span class="js-fn">fibonacciGenerator</span><span class="js-punct">(</span><span class="js-prop">n</span><span class="js-punct">)</span> <span class="js-punct">{</span>
+  <span class="js-kw">if</span> <span class="js-punct">(</span><span class="js-prop">n</span> <span class="js-punct">===</span> <span class="js-num">0</span><span class="js-punct">)</span> <span class="js-kw">return</span> <span class="js-punct">[];</span>
+  <span class="js-kw">if</span> <span class="js-punct">(</span><span class="js-prop">n</span> <span class="js-punct">===</span> <span class="js-num">1</span><span class="js-punct">)</span> <span class="js-kw">return</span> <span class="js-punct">[</span><span class="js-num">0</span><span class="js-punct">];</span>
+
+  <span class="js-kw">const</span> <span class="js-prop">arr</span> <span class="js-punct">=</span> <span class="js-punct">[</span><span class="js-num">0</span><span class="js-punct">,</span> <span class="js-num">1</span><span class="js-punct">];</span>
+
+  <span class="js-kw">for</span> <span class="js-punct">(</span><span class="js-kw">let</span> <span class="js-prop">i</span> <span class="js-punct">=</span> <span class="js-num">2</span><span class="js-punct">;</span> <span class="js-prop">i</span> <span class="js-punct">&lt;</span> <span class="js-prop">n</span><span class="js-punct">;</span> <span class="js-prop">i</span><span class="js-punct">++)</span> <span class="js-punct">{</span>
+    <span class="js-prop">arr</span><span class="js-punct">.</span><span class="js-fn">push</span><span class="js-punct">(</span><span class="js-prop">arr</span><span class="js-punct">[</span><span class="js-prop">i</span> <span class="js-punct">-</span> <span class="js-num">1</span><span class="js-punct">]</span> <span class="js-punct">+</span> <span class="js-prop">arr</span><span class="js-punct">[</span><span class="js-prop">i</span> <span class="js-punct">-</span> <span class="js-num">2</span><span class="js-punct">]);</span>
+  <span class="js-punct">}</span>
+
+  <span class="js-kw">return</span> <span class="js-prop">arr</span><span class="js-punct">;</span>
+<span class="js-punct">}</span>
+          </div>
+        </div>
+        <div class="pane console">
+          <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">fibonacciGenerator</span><span class="js-punct">(</span><span class="js-num">0</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-punct">[]</span></span><span class="console-line input"><span class="js-fn">fibonacciGenerator</span><span class="js-punct">(</span><span class="js-num">1</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-punct">[</span><span class="js-num">0</span><span class="js-punct">]</span></span><span class="console-line input"><span class="js-fn">fibonacciGenerator</span><span class="js-punct">(</span><span class="js-num">2</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-punct">[</span><span class="js-num">0</span><span class="js-punct">,</span> <span class="js-num">1</span><span class="js-punct">]</span></span><span class="console-line input"><span class="js-fn">fibonacciGenerator</span><span class="js-punct">(</span><span class="js-num">10</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-punct">[</span><span class="js-num">0</span><span class="js-punct">,</span><span class="js-num">1</span><span class="js-punct">,</span><span class="js-num">1</span><span class="js-punct">,</span><span class="js-num">2</span><span class="js-punct">,</span><span class="js-num">3</span><span class="js-punct">,</span><span class="js-num">5</span><span class="js-punct">,</span><span class="js-num">8</span><span class="js-punct">,</span><span class="js-num">13</span><span class="js-punct">,</span><span class="js-num">21</span><span class="js-punct">,</span><span class="js-num">34</span><span class="js-punct">]</span></span><span class="console-line comment">// si el reto cae, llevas Tema 06.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>32</span></div>
+  </section>
+
+  <!-- ============ 33 SECCIÓN 06 IA ============ -->
+  <section data-label="33 Seccion 06 IA" class="dark">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Sección 06</span></div>
+    <div class="frame sect">
+      <div class="num">06</div>
+      <h2 class="name" style="color: var(--bg);">Hablando con la IA.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>33</span></div>
+  </section>
+
+  <!-- ============ 34 TIP IA ============ -->
+  <section data-label="34 Tip IA">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>El truco</span></div>
+    <div class="frame">
+      <p class="eyebrow">El truco que funciona</p>
+      <h1 class="title">Describe el <em>flujo</em>. Después, pide el código.</h1>
+      <div class="prompt-anatomy">
+        <div><span class="label-tag">PASO 1</span> <span class="text">Escribe en español, por pasos numerados, lo que tu programa tiene que hacer. Como una receta.</span></div>
+        <div><span class="label-tag">PASO 2</span> <span class="text">Pásale la receta a la IA y pídele: "Tradúceme esto a JavaScript usando solo if, for y arrays."</span></div>
+        <div><span class="label-tag">PASO 3</span> <span class="text">Comprueba el código línea a línea con los casos del enunciado. Si falla, vuelves a tu receta antes de tocar el código.</span></div>
+        <div><span class="label-tag">PASO 4</span> <span class="text">Pídele a la IA que añada console.log en cada paso para que veas en consola qué está pasando.</span></div>
+      </div>
+      <div class="quote-slide" style="margin-top: 32px; display: block;">
+        <blockquote style="font-size: 56px; font-style: italic; color: var(--ink); margin: 0;">
+          "<span class="ac">Retrieval</span> is how you learn."
+        </blockquote>
+        <cite style="margin-top: 24px; display: block;">— Angela Yu</cite>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 06 · JavaScript avanzado</span><span>34</span></div>
+  </section>
+
+  <!-- ============ 35 CIERRE ============ -->
+  <section data-label="35 Cierre">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 06 · JavaScript avanzado</span><span>Cierre y siguiente</span></div>
+    <div class="frame closing">
+      <p class="eyebrow">Lo que te llevas hoy</p>
+      <h1 class="display">Ya <em>programas</em>.</h1>
+      <p class="lede" style="margin-top: 32px; max-width: 1300px;">Sabes decidir con <code>if</code>, repetir con <code>while</code> y <code>for</code>, organizar datos en arrays y resolver Fibonacci. Eso es <em>programar</em>. El siguiente paso es conectar todo esto al navegador.</p>
+      <div class="next">
+        <div>
+          <div class="k">Próximo tema</div>
+          <div class="v">Tema 07 — DOM y eventos. El navegador, vivo: clics, formularios, animaciones.</div>
+        </div>
+        <div>
+          <div class="k">Antes de la próxima sesión</div>
+          <div class="v">Resuelve los 6 retos sin mirar la solución. Pídele a la IA un reto extra del nivel "casi entrevista".</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>35 / 35</span></div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>
