@@ -1,0 +1,2540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Curso Web con IA · Tema 4 — CSS avanzado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+  :root{
+    --bg:#F2EEE5;
+    --bg-2:#E8E3D6;
+    --ink:#1A1814;
+    --ink-2:#4A4640;
+    --ink-3:#8A8278;
+    --rule:#D4CFC2;
+    --accent:#C84A1F;
+    --accent-soft:#E8956A;
+    --code-bg:#1A1814;
+    --code-fg:#F2EEE5;
+    --code-comment:#8A8278;
+    --code-tag:#E8956A;
+    --code-attr:#D9C26E;
+    --code-string:#B8C97A;
+    --code-prop:#9AB8D9;
+    --code-text:#F2EEE5;
+
+    --type-display: 168px;
+    --type-title: 72px;
+    --type-subtitle: 44px;
+    --type-body: 30px;
+    --type-small: 24px;
+    --type-code: 26px;
+    --type-tiny: 24px;
+
+    --pad-x: 96px;
+    --pad-top: 88px;
+    --pad-bottom: 88px;
+    --gap-title: 48px;
+    --gap-item: 22px;
+
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "IBM Plex Sans", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", Menlo, monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#0b0b0b; }
+  body{ font-family: var(--sans); color: var(--ink); }
+
+  deck-stage section{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: var(--type-body);
+    line-height: 1.4;
+    overflow: hidden;
+  }
+
+  /* ===== Common chrome ===== */
+  .chrome{ position:absolute; inset:0; pointer-events:none; }
+  .chrome::before{
+    content:""; position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: 56px;
+    border-top: 1px solid var(--rule);
+  }
+  .chrome::after{
+    content:""; position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    bottom: 56px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .meta{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: 24px;
+    display:flex; justify-content:space-between;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .meta-foot{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    bottom: 22px;
+    display:flex; justify-content:space-between;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  .dark{ background: var(--ink); color: var(--code-fg); }
+  .dark .chrome::before, .dark .chrome::after{ border-color: #34302A; }
+  .dark .meta, .dark .meta-foot{ color: #6E665A; }
+
+  .brick{ background: var(--accent); color: var(--bg); }
+  .brick .chrome::before, .brick .chrome::after{ border-color: rgba(242,238,229,.25); }
+  .brick .meta, .brick .meta-foot{ color: rgba(242,238,229,.65); }
+
+  /* ===== Layout helpers ===== */
+  .frame{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: var(--pad-top); bottom: var(--pad-bottom);
+    display:flex; flex-direction:column;
+  }
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--accent);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+    font-weight: 500;
+  }
+  .dark .eyebrow{ color: var(--accent-soft); }
+  .brick .eyebrow{ color: rgba(242,238,229,.85); }
+
+  h1.title{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: var(--type-title);
+    line-height: 1.05;
+    letter-spacing: -.015em;
+    margin: 0 0 var(--gap-title);
+    text-wrap: balance;
+  }
+  h1.title em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .dark h1.title em{ color: var(--accent-soft); }
+
+  p.lede{
+    font-family: var(--serif);
+    font-size: var(--type-subtitle);
+    line-height: 1.25;
+    margin: 0 0 40px;
+    color: var(--ink-2);
+    font-weight: 400;
+    text-wrap: pretty;
+    max-width: 1500px;
+  }
+  .dark p.lede{ color: #C9C2B4; }
+
+  p, li{ text-wrap: pretty; }
+
+  /* ===== Cover ===== */
+  .cover{ display:flex; flex-direction:column; }
+  .cover .display{
+    font-family: var(--serif);
+    font-size: var(--type-display);
+    line-height: .9;
+    letter-spacing: -.04em;
+    margin: 0;
+    font-weight: 500;
+  }
+  .cover .display em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .cover .kicker{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .cover .sub{
+    font-family: var(--serif);
+    font-size: 56px;
+    line-height: 1.2;
+    color: var(--ink-2);
+    margin-top: 56px;
+    font-style: italic;
+    font-weight: 400;
+    max-width: 1300px;
+  }
+  .cover .stamp{
+    margin-top:auto;
+    display:flex; gap:64px; align-items:flex-end;
+    font-family: var(--mono); font-size: var(--type-small); color: var(--ink-2);
+    letter-spacing: .04em;
+  }
+  .cover .stamp span b{
+    display:block; color: var(--ink); font-weight: 500;
+    font-family: var(--sans); font-size: var(--type-small);
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+
+  /* ===== Section break ===== */
+  .sect{ display:flex; flex-direction:column; justify-content:center; }
+  .sect .num{
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 240px;
+    line-height: .85;
+    color: var(--accent);
+    font-weight: 400;
+    margin-bottom: 32px;
+  }
+  .sect .name{
+    font-family: var(--serif);
+    font-size: 96px;
+    line-height: 1;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -.02em;
+  }
+
+  /* ===== Quote slide ===== */
+  .quote-slide{ display:flex; flex-direction:column; justify-content:center; }
+  .quote-slide blockquote{
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 100px;
+    line-height: 1.05;
+    margin: 0;
+    letter-spacing: -.02em;
+    font-weight: 400;
+    max-width: 1500px;
+  }
+  .quote-slide blockquote .ac{ color: var(--accent); font-style: normal; font-weight: 500; }
+  .quote-slide cite{
+    margin-top: 56px;
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    font-style: normal;
+    color: var(--ink-3);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  /* ===== Index grid ===== */
+  .index-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 96px;
+    row-gap: 28px;
+    margin-top: 12px;
+  }
+  .index-item{
+    display:grid;
+    grid-template-columns: 64px 1fr;
+    align-items:baseline;
+    border-top: 1px solid var(--rule);
+    padding-top: 22px;
+  }
+  .index-item .n{
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: var(--type-small);
+    font-weight: 500;
+  }
+  .index-item .t{
+    font-family: var(--serif);
+    font-size: 36px;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .index-item .t small{
+    display:block;
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+
+  /* ===== Syllabus ===== */
+  .syllabus{
+    list-style: none; margin: 0; padding: 0;
+    border-top: 1px solid var(--ink);
+    margin-top: 4px;
+  }
+  .syllabus li{
+    display: grid;
+    grid-template-columns: 90px 420px 1fr 200px;
+    gap: 32px;
+    align-items: baseline;
+    border-bottom: 1px solid var(--rule);
+    padding: 22px 8px;
+  }
+  .syllabus li:last-child{ border-bottom: none; }
+  .syllabus .num{
+    font-family: var(--mono);
+    color: var(--ink-3);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: .02em;
+  }
+  .syllabus .name{
+    font-family: var(--serif);
+    color: var(--ink);
+    font-size: 42px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+  .syllabus .desc{
+    font-family: var(--sans);
+    color: var(--ink-2);
+    font-size: 28px;
+    line-height: 1.3;
+  }
+  .syllabus .here{
+    font-family: var(--mono);
+    color: var(--ink-3);
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    text-align: right;
+  }
+  .syllabus li.current{
+    background: var(--ink);
+    margin: 0 -16px;
+    padding: 24px 24px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .syllabus li.current .num{ color: var(--accent-soft); }
+  .syllabus li.current .name{ color: var(--bg); font-style: italic; }
+  .syllabus li.current .desc{ color: #C9C2B4; }
+  .syllabus li.current .here{ color: var(--accent-soft); }
+
+  /* ===== Two col ===== */
+  .two-col{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 0;
+  }
+  .col h3{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--accent);
+    margin: 0 0 16px;
+    font-weight: 500;
+  }
+  .col p{
+    font-family: var(--serif);
+    font-size: 40px;
+    line-height: 1.25;
+    margin: 0;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* ===== Three col pillars ===== */
+  .three-col{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    margin-top: 0;
+  }
+  .pillar{
+    border-top: 2px solid var(--ink);
+    padding-top: 28px;
+    display:flex; flex-direction:column;
+  }
+  .pillar .lang{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--accent);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .pillar h4{
+    font-family: var(--serif);
+    font-size: 56px;
+    margin: 8px 0 16px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+  .pillar p{
+    font-family: var(--sans);
+    font-size: var(--type-body);
+    color: var(--ink-2);
+    line-height: 1.35;
+    margin: 0;
+  }
+  .pillar .role{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ===== Code + Render split ===== */
+  .split{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    flex: 1;
+    min-height: 0;
+  }
+  .split.code-wide{ grid-template-columns: 1.2fr 1fr; }
+  .pane{
+    border: 1px solid var(--rule);
+    display:flex; flex-direction:column;
+    overflow: hidden;
+  }
+  .pane-head{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-3);
+    background: var(--bg-2);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .pane-head .dots{ color: var(--ink-3); letter-spacing: 2px; }
+  .pane-body{
+    flex: 1;
+    overflow: hidden;
+    padding: 28px 32px;
+  }
+  .pane.code{ background: var(--code-bg); border-color: var(--code-bg); }
+  .pane.code .pane-head{ background: #24211C; border-color: #34302A; color: #8A8278; }
+  .pane.code .pane-body{
+    font-family: var(--mono);
+    font-size: var(--type-code);
+    line-height: 1.55;
+    color: var(--code-text);
+    white-space: pre;
+    tab-size: 2;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(232, 149, 106, 0.35) transparent;
+  }
+  .pane.code .pane-body::-webkit-scrollbar{
+    width: 6px;
+    height: 6px;
+  }
+  .pane.code .pane-body::-webkit-scrollbar-track{
+    background: transparent;
+  }
+  .pane.code .pane-body::-webkit-scrollbar-thumb{
+    background: rgba(232, 149, 106, 0.35);
+    border-radius: 3px;
+  }
+  .pane.code .pane-body::-webkit-scrollbar-thumb:hover{
+    background: rgba(232, 149, 106, 0.6);
+  }
+  .pane.code .pane-body::-webkit-scrollbar-corner{
+    background: transparent;
+  }
+  .pane.render .pane-head{ background: var(--bg-2); }
+  .pane.render .pane-body{ background: #ffffff; padding: 32px 36px; }
+
+  .tag-name{ color: var(--code-tag); }
+  .tag-punct{ color: #8A8278; }
+  .attr-name{ color: var(--code-attr); }
+  .attr-val{ color: var(--code-string); }
+  .prop{ color: var(--code-prop); }
+  .val{ color: var(--code-string); }
+  .sel{ color: var(--code-tag); }
+  .txt{ color: var(--code-text); }
+  .com{ color: var(--code-comment); font-style: italic; }
+
+  /* Render body styles */
+  .render-body{
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    color: #111;
+    font-size: 26px;
+    line-height: 1.45;
+  }
+  .render-body h1{ font-size: 48px; margin: 0 0 14px; font-weight: 700;}
+  .render-body h2{ font-size: 36px; margin: 22px 0 10px; font-weight: 700;}
+  .render-body p{ margin: 0 0 14px; font-size: 26px; }
+  .render-body ul{ margin: 0 0 14px; padding-left: 32px;}
+  .render-body li{ margin: 4px 0; font-size: 26px;}
+
+  /* ===== Use cases table ===== */
+  .usecases{
+    margin-top: 12px;
+    border-top: 1px solid var(--ink);
+  }
+  .usecase-row{
+    display:grid;
+    grid-template-columns: 280px 1fr 1fr;
+    gap: 48px;
+    border-bottom: 1px solid var(--rule);
+    padding: 24px 0;
+    align-items: baseline;
+  }
+  .usecase-row .tag{
+    font-family: var(--mono);
+    font-size: 32px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .usecase-row .what{
+    font-family: var(--serif);
+    font-size: 30px;
+    line-height: 1.25;
+    color: var(--ink);
+  }
+  .usecase-row .where{
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    line-height: 1.35;
+  }
+
+  /* ===== Vocab grid ===== */
+  .vocab{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+  .vocab .term{
+    background: var(--bg);
+    padding: 28px 28px;
+    display:flex; flex-direction:column; gap: 6px;
+    min-height: 140px;
+  }
+  .vocab .term .name{
+    font-family: var(--mono);
+    font-size: 30px;
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1;
+  }
+  .vocab .term .name .ac{ color: var(--accent); }
+  .vocab .term .es{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--accent);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .vocab .term .desc{
+    font-family: var(--sans);
+    font-size: 22px;
+    color: var(--ink-2);
+    line-height: 1.3;
+    margin-top: 4px;
+  }
+
+  /* ===== Challenge slide ===== */
+  .challenge .frame{ padding: 0; }
+  .challenge-grid{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px;
+    flex: 1;
+    min-height: 0;
+  }
+  .challenge-left{ display:flex; flex-direction:column; }
+  .challenge-left .brief{
+    font-family: var(--serif);
+    font-size: 38px;
+    line-height: 1.3;
+    color: var(--ink);
+    margin: 0 0 32px;
+    max-width: 900px;
+  }
+  .challenge-left .specs{
+    border-top: 1px solid var(--ink);
+    margin-top: auto;
+  }
+  .challenge-left .spec-row{
+    display:grid; grid-template-columns: 240px 1fr;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+    gap: 24px;
+  }
+  .challenge-left .spec-row .k{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .challenge-left .spec-row .v{
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink);
+    line-height: 1.35;
+  }
+  .challenge-right{
+    background: var(--ink);
+    color: var(--bg);
+    padding: 48px;
+    display:flex; flex-direction:column;
+  }
+  .challenge-right .stamp{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    margin-bottom: 24px;
+  }
+  .challenge-right h2{
+    font-family: var(--serif);
+    font-size: 52px;
+    line-height: 1.05;
+    margin: 0 0 24px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+  .challenge-right ul{
+    list-style: none; margin: 0; padding: 0;
+  }
+  .challenge-right ul li{
+    font-family: var(--sans);
+    font-size: 22px;
+    line-height: 1.4;
+    padding: 12px 0;
+    border-bottom: 1px solid #34302A;
+    color: #D9D2C0;
+    display: grid; grid-template-columns: 32px 1fr; gap: 12px;
+  }
+  .challenge-right ul li::before{
+    content: "□";
+    color: var(--accent-soft);
+    font-family: var(--mono);
+  }
+  .challenge-right .footer-note{
+    margin-top:auto; padding-top: 24px;
+    font-family: var(--mono); font-size: 20px;
+    color: #8A8278; letter-spacing: .04em;
+    line-height: 1.5;
+  }
+
+  /* ===== Closing ===== */
+  .closing .display{
+    font-family: var(--serif);
+    font-size: 128px;
+    line-height: .95;
+    margin: 0;
+    letter-spacing: -.03em;
+    font-weight: 500;
+  }
+  .closing .display em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .closing .next{
+    margin-top: auto;
+    display:grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    border-top: 1px solid var(--ink);
+    padding-top: 40px;
+  }
+  .closing .next .k{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 12px;
+  }
+  .closing .next .v{
+    font-family: var(--serif); font-size: 40px;
+    line-height: 1.2; color: var(--ink);
+  }
+
+  /* ============================================================
+     ===== NUEVOS COMPONENTES VISUALES PARA TEMA 4 CSS AVANZADO
+     ============================================================ */
+
+  /* ===== Display demo (block / inline / inline-block) ===== */
+  .display-demo{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    flex: 1;
+    margin-top: 12px;
+    min-height: 0;
+  }
+  .display-demo .dd-cell{
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .display-demo .dd-cell .head{
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--rule);
+    padding: 16px 22px;
+    display:flex; flex-direction:column; gap: 4px;
+  }
+  .display-demo .dd-cell .head .k{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 500;
+  }
+  .display-demo .dd-cell .head .d{
+    font-family: var(--sans);
+    font-size: 20px;
+    color: var(--ink-2);
+    line-height: 1.3;
+  }
+  .display-demo .dd-cell .canvas{
+    flex: 1;
+    padding: 22px 22px 26px;
+    display: flex; flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    background: #ffffff;
+  }
+  .display-demo .blk{
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 18px;
+    padding: 14px 18px;
+    display: block;
+  }
+  .display-demo .inl{
+    background: var(--ink);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 16px;
+    padding: 4px 10px;
+  }
+  .display-demo .ib{
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 16px;
+    padding: 12px 16px;
+    display: inline-block;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+  .display-demo .txt-flow{
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  /* ===== Flex demo: padre + items + ejes ===== */
+  .flex-demo-wrap{
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 0;
+    margin-top: 16px;
+  }
+  .flex-demo{
+    position: relative;
+    background: var(--bg-2);
+    border: 1px dashed var(--accent-soft);
+    padding: 70px 90px;
+    display: flex;
+    gap: 22px;
+  }
+  .flex-demo .fd-item{
+    width: 130px; height: 130px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--serif);
+    font-size: 56px;
+    font-style: italic;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .flex-demo .fd-item.alt{ background: var(--ink); }
+  .flex-demo .lab-parent{
+    position: absolute;
+    top: 14px; left: 18px;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .flex-demo .axis-main{
+    position: absolute;
+    left: 22px; right: 22px;
+    bottom: -54px;
+    height: 28px;
+    display: flex; align-items: center;
+    font-family: var(--mono);
+    font-size: 20px;
+    color: var(--ink-2);
+  }
+  .flex-demo .axis-main::before{
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: var(--ink);
+    margin-right: 14px;
+  }
+  .flex-demo .axis-main::after{
+    content: "▶";
+    color: var(--ink);
+    font-size: 22px;
+    margin-left: 6px;
+  }
+  .flex-demo .axis-cross{
+    position: absolute;
+    top: 22px; bottom: 22px;
+    right: -64px;
+    width: 28px;
+    display: flex; flex-direction: column; align-items: center;
+    font-family: var(--mono);
+    font-size: 20px;
+    color: var(--ink-2);
+    writing-mode: vertical-rl;
+  }
+  .flex-demo .axis-cross::before{
+    content: "";
+    flex: 1;
+    width: 2px;
+    background: var(--ink-3);
+    margin-bottom: 14px;
+  }
+  .flex-demo .axis-cross::after{
+    content: "▶";
+    color: var(--ink-3);
+    font-size: 22px;
+    margin-top: 6px;
+  }
+
+  /* ===== Flex options grid (justify / align) ===== */
+  .flex-options{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    flex: 1;
+    margin-top: 12px;
+    min-height: 0;
+  }
+  .flex-options .fo-cell{
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    display:flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .flex-options .fo-cell .head{
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 18px;
+    font-family: var(--mono);
+    font-size: 20px;
+    color: var(--ink);
+    letter-spacing: .02em;
+  }
+  .flex-options .fo-cell .head .ac{ color: var(--accent); }
+  .flex-options .fo-cell .box{
+    flex: 1;
+    background: #ffffff;
+    padding: 16px;
+    display: flex;
+    gap: 10px;
+    min-height: 90px;
+  }
+  .flex-options .fo-cell .item{
+    width: 38px; height: 38px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .flex-options .fo-cell .item.alt{ background: var(--ink); }
+  .flex-options .fo-cell .item.tall{ height: 70px; }
+  .flex-options .fo-cell .item.short{ height: 28px; }
+
+  /* justify variants */
+  .fo-cell.jc-start .box{ justify-content: flex-start; }
+  .fo-cell.jc-center .box{ justify-content: center; }
+  .fo-cell.jc-end .box{ justify-content: flex-end; }
+  .fo-cell.jc-between .box{ justify-content: space-between; }
+  .fo-cell.jc-around .box{ justify-content: space-around; }
+  .fo-cell.jc-evenly .box{ justify-content: space-evenly; }
+
+  /* align variants (need a taller box) */
+  .fo-cell.ai-stretch .box{ align-items: stretch; }
+  .fo-cell.ai-start .box{ align-items: flex-start; }
+  .fo-cell.ai-center .box{ align-items: center; }
+  .fo-cell.ai-end .box{ align-items: flex-end; }
+  .fo-cell.ai-baseline .box{ align-items: baseline; }
+  .fo-cell.ai-stretch .item{ height: auto; align-self: stretch; }
+
+  /* ===== Flex direction visual ===== */
+  .flex-direction-row{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    flex: 1;
+    margin-top: 12px;
+    min-height: 0;
+  }
+  .fd-cell{
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    display:flex; flex-direction:column;
+    overflow: hidden;
+  }
+  .fd-cell .head{
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 20px;
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: .02em;
+  }
+  .fd-cell .head .ac{ color: var(--accent); }
+  .fd-cell .box{
+    flex: 1;
+    background: #ffffff;
+    padding: 18px;
+    display: flex;
+    gap: 10px;
+  }
+  .fd-cell .it{
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 20px;
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 500;
+  }
+  .fd-cell .it.alt{ background: var(--ink); }
+  .fd-cell.dir-row .box{ flex-direction: row; }
+  .fd-cell.dir-row-r .box{ flex-direction: row-reverse; }
+  .fd-cell.dir-col .box{ flex-direction: column; }
+  .fd-cell.dir-col-r .box{ flex-direction: column-reverse; }
+
+  /* ===== Grid board (placement demo) ===== */
+  .grid-board-wrap{
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 0;
+    margin-top: 12px;
+  }
+  .grid-board{
+    display: grid;
+    grid-template-columns: repeat(4, 130px);
+    grid-template-rows: repeat(3, 110px);
+    gap: 10px;
+    background: var(--bg-2);
+    padding: 18px;
+    border: 1px dashed var(--accent-soft);
+  }
+  .grid-board .g-cell{
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 500;
+  }
+  .grid-board .g-cell.alt{ background: var(--ink); }
+  .grid-board .g-cell.span-2c{ grid-column: span 2; }
+  .grid-board .g-cell.span-3c{ grid-column: span 3; }
+  .grid-board .g-cell.span-2r{ grid-row: span 2; }
+  .grid-board .g-cell.area-hero{ grid-column: 1 / 3; grid-row: 1 / 3; font-size: 28px; }
+
+  /* ===== Grid sizing showcase ===== */
+  .grid-sizing{
+    display: flex; flex-direction: column;
+    gap: 18px;
+    flex: 1;
+    margin-top: 12px;
+    min-height: 0;
+  }
+  .gs-row{
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    overflow: hidden;
+    display: flex;
+  }
+  .gs-row .gs-label{
+    background: var(--bg-2);
+    border-right: 1px solid var(--rule);
+    padding: 14px 22px;
+    font-family: var(--mono);
+    font-size: 20px;
+    color: var(--ink);
+    min-width: 360px;
+    display: flex; align-items: center;
+    letter-spacing: .02em;
+  }
+  .gs-row .gs-label .ac{ color: var(--accent); }
+  .gs-row .gs-tracks{
+    flex: 1;
+    padding: 12px;
+    background: #ffffff;
+    display: grid;
+    gap: 8px;
+  }
+  .gs-row .gs-tracks .t{
+    background: var(--accent);
+    height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 16px;
+  }
+  .gs-row .gs-tracks .t.alt{ background: var(--ink); }
+  .gs-row.r-px .gs-tracks{ grid-template-columns: 120px 120px 120px; }
+  .gs-row.r-fr .gs-tracks{ grid-template-columns: 1fr 1fr 1fr; }
+  .gs-row.r-mix .gs-tracks{ grid-template-columns: 200px 1fr 1fr; }
+  .gs-row.r-repeat .gs-tracks{ grid-template-columns: repeat(6, 1fr); }
+  .gs-row.r-minmax .gs-tracks{ grid-template-columns: repeat(3, minmax(80px, 1fr)); }
+
+  /* ===== Viewport row (responsive demo) ===== */
+  .viewport-row{
+    display: grid;
+    grid-template-columns: 200px 360px 1fr;
+    gap: 28px;
+    align-items: end;
+    flex: 1;
+    margin-top: 18px;
+    min-height: 0;
+  }
+  .vp-device{
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .vp-device .vp-label{
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--accent-soft);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+  .vp-device .vp-screen{
+    flex: 1;
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 14px;
+    display: flex; flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+  }
+  .vp-device.mobile{ height: 480px; }
+  .vp-device.tablet{ height: 500px; }
+  .vp-device.desktop{ height: 460px; }
+
+  /* mobile: stack */
+  .vp-mobile-content{
+    display: flex; flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+  .vp-mobile-content .hero{
+    background: var(--accent);
+    height: 90px;
+    border-radius: 3px;
+  }
+  .vp-mobile-content .nav{
+    background: var(--ink);
+    height: 32px;
+    border-radius: 3px;
+  }
+  .vp-mobile-content .card{
+    background: var(--bg-2);
+    flex: 1;
+    border-radius: 3px;
+  }
+
+  /* tablet: nav + 2 col */
+  .vp-tablet-content{
+    display: flex; flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+  .vp-tablet-content .nav{
+    background: var(--ink);
+    height: 30px;
+    border-radius: 3px;
+  }
+  .vp-tablet-content .hero{
+    background: var(--accent);
+    height: 100px;
+    border-radius: 3px;
+  }
+  .vp-tablet-content .grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    flex: 1;
+  }
+  .vp-tablet-content .grid .card{ background: var(--bg-2); border-radius: 3px; }
+
+  /* desktop: nav + 3 col */
+  .vp-desktop-content{
+    display: flex; flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+  .vp-desktop-content .nav{
+    background: var(--ink);
+    height: 28px;
+    border-radius: 3px;
+    display: flex; gap: 8px;
+    padding: 0 10px;
+    align-items: center;
+  }
+  .vp-desktop-content .nav .dot{
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent-soft);
+  }
+  .vp-desktop-content .hero{
+    background: var(--accent);
+    height: 130px;
+    border-radius: 3px;
+  }
+  .vp-desktop-content .grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    flex: 1;
+  }
+  .vp-desktop-content .grid .card{ background: var(--bg-2); border-radius: 3px; }
+
+  /* ===== Framework pillar (variant of pillar) ===== */
+  .framework-pillars{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    margin-top: 0;
+    flex: 1;
+    min-height: 0;
+  }
+  .fw-pillar{
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    padding: 32px 32px 28px;
+    display: flex; flex-direction: column;
+  }
+  .fw-pillar .badge{
+    width: 80px; height: 80px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-size: 40px;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: -.02em;
+    margin-bottom: 22px;
+  }
+  .fw-pillar.tw .badge{ background: #38bdf8; color: #0c1f2e; font-style: normal; font-weight: 600; }
+  .fw-pillar.md .badge{ background: #4285F4; color: #ffffff; font-style: normal; font-weight: 600; }
+  .fw-pillar .name{
+    font-family: var(--serif);
+    font-size: 44px;
+    line-height: 1;
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+  .fw-pillar .philosophy{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--accent);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .fw-pillar .desc{
+    font-family: var(--sans);
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--ink-2);
+    margin: 0 0 16px;
+  }
+  .fw-pillar .example{
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--ink-3);
+    line-height: 1.4;
+  }
+  .fw-pillar .example b{ color: var(--ink); font-weight: 500; }
+
+  /* ===== Navbar demo (case real flex) ===== */
+  .navbar-demo{
+    background: #1A1814;
+    color: #F2EEE5;
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'IBM Plex Sans', sans-serif;
+    border-radius: 6px;
+  }
+  .navbar-demo .logo{
+    font-family: 'Newsreader', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: #E8956A;
+    font-weight: 600;
+  }
+  .navbar-demo .links{
+    display: flex; gap: 32px;
+    font-size: 18px;
+  }
+  .navbar-demo .links span{ color: #C9C2B4; }
+  .navbar-demo .cta{
+    background: #C84A1F;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #F2EEE5;
+    font-weight: 500;
+  }
+
+  /* ===== Gallery demo (grid case) ===== */
+  .gallery-demo{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 80px 80px 80px;
+    gap: 6px;
+  }
+  .gallery-demo .gi{
+    background: linear-gradient(135deg, #C84A1F, #E8956A);
+    border-radius: 3px;
+  }
+  .gallery-demo .gi:nth-child(1){ grid-column: 1 / 3; grid-row: 1 / 3;
+    background: linear-gradient(135deg, #1A1814, #4A4640); }
+  .gallery-demo .gi:nth-child(2){ grid-column: 3 / 5; grid-row: 1 / 2; }
+  .gallery-demo .gi:nth-child(3){ background: linear-gradient(135deg, #4A4640, #8A8278); }
+  .gallery-demo .gi:nth-child(4){ }
+  .gallery-demo .gi:nth-child(5){ grid-column: 1 / 3; grid-row: 3 / 4;
+    background: linear-gradient(135deg, #E8956A, #D9C26E); }
+  .gallery-demo .gi:nth-child(6){ background: linear-gradient(135deg, #4A4640, #1A1814); }
+  .gallery-demo .gi:nth-child(7){ }
+
+  /* ===== Reflow demo (responsive case) ===== */
+  .reflow-demo{
+    display: flex; flex-direction: column;
+    gap: 14px;
+  }
+  .reflow-demo .nav-bar{
+    background: #1A1814; color: #F2EEE5;
+    padding: 12px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-radius: 4px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+  }
+  .reflow-demo .nav-bar .logo{
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    color: #E8956A;
+    font-size: 20px;
+  }
+  .reflow-demo .nav-bar .links{
+    display: flex; gap: 22px;
+    color: #C9C2B4;
+  }
+  .reflow-demo .cards{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .reflow-demo .cards .c{
+    background: #F2EEE5;
+    border: 1px solid #D4CFC2;
+    height: 110px;
+    border-radius: 4px;
+    padding: 12px;
+    font-family: 'Newsreader', serif;
+    color: #1A1814;
+    font-size: 18px;
+  }
+
+  /* ===== Value mega-quote (pregunta-giro) ===== */
+  .value-quote{ display:flex; flex-direction:column; justify-content:center; }
+  .value-quote .big{
+    font-family: var(--serif);
+    font-size: 132px;
+    line-height: .95;
+    margin: 0;
+    letter-spacing: -.03em;
+    font-weight: 500;
+    color: var(--ink);
+    max-width: 1600px;
+  }
+  .value-quote .big em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .value-quote .small{
+    margin-top: 48px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 44px;
+    color: var(--ink-3);
+    line-height: 1.3;
+    max-width: 1400px;
+  }
+
+  /* ===== Toggle CSS <-> HTML in code pane ===== */
+  .code-btn{
+    background: transparent;
+    color: var(--bg);
+    border: 1px solid #34302A;
+    padding: 4px 10px;
+    font-family: var(--mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .code-btn:hover{ background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .toggle-wrap .pane-body.view-html{ display: none; }
+  .toggle-wrap.show-html .pane-body.view-css{ display: none; }
+  .toggle-wrap.show-html .pane-body.view-html{ display: block; }
+  .toggle-wrap .lab-html{ display: none; }
+  .toggle-wrap.show-html .lab-css{ display: none; }
+  .toggle-wrap.show-html .lab-html{ display: inline; }
+  .toggle-wrap .lab-show-css{ display: none; }
+  .toggle-wrap.show-html .lab-show-html{ display: none; }
+  .toggle-wrap.show-html .lab-show-css{ display: inline; }
+
+  /* ===== Process steps for the reto (4 steps) ===== */
+  .process{
+    list-style: none; margin: 16px 0 0; padding: 0;
+    counter-reset: step;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 28px;
+  }
+  .process li{
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 16px;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid #34302A;
+  }
+  .process li::before{
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--accent-soft);
+    font-weight: 500;
+  }
+  .process li b{
+    font-family: var(--serif);
+    font-size: 26px;
+    color: var(--bg);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .process li span{
+    font-family: var(--sans);
+    font-size: 19px;
+    color: #C9C2B4;
+    line-height: 1.4;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ============ 01 PORTADA ============ -->
+  <section data-label="01 Portada">
+    <div class="chrome"></div>
+    <div class="meta"><span>Aplicaciones web · SMR</span><span>2026</span></div>
+    <div class="frame cover">
+      <div class="kicker">Aplicaciones web · SMR</div>
+      <h1 class="display">CSS <em>avanzado</em></h1>
+      <p class="sub">Layout, responsive y frameworks.<br>Decirle a la IA <em>dónde</em> va cada cosa.</p>
+      <div class="stamp">
+        <span><b>Duración</b>90 minutos</span>
+        <span><b>Formato</b>Teoría + reto de valor</span>
+        <span><b>Requisito</b>Tema 03 — CSS básico</span>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Desarrollo Web con IA</span><span>Tema 04 · CSS avanzado</span></div>
+  </section>
+
+  <!-- ============ 02 MAPA DE LA ASIGNATURA ============ -->
+  <section data-label="02 Mapa de la asignatura">
+    <div class="chrome"></div>
+    <div class="meta"><span>Aplicaciones web · SMR</span><span>Mapa</span></div>
+    <div class="frame">
+      <p class="eyebrow">8 temas</p>
+      <h1 class="title">Por dónde vamos a <em>pasar</em></h1>
+      <ol class="syllabus">
+        <li>
+          <span class="num">01</span>
+          <span class="name">HTML</span>
+          <span class="desc">La estructura: qué hay y en qué orden.</span>
+          <span class="here">Hecho</span>
+        </li>
+        <li>
+          <span class="num">02</span>
+          <span class="name">Componentes UI</span>
+          <span class="desc">El catálogo del front: navbars, drawers, toasts…</span>
+          <span class="here">Hecho</span>
+        </li>
+        <li>
+          <span class="num">03</span>
+          <span class="name">CSS</span>
+          <span class="desc">Estilos: colores, tipografía, espacios.</span>
+          <span class="here">Hecho</span>
+        </li>
+        <li class="current">
+          <span class="num">04</span>
+          <span class="name">CSS avanzado</span>
+          <span class="desc">Layout: flexbox, grid, responsive y frameworks.</span>
+          <span class="here">Aquí estás hoy</span>
+        </li>
+        <li>
+          <span class="num">05</span>
+          <span class="name">JavaScript</span>
+          <span class="desc">El lenguaje: variables, funciones, lógica.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">06</span>
+          <span class="name">DOM y eventos</span>
+          <span class="desc">JavaScript dentro del navegador.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">07</span>
+          <span class="name">APIs y datos</span>
+          <span class="desc">Fetch, asincronía, conectar con servicios.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">08</span>
+          <span class="name">Despliegue</span>
+          <span class="desc">De tu portátil a una URL pública.</span>
+          <span class="here"></span>
+        </li>
+      </ol>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>02</span></div>
+  </section>
+
+  <!-- ============ 03 FILOSOFÍA ============ -->
+  <section data-label="03 Filosofia">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Filosofía</span></div>
+    <div class="frame quote-slide">
+      <blockquote>
+        El HTML coloca <span class="ac">lo que hay</span>.<br>
+        El CSS reparte <span class="ac">el espacio que sobra</span>.
+      </blockquote>
+      <cite>— La división del trabajo del front · parte 2</cite>
+    </div>
+    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>Filosofía</span></div>
+  </section>
+
+  <!-- ============ 04 ÍNDICE ============ -->
+  <section data-label="04 Indice">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Índice de la sesión</span></div>
+    <div class="frame">
+      <p class="eyebrow">Mapa de la sesión — 90 min · 6 secciones</p>
+      <h1 class="title">Las <em>seis secciones</em> del tema</h1>
+      <div class="index-grid">
+        <div class="index-item"><span class="n">01</span><div class="t">Display y flujo<small>El primer interruptor del layout</small></div></div>
+        <div class="index-item"><span class="n">02</span><div class="t">Flexbox<small>Cuando algo va en una dirección</small></div></div>
+        <div class="index-item"><span class="n">03</span><div class="t">Grid<small>Cuando algo va en dos direcciones</small></div></div>
+        <div class="index-item"><span class="n">04</span><div class="t">Responsive<small>La misma web, todos los tamaños</small></div></div>
+        <div class="index-item"><span class="n">05</span><div class="t">Frameworks<small>Cuando alguien ya lo hizo por ti</small></div></div>
+        <div class="index-item"><span class="n">06</span><div class="t">Aporta valor<small>Hora de decidir, no de implementar</small></div></div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>04</span></div>
+  </section>
+
+  <!-- ============ 05 SECTION BREAK 01 · Display y flujo ============ -->
+  <section data-label="05 Seccion 01 Display y flujo">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 01</span></div>
+    <div class="frame sect">
+      <div class="num">01</div>
+      <h2 class="name">Display y flujo.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>05</span></div>
+  </section>
+
+  <!-- ============ 06 BLOCK / INLINE / INLINE-BLOCK ============ -->
+  <section data-label="06 Block vs inline">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Block / inline</span></div>
+    <div class="frame">
+      <p class="eyebrow">Antes de pensar en layout, entiende el flujo</p>
+      <h1 class="title">Cada elemento es <em>bloque</em> o <em>en línea</em></h1>
+      <div class="display-demo">
+        <div class="dd-cell">
+          <div class="head">
+            <div class="k">display: block</div>
+            <div class="d">Ocupa toda la línea. Rompe abajo y arriba.</div>
+          </div>
+          <div class="canvas">
+            <div class="blk">div, section, article…</div>
+            <div class="blk">h1, h2, p, ul, li…</div>
+            <div class="blk">header, nav, footer…</div>
+          </div>
+        </div>
+        <div class="dd-cell">
+          <div class="head">
+            <div class="k">display: inline</div>
+            <div class="d">Sigue el texto. No acepta width ni height.</div>
+          </div>
+          <div class="canvas">
+            <div class="txt-flow">
+              El precio era <span class="inl">19,90&nbsp;€</span> pero ahora está <span class="inl">a&nbsp;mitad</span> y la verdad es que vale la pena por la calidad.
+            </div>
+          </div>
+        </div>
+        <div class="dd-cell">
+          <div class="head">
+            <div class="k">display: inline-block</div>
+            <div class="d">En línea pero acepta width, height y padding.</div>
+          </div>
+          <div class="canvas">
+            <span class="ib">PEGI 12</span>
+            <span class="ib">−30%</span>
+            <span class="ib">PC</span>
+            <span class="ib">Indie</span>
+            <span class="ib">Acción</span>
+            <span class="ib">Oferta</span>
+          </div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;"><code>display: none</code> lo borra del flujo (deja de ocupar). <code>visibility: hidden</code> lo oculta pero <b>sigue ocupando su sitio</b>.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>06</span></div>
+  </section>
+
+  <!-- ============ 07 DISPLAY EN CÓDIGO ============ -->
+  <section data-label="07 Display en codigo">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>display en código</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cambiar el tipo de caja con una sola propiedad</p>
+      <h1 class="title">Forzar el comportamiento con <em>display</em></h1>
+      <div class="split">
+        <div class="pane code toggle-wrap">
+          <div class="pane-head">
+            <span class="lab-css">style.css</span><span class="lab-html">index.html</span>
+            <button class="code-btn" onclick="event.stopPropagation();this.closest('.toggle-wrap').classList.toggle('show-html')"><span class="lab-show-html">&lt;/&gt; ver HTML</span><span class="lab-show-css">{ } ver CSS</span></button>
+          </div>
+<div class="pane-body view-css"><span class="com">/* un &lt;li&gt; es bloque por defecto */</span>
+<span class="sel">.menu li</span> {
+  <span class="prop">display</span>: <span class="val">inline-block</span>;
+  <span class="prop">padding</span>: <span class="val">10px 16px</span>;
+  <span class="prop">margin-right</span>: <span class="val">8px</span>;
+}
+
+<span class="com">/* ocultar sin borrar el espacio */</span>
+<span class="sel">.aviso.oculto</span> {
+  <span class="prop">visibility</span>: <span class="val">hidden</span>;
+}
+
+<span class="com">/* borrar del flujo entero */</span>
+<span class="sel">.aviso.fuera</span> {
+  <span class="prop">display</span>: <span class="val">none</span>;
+}</div>
+<div class="pane-body view-html" style="font-size: 22px; line-height: 1.55;"><span class="tag-punct">&lt;</span><span class="tag-name">ul</span> <span class="attr-name">class</span>=<span class="attr-val">"menu"</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>Inicio<span class="tag-punct">&lt;/</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>Carta<span class="tag-punct">&lt;/</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>Reservas<span class="tag-punct">&lt;/</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>Contacto<span class="tag-punct">&lt;/</span><span class="tag-name">li</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;/</span><span class="tag-name">ul</span><span class="tag-punct">&gt;</span>
+
+<span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"aviso"</span><span class="tag-punct">&gt;</span>Aviso visible<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"aviso oculto"</span><span class="tag-punct">&gt;</span>Aviso oculto<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"aviso"</span><span class="tag-punct">&gt;</span>Aviso visible<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span></div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body">
+            <div class="render-body">
+              <p style="margin: 0 0 18px; font-size: 18px; color:#8A8278; text-transform: uppercase; letter-spacing: .08em; font-family: 'IBM Plex Mono', monospace;">Menú con &lt;li&gt; en línea</p>
+              <ul style="list-style: none; padding: 0; margin: 0 0 28px;">
+                <li style="display: inline-block; padding: 10px 16px; background:#F2EEE5; border:1px solid #D4CFC2; margin-right: 8px; font-size: 22px;">Inicio</li>
+                <li style="display: inline-block; padding: 10px 16px; background:#F2EEE5; border:1px solid #D4CFC2; margin-right: 8px; font-size: 22px;">Carta</li>
+                <li style="display: inline-block; padding: 10px 16px; background:#F2EEE5; border:1px solid #D4CFC2; margin-right: 8px; font-size: 22px;">Reservas</li>
+                <li style="display: inline-block; padding: 10px 16px; background:#F2EEE5; border:1px solid #D4CFC2; font-size: 22px;">Contacto</li>
+              </ul>
+              <p style="margin: 0 0 8px; font-size: 18px; color:#8A8278; text-transform: uppercase; letter-spacing: .08em; font-family: 'IBM Plex Mono', monospace;">Tres avisos · uno oculto</p>
+              <div style="padding: 12px 16px; background:#C84A1F; color:#F2EEE5; margin-bottom: 6px; font-size: 22px;">Aviso visible</div>
+              <div style="padding: 12px 16px; background:#C84A1F; color:#F2EEE5; visibility: hidden; margin-bottom: 6px; font-size: 22px;">Aviso visibility:hidden</div>
+              <div style="padding: 12px 16px; background:#C84A1F; color:#F2EEE5; font-size: 22px;">Aviso visible</div>
+              <p style="margin: 10px 0 0; font-size: 18px; color:#8A8278;">↑ El hueco entre los dos rojos es el aviso oculto</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>07</span></div>
+  </section>
+
+  <!-- ============ 08 SECTION BREAK 02 · Flexbox ============ -->
+  <section data-label="08 Seccion 02 Flexbox">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 02</span></div>
+    <div class="frame sect">
+      <div class="num">02</div>
+      <h2 class="name">Flexbox.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>08</span></div>
+  </section>
+
+  <!-- ============ 09 ¿QUÉ ES FLEXBOX? ============ -->
+  <section data-label="09 Que es flexbox">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Flexbox · concepto</span></div>
+    <div class="frame">
+      <p class="eyebrow">Una sola propiedad cambia toda la regla del juego</p>
+      <h1 class="title"><em>Un padre decide.</em> Sus hijos obedecen.</h1>
+      <div class="flex-demo-wrap">
+        <div class="flex-demo">
+          <span class="lab-parent">.contenedor { display: flex }</span>
+          <div class="fd-item">1</div>
+          <div class="fd-item alt">2</div>
+          <div class="fd-item">3</div>
+          <div class="fd-item alt">4</div>
+          <span class="axis-main">eje principal &nbsp;·&nbsp; main axis</span>
+          <span class="axis-cross">eje cruzado &nbsp;·&nbsp; cross axis</span>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 78px; margin-bottom: 0;">Pones <code>display: flex</code> en el <b>padre</b> y los hijos se alinean en una fila. Todo lo demás de flexbox son <em>matices</em> sobre esos dos ejes: el principal (donde fluyen los hijos) y el cruzado (perpendicular).</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>09</span></div>
+  </section>
+
+  <!-- ============ 10 FLEX-DIRECTION ============ -->
+  <section data-label="10 flex-direction">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>flex-direction</span></div>
+    <div class="frame">
+      <p class="eyebrow">¿Hacia dónde fluye el eje principal?</p>
+      <h1 class="title"><em>flex-direction</em>: fila o columna</h1>
+      <div class="flex-direction-row">
+        <div class="fd-cell dir-row">
+          <div class="head"><span class="ac">row</span> &nbsp;(por defecto)</div>
+          <div class="box">
+            <div class="it">1</div>
+            <div class="it alt">2</div>
+            <div class="it">3</div>
+          </div>
+        </div>
+        <div class="fd-cell dir-row-r">
+          <div class="head"><span class="ac">row-reverse</span></div>
+          <div class="box">
+            <div class="it">1</div>
+            <div class="it alt">2</div>
+            <div class="it">3</div>
+          </div>
+        </div>
+        <div class="fd-cell dir-col">
+          <div class="head"><span class="ac">column</span></div>
+          <div class="box">
+            <div class="it">1</div>
+            <div class="it alt">2</div>
+            <div class="it">3</div>
+          </div>
+        </div>
+        <div class="fd-cell dir-col-r">
+          <div class="head"><span class="ac">column-reverse</span></div>
+          <div class="box">
+            <div class="it">1</div>
+            <div class="it alt">2</div>
+            <div class="it">3</div>
+          </div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 28px; margin-bottom: 0;"><code>row</code> es lo normal: izquierda a derecha. <code>column</code> apila de arriba a abajo, muy útil para que el móvil <em>reorganice</em> lo que en desktop iba en fila.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>10</span></div>
+  </section>
+
+  <!-- ============ 11 JUSTIFY-CONTENT ============ -->
+  <section data-label="11 justify-content">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>justify-content</span></div>
+    <div class="frame">
+      <p class="eyebrow">Repartir el espacio sobrante en el eje principal</p>
+      <h1 class="title"><em>justify-content</em>: dónde van los hijos</h1>
+      <div class="flex-options">
+        <div class="fo-cell jc-start">
+          <div class="head"><span class="ac">flex-start</span></div>
+          <div class="box"><span class="item"></span><span class="item alt"></span><span class="item"></span></div>
+        </div>
+        <div class="fo-cell jc-center">
+          <div class="head"><span class="ac">center</span></div>
+          <div class="box"><span class="item"></span><span class="item alt"></span><span class="item"></span></div>
+        </div>
+        <div class="fo-cell jc-end">
+          <div class="head"><span class="ac">flex-end</span></div>
+          <div class="box"><span class="item"></span><span class="item alt"></span><span class="item"></span></div>
+        </div>
+        <div class="fo-cell jc-between">
+          <div class="head"><span class="ac">space-between</span></div>
+          <div class="box"><span class="item"></span><span class="item alt"></span><span class="item"></span></div>
+        </div>
+        <div class="fo-cell jc-around">
+          <div class="head"><span class="ac">space-around</span></div>
+          <div class="box"><span class="item"></span><span class="item alt"></span><span class="item"></span></div>
+        </div>
+        <div class="fo-cell jc-evenly">
+          <div class="head"><span class="ac">space-evenly</span></div>
+          <div class="box"><span class="item"></span><span class="item alt"></span><span class="item"></span></div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;"><b>space-between</b> es el caballo de batalla: logo a la izquierda, botones a la derecha, y el navegador reparte. Sin <code>margin-left: auto</code>, sin hacks.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>11</span></div>
+  </section>
+
+  <!-- ============ 12 ALIGN-ITEMS ============ -->
+  <section data-label="12 align-items">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>align-items</span></div>
+    <div class="frame">
+      <p class="eyebrow">Lo mismo pero en el eje cruzado</p>
+      <h1 class="title"><em>align-items</em>: arriba, centro, abajo</h1>
+      <div class="flex-options" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="fo-cell ai-stretch">
+          <div class="head"><span class="ac">stretch</span> &nbsp;(default)</div>
+          <div class="box" style="min-height: 130px;">
+            <span class="item"></span><span class="item alt"></span><span class="item"></span>
+          </div>
+        </div>
+        <div class="fo-cell ai-start">
+          <div class="head"><span class="ac">flex-start</span></div>
+          <div class="box" style="min-height: 130px;">
+            <span class="item tall"></span><span class="item alt"></span><span class="item short"></span>
+          </div>
+        </div>
+        <div class="fo-cell ai-center">
+          <div class="head"><span class="ac">center</span></div>
+          <div class="box" style="min-height: 130px;">
+            <span class="item tall"></span><span class="item alt"></span><span class="item short"></span>
+          </div>
+        </div>
+        <div class="fo-cell ai-end">
+          <div class="head"><span class="ac">flex-end</span></div>
+          <div class="box" style="min-height: 130px;">
+            <span class="item tall"></span><span class="item alt"></span><span class="item short"></span>
+          </div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;">El truco más usado del front: <code>display: flex; justify-content: center; align-items: center;</code> centra cualquier hijo dentro de su padre. Adiós a las pesadillas del CSS pre-2015.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>12</span></div>
+  </section>
+
+  <!-- ============ 13 FLEX-GROW / SHRINK / BASIS ============ -->
+  <section data-label="13 flex-grow shrink basis">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Tamaño de los hijos</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cómo se reparte el espacio entre los hijos</p>
+      <h1 class="title"><em>grow</em>, <em>shrink</em> y <em>basis</em></h1>
+      <div class="split">
+        <div class="pane code toggle-wrap">
+          <div class="pane-head">
+            <span class="lab-css">style.css</span><span class="lab-html">index.html</span>
+            <button class="code-btn" onclick="event.stopPropagation();this.closest('.toggle-wrap').classList.toggle('show-html')"><span class="lab-show-html">&lt;/&gt; ver HTML</span><span class="lab-show-css">{ } ver CSS</span></button>
+          </div>
+<div class="pane-body view-css" style="font-size: 22px; line-height: 1.55;"><span class="sel">.contenedor</span> { <span class="prop">display</span>: <span class="val">flex</span>; <span class="prop">gap</span>: <span class="val">12px</span>; }
+
+<span class="com">/* básico: todos iguales */</span>
+<span class="sel">.contenedor &gt; *</span> {
+  <span class="prop">flex</span>: <span class="val">1</span>;  <span class="com">/* atajo: grow=1, shrink=1, basis=0 */</span>
+}
+
+<span class="com">/* el del medio ocupa el doble */</span>
+<span class="sel">.contenedor &gt; .destacado</span> {
+  <span class="prop">flex</span>: <span class="val">2</span>;
+}
+
+<span class="com">/* sidebar fija; main flexible */</span>
+<span class="sel">.sidebar</span> { <span class="prop">flex</span>: <span class="val">0 0 240px</span>; }
+<span class="sel">.main</span>    { <span class="prop">flex</span>: <span class="val">1</span>; }</div>
+<div class="pane-body view-html" style="font-size: 22px; line-height: 1.55;"><span class="com">&lt;!-- los tres ejemplos del render --&gt;</span>
+
+<span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"contenedor"</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>1fr<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>1fr<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>1fr<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+
+<span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"contenedor"</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>1<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"destacado"</span><span class="tag-punct">&gt;</span>2 (doble)<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>1<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+
+<span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"contenedor"</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">aside</span> <span class="attr-name">class</span>=<span class="attr-val">"sidebar"</span><span class="tag-punct">&gt;</span>130px<span class="tag-punct">&lt;/</span><span class="tag-name">aside</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">main</span> <span class="attr-name">class</span>=<span class="attr-val">"main"</span><span class="tag-punct">&gt;</span>main · todo el resto<span class="tag-punct">&lt;/</span><span class="tag-name">main</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span></div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body" style="background:#ffffff; display: flex; flex-direction: column; gap: 22px; justify-content: center;">
+            <div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 16px; color:#8A8278; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .08em;">flex: 1 a todos</div>
+              <div style="display:flex; gap: 8px;">
+                <div style="flex:1; background:#C84A1F; color:#F2EEE5; padding: 22px; text-align:center; font-family:'IBM Plex Mono', monospace; font-size: 18px;">1fr</div>
+                <div style="flex:1; background:#1A1814; color:#F2EEE5; padding: 22px; text-align:center; font-family:'IBM Plex Mono', monospace; font-size: 18px;">1fr</div>
+                <div style="flex:1; background:#C84A1F; color:#F2EEE5; padding: 22px; text-align:center; font-family:'IBM Plex Mono', monospace; font-size: 18px;">1fr</div>
+              </div>
+            </div>
+            <div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 16px; color:#8A8278; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .08em;">el del medio flex: 2</div>
+              <div style="display:flex; gap: 8px;">
+                <div style="flex:1; background:#C84A1F; color:#F2EEE5; padding: 22px; text-align:center; font-family:'IBM Plex Mono', monospace; font-size: 18px;">1</div>
+                <div style="flex:2; background:#1A1814; color:#F2EEE5; padding: 22px; text-align:center; font-family:'IBM Plex Mono', monospace; font-size: 18px;">2 (doble)</div>
+                <div style="flex:1; background:#C84A1F; color:#F2EEE5; padding: 22px; text-align:center; font-family:'IBM Plex Mono', monospace; font-size: 18px;">1</div>
+              </div>
+            </div>
+            <div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 16px; color:#8A8278; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .08em;">sidebar fija + main flexible</div>
+              <div style="display:flex; gap: 8px;">
+                <div style="flex: 0 0 130px; background:#1A1814; color:#F2EEE5; padding: 22px; text-align:center; font-family:'IBM Plex Mono', monospace; font-size: 18px;">130px</div>
+                <div style="flex:1; background:#C84A1F; color:#F2EEE5; padding: 22px; text-align:center; font-family:'IBM Plex Mono', monospace; font-size: 18px;">main · todo el resto</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>13</span></div>
+  </section>
+
+  <!-- ============ 14 CASO REAL · NAVBAR ============ -->
+  <section data-label="14 Caso real navbar">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Caso real · navbar</span></div>
+    <div class="frame">
+      <p class="eyebrow">El componente más típico de la web</p>
+      <h1 class="title">Una navbar <em>completa</em> en 5 líneas</h1>
+      <div class="split">
+        <div class="pane code toggle-wrap">
+          <div class="pane-head">
+            <span class="lab-css">style.css</span><span class="lab-html">index.html</span>
+            <button class="code-btn" onclick="event.stopPropagation();this.closest('.toggle-wrap').classList.toggle('show-html')"><span class="lab-show-html">&lt;/&gt; ver HTML</span><span class="lab-show-css">{ } ver CSS</span></button>
+          </div>
+<div class="pane-body view-css"><span class="sel">.navbar</span> {
+  <span class="prop">display</span>: <span class="val">flex</span>;
+  <span class="prop">align-items</span>: <span class="val">center</span>;
+  <span class="prop">justify-content</span>: <span class="val">space-between</span>;
+  <span class="prop">padding</span>: <span class="val">16px 28px</span>;
+  <span class="prop">background</span>: <span class="val">#1A1814</span>;
+}
+
+<span class="sel">.navbar .links</span> {
+  <span class="prop">display</span>: <span class="val">flex</span>;
+  <span class="prop">gap</span>: <span class="val">32px</span>;
+}</div>
+<div class="pane-body view-html" style="font-size: 22px; line-height: 1.55;"><span class="tag-punct">&lt;</span><span class="tag-name">nav</span> <span class="attr-name">class</span>=<span class="attr-val">"navbar"</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"logo"</span><span class="tag-punct">&gt;</span>Tomorrowland<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+
+  <span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"links"</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">a</span> <span class="attr-name">href</span>=<span class="attr-val">"#lineup"</span><span class="tag-punct">&gt;</span>Lineup<span class="tag-punct">&lt;/</span><span class="tag-name">a</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">a</span> <span class="attr-name">href</span>=<span class="attr-val">"#tickets"</span><span class="tag-punct">&gt;</span>Tickets<span class="tag-punct">&lt;/</span><span class="tag-name">a</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">a</span> <span class="attr-name">href</span>=<span class="attr-val">"#travel"</span><span class="tag-punct">&gt;</span>Travel<span class="tag-punct">&lt;/</span><span class="tag-name">a</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+
+  <span class="tag-punct">&lt;</span><span class="tag-name">a</span> <span class="attr-name">class</span>=<span class="attr-val">"cta"</span> <span class="attr-name">href</span>=<span class="attr-val">"#buy"</span><span class="tag-punct">&gt;</span>Buy now<span class="tag-punct">&lt;/</span><span class="tag-name">a</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;/</span><span class="tag-name">nav</span><span class="tag-punct">&gt;</span>
+
+<span class="com">/* tres hijos: logo, links y CTA.
+   space-between los manda a los extremos
+   y el centro se queda con los enlaces.
+   No hay margin-left: auto ni hacks. */</span></div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body" style="background:#ffffff; display: flex; flex-direction: column; gap: 32px; justify-content: center;">
+            <div class="navbar-demo">
+              <div class="logo">Tomorrowland</div>
+              <div class="links"><span>Lineup</span><span>Tickets</span><span>Travel</span></div>
+              <div class="cta">Buy now</div>
+            </div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 16px; color:#8A8278; text-align: center;">
+              Logo · enlaces · CTA, repartidos solos.<br>
+              Y crece/encoge sin tocar nada.
+            </div>
+            <div class="navbar-demo" style="padding: 12px 18px;">
+              <div class="logo" style="font-size: 22px;">Tomorrowland</div>
+              <div class="links" style="gap: 18px; font-size: 14px;"><span>Lineup</span><span>Tickets</span></div>
+              <div class="cta" style="padding: 6px 12px; font-size: 13px;">Buy now</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>14</span></div>
+  </section>
+
+  <!-- ============ 15 SECTION BREAK 03 · Grid ============ -->
+  <section data-label="15 Seccion 03 Grid">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 03</span></div>
+    <div class="frame sect">
+      <div class="num">03</div>
+      <h2 class="name">Grid.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>15</span></div>
+  </section>
+
+  <!-- ============ 16 FLEX VS GRID ============ -->
+  <section data-label="16 Flex vs Grid">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Flex vs Grid</span></div>
+    <div class="frame">
+      <p class="eyebrow">Las dos herramientas modernas de layout — no compiten, se complementan</p>
+      <h1 class="title">Flex o Grid: <em>¿1D o 2D?</em></h1>
+      <div class="two-col">
+        <div class="col">
+          <h3>Flexbox</h3>
+          <p style="margin-bottom: 24px;">Una dimensión: <em>una fila</em> o <em>una columna</em>.</p>
+          <p style="font-family: var(--sans); font-size: 24px; color: var(--ink-2); margin-bottom: 16px;"><b>Lo bueno en:</b></p>
+          <ul style="font-family: var(--sans); font-size: 22px; color: var(--ink-2); line-height: 1.5; padding-left: 24px; margin: 0;">
+            <li>Navbars y barras</li>
+            <li>Listas alineadas</li>
+            <li>Botones agrupados</li>
+            <li>Tarjetas que se ponen una al lado de otra</li>
+            <li>Centrar cualquier cosa</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3>Grid</h3>
+          <p style="margin-bottom: 24px;">Dos dimensiones: <em>filas Y columnas</em> a la vez.</p>
+          <p style="font-family: var(--sans); font-size: 24px; color: var(--ink-2); margin-bottom: 16px;"><b>Lo bueno en:</b></p>
+          <ul style="font-family: var(--sans); font-size: 22px; color: var(--ink-2); line-height: 1.5; padding-left: 24px; margin: 0;">
+            <li>Layout completo de página</li>
+            <li>Galerías de imágenes</li>
+            <li>Dashboards con widgets</li>
+            <li>Tablas visuales</li>
+            <li>Composiciones asimétricas (estilo Mondrian)</li>
+          </ul>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 28px; margin-top: 48px;">En una web real conviven: <b>Grid</b> reparte la página entera, <b>Flex</b> alinea cosas dentro de cada cajón.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>16</span></div>
+  </section>
+
+  <!-- ============ 17 GRID SIZING ============ -->
+  <section data-label="17 Grid sizing">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Grid · sizing</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cómo le decimos a grid qué columnas queremos</p>
+      <h1 class="title"><em>px, fr, repeat, minmax</em> — el vocabulario clave</h1>
+      <div class="grid-sizing">
+        <div class="gs-row r-px">
+          <div class="gs-label"><span class="ac">grid-template-columns: 120px 120px 120px</span></div>
+          <div class="gs-tracks">
+            <div class="t">120px</div><div class="t alt">120px</div><div class="t">120px</div>
+          </div>
+        </div>
+        <div class="gs-row r-fr">
+          <div class="gs-label"><span class="ac">grid-template-columns: 1fr 1fr 1fr</span></div>
+          <div class="gs-tracks">
+            <div class="t">1fr</div><div class="t alt">1fr</div><div class="t">1fr</div>
+          </div>
+        </div>
+        <div class="gs-row r-mix">
+          <div class="gs-label"><span class="ac">200px 1fr 1fr</span> &nbsp;(sidebar + main)</div>
+          <div class="gs-tracks">
+            <div class="t alt">200px</div><div class="t">1fr</div><div class="t">1fr</div>
+          </div>
+        </div>
+        <div class="gs-row r-repeat">
+          <div class="gs-label"><span class="ac">repeat(6, 1fr)</span> &nbsp;(galería)</div>
+          <div class="gs-tracks">
+            <div class="t">1</div><div class="t alt">2</div><div class="t">3</div><div class="t">4</div><div class="t alt">5</div><div class="t">6</div>
+          </div>
+        </div>
+        <div class="gs-row r-minmax">
+          <div class="gs-label"><span class="ac">repeat(3, minmax(80px, 1fr))</span> &nbsp;(no se hace muy pequeño)</div>
+          <div class="gs-tracks">
+            <div class="t">min 80</div><div class="t alt">min 80</div><div class="t">min 80</div>
+          </div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;"><b>fr</b> es la unidad estrella: "una fracción del espacio sobrante". Pides "tres iguales" con <code>1fr 1fr 1fr</code>, sin matemáticas, sin porcentajes.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>17</span></div>
+  </section>
+
+  <!-- ============ 18 GRID PLACEMENT ============ -->
+  <section data-label="18 Grid placement">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Grid · placement</span></div>
+    <div class="frame">
+      <p class="eyebrow">Colocar cada hijo donde queremos</p>
+      <h1 class="title"><em>grid-column</em> y <em>grid-row</em>: ocupar varias celdas</h1>
+      <div class="grid-board-wrap">
+        <div class="grid-board">
+          <div class="g-cell area-hero">hero (2×2)</div>
+          <div class="g-cell alt">3</div>
+          <div class="g-cell">4</div>
+          <div class="g-cell">5</div>
+          <div class="g-cell span-2c alt">6 &nbsp;(span 2)</div>
+          <div class="g-cell">7</div>
+          <div class="g-cell">8</div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 28px; margin-bottom: 0;">El "hero" ocupa <code>grid-column: 1 / 3</code> y <code>grid-row: 1 / 3</code> (de la línea 1 a la 3). El bloque "6" hace <code>grid-column: span 2</code>. Con esto y <code>grid-area</code> montas cualquier layout de revista sin pelearte con position absolute.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>18</span></div>
+  </section>
+
+  <!-- ============ 19 CASO REAL · GALERÍA ============ -->
+  <section data-label="19 Caso real galeria">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Caso real · galería</span></div>
+    <div class="frame">
+      <p class="eyebrow">Una galería asimétrica imposible con flex</p>
+      <h1 class="title">Composición tipo <em>Mondrian</em> con grid</h1>
+      <div class="split">
+        <div class="pane code toggle-wrap">
+          <div class="pane-head">
+            <span class="lab-css">style.css</span><span class="lab-html">index.html</span>
+            <button class="code-btn" onclick="event.stopPropagation();this.closest('.toggle-wrap').classList.toggle('show-html')"><span class="lab-show-html">&lt;/&gt; ver HTML</span><span class="lab-show-css">{ } ver CSS</span></button>
+          </div>
+<div class="pane-body view-css" style="font-size: 22px; line-height: 1.55;"><span class="sel">.galeria</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="val">repeat(4, 1fr)</span>;
+  <span class="prop">grid-template-rows</span>: <span class="val">repeat(3, 100px)</span>;
+  <span class="prop">gap</span>: <span class="val">6px</span>;
+}
+
+<span class="com">/* el primero ocupa 2×2, abajo a la izquierda */</span>
+<span class="sel">.galeria .destacada</span> {
+  <span class="prop">grid-column</span>: <span class="val">1 / 3</span>;
+  <span class="prop">grid-row</span>: <span class="val">1 / 3</span>;
+}
+
+<span class="sel">.galeria .ancha</span> {
+  <span class="prop">grid-column</span>: <span class="val">3 / 5</span>;
+}
+
+<span class="sel">.galeria .larga</span> {
+  <span class="prop">grid-column</span>: <span class="val">1 / 3</span>;
+  <span class="prop">grid-row</span>: <span class="val">3 / 4</span>;
+}</div>
+<div class="pane-body view-html" style="font-size: 22px; line-height: 1.55;"><span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"galeria"</span><span class="tag-punct">&gt;</span>
+
+  <span class="com">&lt;!-- 2×2, arriba-izquierda --&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">img</span> <span class="attr-name">class</span>=<span class="attr-val">"destacada"</span> <span class="attr-name">src</span>=<span class="attr-val">"hero.jpg"</span><span class="tag-punct">&gt;</span>
+
+  <span class="com">&lt;!-- ocupa 2 columnas arriba-derecha --&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">img</span> <span class="attr-name">class</span>=<span class="attr-val">"ancha"</span> <span class="attr-name">src</span>=<span class="attr-val">"02.jpg"</span><span class="tag-punct">&gt;</span>
+
+  <span class="com">&lt;!-- estos 2 los coloca grid solo --&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">img</span> <span class="attr-name">src</span>=<span class="attr-val">"03.jpg"</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">img</span> <span class="attr-name">src</span>=<span class="attr-val">"04.jpg"</span><span class="tag-punct">&gt;</span>
+
+  <span class="com">&lt;!-- 2 columnas en la fila 3 --&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">img</span> <span class="attr-name">class</span>=<span class="attr-val">"larga"</span> <span class="attr-name">src</span>=<span class="attr-val">"05.jpg"</span><span class="tag-punct">&gt;</span>
+
+  <span class="com">&lt;!-- y dos más al final --&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">img</span> <span class="attr-name">src</span>=<span class="attr-val">"06.jpg"</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">img</span> <span class="attr-name">src</span>=<span class="attr-val">"07.jpg"</span><span class="tag-punct">&gt;</span>
+
+<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span></div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body" style="background:#ffffff; display: flex; flex-direction: column; gap: 18px; justify-content: center;">
+            <div class="gallery-demo">
+              <div class="gi"></div>
+              <div class="gi"></div>
+              <div class="gi"></div>
+              <div class="gi"></div>
+              <div class="gi"></div>
+              <div class="gi"></div>
+              <div class="gi"></div>
+            </div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 16px; color:#8A8278; text-align: center;">
+              4 columnas, 3 filas, 7 imágenes.<br>
+              Una destacada 2×2, una ancha, una larga.<br>
+              Y Grid coloca el resto.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>19</span></div>
+  </section>
+
+  <!-- ============ 20 SECTION BREAK 04 · Responsive ============ -->
+  <section data-label="20 Seccion 04 Responsive">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 04</span></div>
+    <div class="frame sect">
+      <div class="num">04</div>
+      <h2 class="name">Responsive.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>20</span></div>
+  </section>
+
+  <!-- ============ 21 ¿QUÉ ES RESPONSIVE? ============ -->
+  <section data-label="21 Que es responsive">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Responsive · concepto</span></div>
+    <div class="frame">
+      <p class="eyebrow">El 60% del tráfico web entra desde móvil</p>
+      <h1 class="title">Una sola web, <em>tres tamaños</em></h1>
+      <div class="viewport-row">
+        <div class="vp-device mobile">
+          <div class="vp-label">mobile · 375</div>
+          <div class="vp-screen">
+            <div class="vp-mobile-content">
+              <div class="nav"></div>
+              <div class="hero"></div>
+              <div class="card"></div>
+            </div>
+          </div>
+        </div>
+        <div class="vp-device tablet">
+          <div class="vp-label">tablet · 768</div>
+          <div class="vp-screen">
+            <div class="vp-tablet-content">
+              <div class="nav"></div>
+              <div class="hero"></div>
+              <div class="grid">
+                <div class="card"></div>
+                <div class="card"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="vp-device desktop">
+          <div class="vp-label">desktop · 1280</div>
+          <div class="vp-screen">
+            <div class="vp-desktop-content">
+              <div class="nav"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <div class="hero"></div>
+              <div class="grid">
+                <div class="card"></div>
+                <div class="card"></div>
+                <div class="card"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 28px; margin-bottom: 0;">No es <em>encoger</em> el desktop. Es <em>reorganizar</em>: en móvil las tarjetas se apilan, en tablet van de dos en dos, en desktop de tres en tres. El navegador no decide eso solo — tú le das las reglas.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>21</span></div>
+  </section>
+
+  <!-- ============ 22 MOBILE FIRST ============ -->
+  <section data-label="22 Mobile first">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Mobile first</span></div>
+    <div class="frame quote-slide">
+      <blockquote>
+        Diseña primero para el <span class="ac">sitio más restringido</span>.<br>
+        Lo demás es <span class="ac">añadir</span>, no quitar.
+      </blockquote>
+      <cite>— Mobile first · regla práctica desde 2010</cite>
+    </div>
+    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>22</span></div>
+  </section>
+
+  <!-- ============ 23 MEDIA QUERIES ============ -->
+  <section data-label="23 Media queries">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Media queries</span></div>
+    <div class="frame">
+      <p class="eyebrow">La sintaxis que hace que el CSS cambie según el ancho</p>
+      <h1 class="title"><em>@media</em> y los breakpoints</h1>
+      <div class="usecases">
+        <div class="usecase-row">
+          <div class="tag">min-width: 640px</div>
+          <div class="what">Estos estilos se aplican cuando la ventana mide 640px o más.</div>
+          <div class="where">Móvil grande. A partir de aquí, ya hay espacio para dos columnas.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">min-width: 768px</div>
+          <div class="what">Tablet en vertical.</div>
+          <div class="where">Aparece la navbar completa, las cards en grid de 2.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">min-width: 1024px</div>
+          <div class="what">Tablet en horizontal o laptop pequeño.</div>
+          <div class="where">Grid de 3 columnas, sidebar visible.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">min-width: 1280px</div>
+          <div class="what">Desktop estándar.</div>
+          <div class="where">Layout completo, espacios generosos.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">max-width: 640px</div>
+          <div class="what">Solo móvil pequeño (al revés).</div>
+          <div class="where">Útil para esconder cosas que sólo molestan en pantallas mini.</div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 28px; margin-bottom: 0;">No memorices los números. La regla: empieza pequeño y abre cuando el diseño <em>empiece a verse mal</em>. Eso es el breakpoint.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>23</span></div>
+  </section>
+
+  <!-- ============ 24 REFLOW CON @MEDIA ============ -->
+  <section data-label="24 Reflow media">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Reflow con @media</span></div>
+    <div class="frame">
+      <p class="eyebrow">El mismo HTML, dos comportamientos</p>
+      <h1 class="title">Una <em>media query</em> y todo se reorganiza</h1>
+      <div class="split">
+        <div class="pane code toggle-wrap">
+          <div class="pane-head">
+            <span class="lab-css">style.css</span><span class="lab-html">index.html</span>
+            <button class="code-btn" onclick="event.stopPropagation();this.closest('.toggle-wrap').classList.toggle('show-html')"><span class="lab-show-html">&lt;/&gt; ver HTML</span><span class="lab-show-css">{ } ver CSS</span></button>
+          </div>
+<div class="pane-body view-css" style="font-size: 22px; line-height: 1.55;"><span class="com">/* mobile first: 1 columna por defecto */</span>
+<span class="sel">.cards</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="val">1fr</span>;
+  <span class="prop">gap</span>: <span class="val">12px</span>;
+}
+
+<span class="com">/* tablet: 2 columnas */</span>
+<span class="sel">@media</span> (<span class="prop">min-width</span>: <span class="val">768px</span>) {
+  <span class="sel">.cards</span> {
+    <span class="prop">grid-template-columns</span>: <span class="val">1fr 1fr</span>;
+  }
+}
+
+<span class="com">/* desktop: 3 columnas */</span>
+<span class="sel">@media</span> (<span class="prop">min-width</span>: <span class="val">1024px</span>) {
+  <span class="sel">.cards</span> {
+    <span class="prop">grid-template-columns</span>: <span class="val">repeat(3, 1fr)</span>;
+  }
+}</div>
+<div class="pane-body view-html" style="font-size: 22px; line-height: 1.55;"><span class="com">&lt;!-- el HTML es el mismo en los 3 tamaños --&gt;</span>
+
+<span class="tag-punct">&lt;</span><span class="tag-name">section</span> <span class="attr-name">class</span>=<span class="attr-val">"cards"</span><span class="tag-punct">&gt;</span>
+
+  <span class="tag-punct">&lt;</span><span class="tag-name">article</span> <span class="attr-name">class</span>=<span class="attr-val">"card"</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">h3</span><span class="tag-punct">&gt;</span>Weekend 1<span class="tag-punct">&lt;/</span><span class="tag-name">h3</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>17–19 julio · sold out<span class="tag-punct">&lt;/</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;/</span><span class="tag-name">article</span><span class="tag-punct">&gt;</span>
+
+  <span class="tag-punct">&lt;</span><span class="tag-name">article</span> <span class="attr-name">class</span>=<span class="attr-val">"card"</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">h3</span><span class="tag-punct">&gt;</span>Weekend 2<span class="tag-punct">&lt;/</span><span class="tag-name">h3</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>24–26 julio · disponible<span class="tag-punct">&lt;/</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;/</span><span class="tag-name">article</span><span class="tag-punct">&gt;</span>
+
+  <span class="tag-punct">&lt;</span><span class="tag-name">article</span> <span class="attr-name">class</span>=<span class="attr-val">"card"</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">h3</span><span class="tag-punct">&gt;</span>Global Journey<span class="tag-punct">&lt;/</span><span class="tag-name">h3</span><span class="tag-punct">&gt;</span>
+    <span class="tag-punct">&lt;</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>Vuelo + Dreamville<span class="tag-punct">&lt;/</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;/</span><span class="tag-name">article</span><span class="tag-punct">&gt;</span>
+
+<span class="tag-punct">&lt;/</span><span class="tag-name">section</span><span class="tag-punct">&gt;</span></div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body" style="background:#ffffff; display: flex; flex-direction: column; gap: 24px; justify-content: center;">
+            <div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:#8A8278; margin-bottom:6px; text-transform:uppercase; letter-spacing:.08em;">Mobile · 375</div>
+              <div style="display:grid; grid-template-columns: 1fr; gap: 8px; max-width: 200px;">
+                <div style="background:#F2EEE5; border:1px solid #D4CFC2; height: 38px; border-radius: 3px;"></div>
+                <div style="background:#F2EEE5; border:1px solid #D4CFC2; height: 38px; border-radius: 3px;"></div>
+                <div style="background:#F2EEE5; border:1px solid #D4CFC2; height: 38px; border-radius: 3px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:#8A8278; margin-bottom:6px; text-transform:uppercase; letter-spacing:.08em;">Tablet · 768</div>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 380px;">
+                <div style="background:#F2EEE5; border:1px solid #D4CFC2; height: 50px; border-radius: 3px;"></div>
+                <div style="background:#F2EEE5; border:1px solid #D4CFC2; height: 50px; border-radius: 3px;"></div>
+                <div style="background:#F2EEE5; border:1px solid #D4CFC2; height: 50px; border-radius: 3px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:#8A8278; margin-bottom:6px; text-transform:uppercase; letter-spacing:.08em;">Desktop · 1024+</div>
+              <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                <div style="background:#F2EEE5; border:1px solid #D4CFC2; height: 70px; border-radius: 3px;"></div>
+                <div style="background:#F2EEE5; border:1px solid #D4CFC2; height: 70px; border-radius: 3px;"></div>
+                <div style="background:#F2EEE5; border:1px solid #D4CFC2; height: 70px; border-radius: 3px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>24</span></div>
+  </section>
+
+  <!-- ============ 25 SECTION BREAK 05 · Frameworks ============ -->
+  <section data-label="25 Seccion 05 Frameworks" class="dark">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 05</span></div>
+    <div class="frame sect">
+      <div class="num" style="color: var(--accent-soft);">05</div>
+      <h2 class="name" style="color: var(--bg);">Frameworks de CSS.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>25</span></div>
+  </section>
+
+  <!-- ============ 26 ¿QUÉ ES UN FRAMEWORK? ============ -->
+  <section data-label="26 Que es un framework">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Framework · concepto</span></div>
+    <div class="frame">
+      <p class="eyebrow">Una caja de herramientas que ya viene montada</p>
+      <h1 class="title">Un framework es <em>CSS hecho</em> que tú reutilizas</h1>
+      <div class="two-col">
+        <div class="col">
+          <h3>Sin framework</h3>
+          <p>Tú escribes todo el CSS desde cero: colores, espacios, botones, tarjetas, grid, breakpoints… Toma su tiempo, pero el resultado es 100% tuyo.</p>
+          <p style="margin-top: 28px; font-family: var(--sans); font-size: 24px; color: var(--ink-2);">Como cocinar partiendo de la harina.</p>
+        </div>
+        <div class="col">
+          <h3>Con framework</h3>
+          <p>Alguien ya escribió un sistema completo de clases (<code>.btn</code>, <code>.row</code>, <code>.col-6</code>…). Tú solo las usas. Tu HTML se llena de clases, pero el CSS lo aporta el framework.</p>
+          <p style="margin-top: 28px; font-family: var(--sans); font-size: 24px; color: var(--ink-2);">Como cocinar partiendo de masa madre.</p>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 28px; margin-top: 48px;">Ni uno ni otro es "mejor". Cada uno sirve para una situación. Veamos las tres familias más usadas.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>26</span></div>
+  </section>
+
+  <!-- ============ 27 TRES FAMILIAS ============ -->
+  <section data-label="27 Tres frameworks">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Bootstrap · Tailwind · Material</span></div>
+    <div class="frame">
+      <p class="eyebrow">Tres maneras muy distintas de pensar el mismo problema</p>
+      <h1 class="title">Tres frameworks, <em>tres filosofías</em></h1>
+      <div class="framework-pillars">
+        <div class="fw-pillar">
+          <div class="badge">B</div>
+          <h4 class="name">Bootstrap</h4>
+          <div class="philosophy">Componentes</div>
+          <p class="desc">Te da una caja con piezas ya montadas: navbar, modal, carrusel, formulario. Pones la clase <code>.btn .btn-primary</code> y aparece un botón "estilo Bootstrap". Lleva desde 2011, lo usa media web.</p>
+          <p class="example"><b>Cuándo:</b> prototipo rápido, panel de administración, MVP de cliente, "que funcione y se vea decente ya".</p>
+        </div>
+        <div class="fw-pillar tw">
+          <div class="badge">T</div>
+          <h4 class="name">Tailwind</h4>
+          <div class="philosophy">Utility-first</div>
+          <p class="desc">No te da componentes — te da <em>clases mini</em>: una para el padding, otra para el color, otra para el flex. Tu HTML se llena de <code>p-4 bg-red-500 flex items-center</code>. Es lego puro.</p>
+          <p class="example"><b>Cuándo:</b> diseño 100% propio, no quieres parecer "uno más de Bootstrap", control absoluto del estilo final.</p>
+        </div>
+        <div class="fw-pillar md">
+          <div class="badge">M</div>
+          <h4 class="name">Material</h4>
+          <div class="philosophy">Design system</div>
+          <p class="desc">El sistema de diseño de Google. No es solo CSS: es una guía completa con reglas estrictas de espacios, sombras, animaciones, jerarquía. Lo ves en Android, en Gmail, en YouTube.</p>
+          <p class="example"><b>Cuándo:</b> app tipo Android, producto corporativo, todo el equipo tiene que seguir las mismas reglas.</p>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>27</span></div>
+  </section>
+
+  <!-- ============ 28 CUÁNDO USAR CADA UNO ============ -->
+  <section data-label="28 Cuando cada framework">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>¿Cuál elijo?</span></div>
+    <div class="frame">
+      <p class="eyebrow">Tu situación decide, no el "más moderno"</p>
+      <h1 class="title">¿Qué framework para <em>qué proyecto</em>?</h1>
+      <div class="usecases">
+        <div class="usecase-row">
+          <div class="tag">Bootstrap</div>
+          <div class="what">Hago una web para un cliente que necesita estar online el viernes.</div>
+          <div class="where">Componentes listos, documentación masiva, la IA lo conoce a la perfección. El 90% de plantillas de WordPress lo usan.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">Tailwind</div>
+          <div class="what">Quiero que mi web no parezca "una más" — necesito un diseño propio.</div>
+          <div class="where">Más curva al principio, pero el resultado es totalmente tuyo. Es lo que usan webs como Vercel, Netflix Tudum o GitHub.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">Material</div>
+          <div class="what">Hago una app interna de la empresa, parecida a Gmail o Google Calendar.</div>
+          <div class="where">Reglas estrictas, todo el equipo respeta la misma guía. Perfecto si el usuario final ya está acostumbrado a apps de Google.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">Sin framework</div>
+          <div class="what">Es una landing pequeña, una página personal, un proyecto de clase.</div>
+          <div class="where">Aprendes más, no metes 200 KB de CSS que no usas, controlas cada píxel. Recomendado para este curso.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>28</span></div>
+  </section>
+
+  <!-- ============ 29 CON IA NO MEMORIZAS ============ -->
+  <section data-label="29 Con IA no memorizas">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Frameworks · cierre</span></div>
+    <div class="frame quote-slide">
+      <blockquote>
+        Antes había que <em>aprenderse las clases</em> de un framework.<br>
+        Hoy la IA las recuerda. <span class="ac">Lo que tú tienes que saber es cuál usar y por qué.</span>
+      </blockquote>
+      <cite>— La nueva mochila del desarrollador</cite>
+    </div>
+    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>29</span></div>
+  </section>
+
+  <!-- ============ 30 SECTION BREAK · Hora de aportar valor ============ -->
+  <section data-label="30 Hora de aportar valor" class="brick">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 06</span></div>
+    <div class="frame sect">
+      <div class="num" style="color: rgba(242,238,229,.85);">06</div>
+      <h2 class="name" style="color: var(--bg);">Hora de aportar valor.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>30</span></div>
+  </section>
+
+  <!-- ============ 31 LA IA ESCRIBE / TÚ DECIDES ============ -->
+  <section data-label="31 La IA escribe tu decides">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>El nuevo trabajo</span></div>
+    <div class="frame quote-slide">
+      <blockquote>
+        La IA escribe el CSS.<br>
+        <span class="ac">Tú decides qué vale la pena escribir.</span>
+      </blockquote>
+      <cite>— La nueva división del trabajo en la web</cite>
+    </div>
+    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>31</span></div>
+  </section>
+
+  <!-- ============ 32 EL RETO · SONORA LOCAL ============ -->
+  <section data-label="32 Reto Tomorrowland" class="challenge">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Reto de valor</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto · 45 min · mismo brief para toda la clase</p>
+          <h1 class="title">La <em>hero section</em> de Tomorrowland 2026</h1>
+          <p class="brief">Diseña la primera pantalla (la que se ve sin scroll) de la web del festival más internacional del mundo. La IA escribirá el código. Tu trabajo es <b>decidir qué se muestra, qué se calla y por qué</b>.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Brief común</div><div class="v"><b>Tomorrowland 2026</b> · festival de música electrónica · dos fines de semana: 17–19 y 24–26 julio · Boom, Bélgica · +18 años · 400.000 personas de más de 200 países · 800 artistas en 15 escenarios · 2 cabezas de cartel sin desvelar</div></div>
+            <div class="spec-row"><div class="k">Tipos de entrada</div><div class="v">Full Madness Pass (3 días) 350 € · Day Pass 135 € · Global Journey con vuelo + Dreamville desde 850 €</div></div>
+            <div class="spec-row"><div class="k">Objetivo de la web</div><div class="v">Dar a conocer el evento y vender entradas a todo el planeta.</div></div>
+            <div class="spec-row"><div class="k">Entrega</div><div class="v">HTML + CSS + 3 frases defendiendo tus decisiones · 45 min</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">El proceso</div>
+          <h2>4 pasos · en este orden</h2>
+          <ol class="process">
+            <li>
+              <div>
+                <b>Piensa</b>
+                <span>¿Quién va a abrir esta web y desde qué dispositivo?</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <b>Decide</b>
+                <span>¿Qué tiene que entender en 5 segundos? ¿Qué quieres que haga después?</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <b>Pide</b>
+                <span>Constrúyelo con la IA. Flex + grid + media queries. En móvil reorganiza, no encojas.</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <b>Defiende</b>
+                <span>3 frases: qué priorizaste, qué dejaste fuera, por qué.</span>
+              </div>
+            </li>
+          </ol>
+          <div class="footer-note">→ El código bonito sin pensamiento no aprueba. Lo importante es la conversación con la IA y la defensa de las decisiones.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>32</span></div>
+  </section>
+
+  <!-- ============ 33 LA PREGUNTA-GIRO ============ -->
+  <section data-label="33 La pregunta-giro">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>La pregunta clave</span></div>
+    <div class="frame value-quote">
+      <p class="big">En esos 5 segundos:<br><em>¿qué hace el ojo</em><br>del visitante?</p>
+      <p class="small">Si no lo sabes tú, no lo sabe nadie. Empieza por ahí.</p>
+    </div>
+    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>33</span></div>
+  </section>
+
+  <!-- ============ 34 CIERRE ============ -->
+  <section data-label="34 Cierre">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Cierre y siguiente</span></div>
+    <div class="frame closing">
+      <p class="eyebrow">Lo que te llevas hoy</p>
+      <h1 class="display">Ya sabes <em>repartir el espacio</em>.</h1>
+      <p class="lede" style="margin-top: 32px; max-width: 1400px;">Hablas el idioma del layout moderno: flex, grid, responsive. Sabes que un framework es una decisión, no una obligación. Y sobre todo: sabes que la IA escribe el CSS, pero <em>tú</em> decides para qué.</p>
+      <div class="next">
+        <div>
+          <div class="k">Próximo tema</div>
+          <div class="v">Tema 05 — JavaScript: el lenguaje que da vida a la página.</div>
+        </div>
+        <div>
+          <div class="k">Antes de la próxima sesión</div>
+          <div class="v">Termina la hero de Tomorrowland. Escribe las 3 frases. Trae el "qué hace el ojo" defendido.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>34 / 34</span></div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>
