@@ -31,6 +31,8 @@ Asignatura del ciclo **SMR (Sistemas Microinformáticos y Redes)** centrada en a
 
 - [`index.html`](index.html) — portada con el índice de temas
 - [`Tema 1 - HTML.html`](Tema%201%20-%20HTML.html) — slides del tema 1
+- [`Tema 2 - Componentes UI.html`](Tema%202%20-%20Componentes%20UI.html) — slides del tema 2
+- [`Tema 3 - CSS.html`](Tema%203%20-%20CSS.html) — slides del tema 3
 - [`deck-stage.js`](deck-stage.js) — web component reutilizable que gestiona las presentaciones (navegación con teclado, miniaturas, escalado, impresión a PDF…)
 
 ## Cómo ver los temas

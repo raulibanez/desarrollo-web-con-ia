@@ -1,0 +1,2162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Curso Web con IA · Tema 3 — CSS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+  :root{
+    --bg:#F2EEE5;
+    --bg-2:#E8E3D6;
+    --ink:#1A1814;
+    --ink-2:#4A4640;
+    --ink-3:#8A8278;
+    --rule:#D4CFC2;
+    --accent:#C84A1F;
+    --accent-soft:#E8956A;
+    --code-bg:#1A1814;
+    --code-fg:#F2EEE5;
+    --code-comment:#8A8278;
+    --code-tag:#E8956A;
+    --code-attr:#D9C26E;
+    --code-string:#B8C97A;
+    --code-prop:#9AB8D9;
+    --code-text:#F2EEE5;
+
+    --type-display: 168px;
+    --type-title: 72px;
+    --type-subtitle: 44px;
+    --type-body: 30px;
+    --type-small: 24px;
+    --type-code: 26px;
+    --type-tiny: 24px;
+
+    --pad-x: 96px;
+    --pad-top: 88px;
+    --pad-bottom: 88px;
+    --gap-title: 48px;
+    --gap-item: 22px;
+
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "IBM Plex Sans", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", Menlo, monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#0b0b0b; }
+  body{ font-family: var(--sans); color: var(--ink); }
+
+  deck-stage section{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: var(--type-body);
+    line-height: 1.4;
+    overflow: hidden;
+  }
+
+  /* ===== Common chrome ===== */
+  .chrome{ position:absolute; inset:0; pointer-events:none; }
+  .chrome::before{
+    content:""; position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: 56px;
+    border-top: 1px solid var(--rule);
+  }
+  .chrome::after{
+    content:""; position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    bottom: 56px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .meta{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: 24px;
+    display:flex; justify-content:space-between;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .meta-foot{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    bottom: 22px;
+    display:flex; justify-content:space-between;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  /* Variants */
+  .dark{ background: var(--ink); color: var(--code-fg); }
+  .dark .chrome::before, .dark .chrome::after{ border-color: #34302A; }
+  .dark .meta, .dark .meta-foot{ color: #6E665A; }
+
+  .brick{ background: var(--accent); color: var(--bg); }
+  .brick .chrome::before, .brick .chrome::after{ border-color: rgba(242,238,229,.25); }
+  .brick .meta, .brick .meta-foot{ color: rgba(242,238,229,.65); }
+
+  /* ===== Layout helpers ===== */
+  .frame{
+    position:absolute;
+    left: var(--pad-x); right: var(--pad-x);
+    top: var(--pad-top); bottom: var(--pad-bottom);
+    display:flex; flex-direction:column;
+  }
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--accent);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+    font-weight: 500;
+  }
+  .dark .eyebrow{ color: var(--accent-soft); }
+  .brick .eyebrow{ color: rgba(242,238,229,.85); }
+
+  h1.title{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: var(--type-title);
+    line-height: 1.05;
+    letter-spacing: -.015em;
+    margin: 0 0 var(--gap-title);
+    text-wrap: balance;
+  }
+  h1.title em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .dark h1.title em{ color: var(--accent-soft); }
+
+  p.lede{
+    font-family: var(--serif);
+    font-size: var(--type-subtitle);
+    line-height: 1.25;
+    margin: 0 0 40px;
+    color: var(--ink-2);
+    font-weight: 400;
+    text-wrap: pretty;
+    max-width: 1500px;
+  }
+  .dark p.lede{ color: #C9C2B4; }
+
+  p, li{ text-wrap: pretty; }
+
+  /* ===== Cover ===== */
+  .cover{ display:flex; flex-direction:column; }
+  .cover .display{
+    font-family: var(--serif);
+    font-size: var(--type-display);
+    line-height: .9;
+    letter-spacing: -.04em;
+    margin: 0;
+    font-weight: 500;
+  }
+  .cover .display em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .cover .kicker{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .cover .sub{
+    font-family: var(--serif);
+    font-size: 56px;
+    line-height: 1.2;
+    color: var(--ink-2);
+    margin-top: 56px;
+    font-style: italic;
+    font-weight: 400;
+    max-width: 1300px;
+  }
+  .cover .stamp{
+    margin-top:auto;
+    display:flex; gap:64px; align-items:flex-end;
+    font-family: var(--mono); font-size: var(--type-small); color: var(--ink-2);
+    letter-spacing: .04em;
+  }
+  .cover .stamp span b{
+    display:block; color: var(--ink); font-weight: 500;
+    font-family: var(--sans); font-size: var(--type-small);
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+
+  /* ===== Section break ===== */
+  .sect{ display:flex; flex-direction:column; justify-content:center; }
+  .sect .num{
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 240px;
+    line-height: .85;
+    color: var(--accent);
+    font-weight: 400;
+    margin-bottom: 32px;
+  }
+  .sect .name{
+    font-family: var(--serif);
+    font-size: 96px;
+    line-height: 1;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -.02em;
+  }
+
+  /* ===== Quote slide ===== */
+  .quote-slide{ display:flex; flex-direction:column; justify-content:center; }
+  .quote-slide blockquote{
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 100px;
+    line-height: 1.05;
+    margin: 0;
+    letter-spacing: -.02em;
+    font-weight: 400;
+    max-width: 1500px;
+  }
+  .quote-slide blockquote .ac{ color: var(--accent); font-style: normal; font-weight: 500; }
+  .quote-slide cite{
+    margin-top: 56px;
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    font-style: normal;
+    color: var(--ink-3);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  /* ===== Index grid ===== */
+  .index-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 96px;
+    row-gap: 28px;
+    margin-top: 12px;
+  }
+  .index-item{
+    display:grid;
+    grid-template-columns: 64px 1fr;
+    align-items:baseline;
+    border-top: 1px solid var(--rule);
+    padding-top: 22px;
+  }
+  .index-item .n{
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: var(--type-small);
+    font-weight: 500;
+  }
+  .index-item .t{
+    font-family: var(--serif);
+    font-size: 36px;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .index-item .t small{
+    display:block;
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+
+  /* ===== Syllabus ===== */
+  .syllabus{
+    list-style: none; margin: 0; padding: 0;
+    border-top: 1px solid var(--ink);
+    margin-top: 4px;
+  }
+  .syllabus li{
+    display: grid;
+    grid-template-columns: 90px 420px 1fr 200px;
+    gap: 32px;
+    align-items: baseline;
+    border-bottom: 1px solid var(--rule);
+    padding: 22px 8px;
+  }
+  .syllabus li:last-child{ border-bottom: none; }
+  .syllabus .num{
+    font-family: var(--mono);
+    color: var(--ink-3);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: .02em;
+  }
+  .syllabus .name{
+    font-family: var(--serif);
+    color: var(--ink);
+    font-size: 42px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+  .syllabus .desc{
+    font-family: var(--sans);
+    color: var(--ink-2);
+    font-size: 28px;
+    line-height: 1.3;
+  }
+  .syllabus .here{
+    font-family: var(--mono);
+    color: var(--ink-3);
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    text-align: right;
+  }
+  .syllabus li.current{
+    background: var(--ink);
+    margin: 0 -16px;
+    padding: 24px 24px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .syllabus li.current .num{ color: var(--accent-soft); }
+  .syllabus li.current .name{ color: var(--bg); font-style: italic; }
+  .syllabus li.current .desc{ color: #C9C2B4; }
+  .syllabus li.current .here{ color: var(--accent-soft); }
+
+  /* ===== Two col ===== */
+  .two-col{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 0;
+  }
+  .col h3{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--accent);
+    margin: 0 0 16px;
+    font-weight: 500;
+  }
+  .col p{
+    font-family: var(--serif);
+    font-size: 40px;
+    line-height: 1.25;
+    margin: 0;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* ===== Three col pillars ===== */
+  .three-col{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    margin-top: 0;
+  }
+  .pillar{
+    border-top: 2px solid var(--ink);
+    padding-top: 28px;
+    display:flex; flex-direction:column;
+  }
+  .pillar .lang{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--accent);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .pillar h4{
+    font-family: var(--serif);
+    font-size: 56px;
+    margin: 8px 0 16px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+  .pillar p{
+    font-family: var(--sans);
+    font-size: var(--type-body);
+    color: var(--ink-2);
+    line-height: 1.35;
+    margin: 0;
+  }
+  .pillar .role{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ===== Code + Render split ===== */
+  .split{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    flex: 1;
+    min-height: 0;
+  }
+  .split.code-wide{ grid-template-columns: 1.2fr 1fr; }
+  .pane{
+    border: 1px solid var(--rule);
+    display:flex; flex-direction:column;
+    overflow: hidden;
+  }
+  .pane-head{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-3);
+    background: var(--bg-2);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .pane-head .dots{ color: var(--ink-3); letter-spacing: 2px; }
+  .pane-body{
+    flex: 1;
+    overflow: hidden;
+    padding: 28px 32px;
+  }
+  .pane.code{ background: var(--code-bg); border-color: var(--code-bg); }
+  .pane.code .pane-head{ background: #24211C; border-color: #34302A; color: #8A8278; }
+  .pane.code .pane-body{
+    font-family: var(--mono);
+    font-size: var(--type-code);
+    line-height: 1.55;
+    color: var(--code-text);
+    white-space: pre;
+    tab-size: 2;
+  }
+  .pane.render .pane-head{ background: var(--bg-2); }
+  .pane.render .pane-body{ background: #ffffff; padding: 32px 36px; }
+
+  .tag-name{ color: var(--code-tag); }
+  .tag-punct{ color: #8A8278; }
+  .attr-name{ color: var(--code-attr); }
+  .attr-val{ color: var(--code-string); }
+  .prop{ color: var(--code-prop); }
+  .val{ color: var(--code-string); }
+  .sel{ color: var(--code-tag); }
+  .txt{ color: var(--code-text); }
+  .com{ color: var(--code-comment); font-style: italic; }
+
+  /* Render body styles */
+  .render-body{
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    color: #111;
+    font-size: 26px;
+    line-height: 1.45;
+  }
+  .render-body h1{ font-size: 48px; margin: 0 0 14px; font-weight: 700;}
+  .render-body h2{ font-size: 36px; margin: 22px 0 10px; font-weight: 700;}
+  .render-body p{ margin: 0 0 14px; font-size: 26px; }
+  .render-body ul{ margin: 0 0 14px; padding-left: 32px;}
+  .render-body li{ margin: 4px 0; font-size: 26px;}
+
+  /* ===== Use cases table ===== */
+  .usecases{
+    margin-top: 12px;
+    border-top: 1px solid var(--ink);
+  }
+  .usecase-row{
+    display:grid;
+    grid-template-columns: 280px 1fr 1fr;
+    gap: 48px;
+    border-bottom: 1px solid var(--rule);
+    padding: 24px 0;
+    align-items: baseline;
+  }
+  .usecase-row .tag{
+    font-family: var(--mono);
+    font-size: 32px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .usecase-row .what{
+    font-family: var(--serif);
+    font-size: 30px;
+    line-height: 1.25;
+    color: var(--ink);
+  }
+  .usecase-row .where{
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    line-height: 1.35;
+  }
+
+  /* ===== Vocab grid ===== */
+  .vocab{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+  .vocab .term{
+    background: var(--bg);
+    padding: 28px 28px;
+    display:flex; flex-direction:column; gap: 6px;
+    min-height: 140px;
+  }
+  .vocab .term .name{
+    font-family: var(--mono);
+    font-size: 30px;
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1;
+  }
+  .vocab .term .name .ac{ color: var(--accent); }
+  .vocab .term .es{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--accent);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .vocab .term .desc{
+    font-family: var(--sans);
+    font-size: 22px;
+    color: var(--ink-2);
+    line-height: 1.3;
+    margin-top: 4px;
+  }
+
+  /* ===== Color swatches ===== */
+  .swatches{
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+  .swatch{
+    background: var(--bg);
+    padding: 22px;
+    display:flex; flex-direction:column; gap: 14px;
+    min-height: 220px;
+  }
+  .swatch .chip{
+    width: 100%;
+    height: 110px;
+    border: 1px solid rgba(0,0,0,.08);
+  }
+  .swatch .name{
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .swatch .hex{
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--ink-3);
+    letter-spacing: .02em;
+  }
+
+  /* ===== Box model diagram ===== */
+  .boxmodel-wrap{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height: 0;
+  }
+  .boxmodel{
+    position: relative;
+    background: rgba(232, 149, 106, 0.22);
+    padding: 70px 90px;
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--ink-2);
+    border: 1px dashed var(--accent-soft);
+  }
+  .boxmodel .border-layer{
+    border: 28px solid var(--ink);
+    position: relative;
+  }
+  .boxmodel .padding-layer{
+    background: rgba(217, 194, 110, 0.55);
+    padding: 50px 70px;
+    position: relative;
+  }
+  .boxmodel .content-layer{
+    background: var(--ink);
+    color: var(--bg);
+    padding: 32px 64px;
+    font-family: var(--serif);
+    font-size: 56px;
+    font-style: italic;
+    text-align: center;
+    letter-spacing: -.01em;
+  }
+  .boxmodel .lab{
+    position: absolute;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .boxmodel > .lab{
+    top: 14px; left: 18px;
+    color: var(--accent);
+    font-size: var(--type-tiny);
+    letter-spacing: .08em;
+  }
+  .boxmodel .border-layer > .lab{
+    top: -28px;
+    left: 18px;
+    height: 28px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    color: var(--bg);
+    font-size: 18px;
+    letter-spacing: .14em;
+  }
+  .boxmodel .padding-layer > .lab{
+    top: 10px; left: 16px;
+    color: #8a6e1f;
+    font-size: var(--type-tiny);
+    letter-spacing: .08em;
+  }
+
+  /* ===== Specificity scoreboard ===== */
+  .specificity{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    margin-top: 12px;
+  }
+  .spec-card{
+    border: 1px solid var(--rule);
+    padding: 28px 32px;
+    display:flex; flex-direction:column;
+    background: var(--bg);
+  }
+  .spec-card .score{
+    font-family: var(--serif);
+    font-size: 110px;
+    line-height: 1;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: -.02em;
+    margin-bottom: 16px;
+  }
+  .spec-card .kind{
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 8px;
+  }
+  .spec-card .ex{
+    font-family: var(--mono);
+    font-size: 28px;
+    color: var(--ink);
+    line-height: 1.3;
+    margin: 0 0 16px;
+  }
+  .spec-card .note{
+    font-family: var(--sans);
+    font-size: 22px;
+    color: var(--ink-2);
+    line-height: 1.35;
+    margin: 0;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ===== Position demo ===== */
+  .posdemo{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    flex: 1;
+    margin-top: 12px;
+    min-height: 0;
+  }
+  .posdemo .stage{
+    border: 1px solid var(--rule);
+    background: var(--bg-2);
+    display:flex; flex-direction:column;
+    overflow: hidden;
+  }
+  .posdemo .stage .head{
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    padding: 16px 22px;
+    display:flex; flex-direction:column; gap: 4px;
+  }
+  .posdemo .stage .head .k{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 500;
+  }
+  .posdemo .stage .head .d{
+    font-family: var(--sans);
+    font-size: 20px;
+    color: var(--ink-2);
+    line-height: 1.3;
+  }
+  .posdemo .stage .canvas{
+    flex: 1;
+    position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+  }
+  .posdemo .ph{
+    height: 18px;
+    background: rgba(132, 124, 110, 0.22);
+    border-radius: 2px;
+  }
+  .posdemo .box{
+    width: 70px; height: 70px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 18px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight: 500;
+  }
+  .posdemo .box.s{ background: var(--accent); }
+  .posdemo .box.r{ background: var(--ink); transform: translate(20px, 20px); }
+  .posdemo .box.a{ position: absolute; top: 60px; right: 20px; background: var(--accent); }
+  .posdemo .box.f{ position: absolute; bottom: 16px; left: 16px; background: var(--ink); }
+
+  /* ===== Border-radius progression ===== */
+  .radius-row{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    flex: 1;
+    align-items: stretch;
+    margin-top: 12px;
+    min-height: 0;
+  }
+  .r-cell{
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 20px 22px;
+    gap: 14px;
+  }
+  .r-cell .r-shape{
+    width: 200px;
+    height: 200px;
+    background: var(--accent);
+  }
+  .r-cell .r-name{
+    font-family: var(--mono);
+    font-size: 30px;
+    color: var(--ink);
+    font-weight: 500;
+    margin-top: auto;
+  }
+  .r-cell .r-desc{
+    font-family: var(--sans);
+    font-size: 20px;
+    color: var(--ink-2);
+    line-height: 1.35;
+    text-align: center;
+    max-width: 220px;
+  }
+
+  /* ===== Toggle CSS <-> HTML in code pane ===== */
+  .code-btn{
+    background: transparent;
+    color: var(--bg);
+    border: 1px solid #34302A;
+    padding: 4px 10px;
+    font-family: var(--mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .code-btn:hover{ background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .toggle-wrap .pane-body.view-html{ display: none; }
+  .toggle-wrap.show-html .pane-body.view-css{ display: none; }
+  .toggle-wrap.show-html .pane-body.view-html{ display: block; }
+  .toggle-wrap .lab-html{ display: none; }
+  .toggle-wrap.show-html .lab-css{ display: none; }
+  .toggle-wrap.show-html .lab-html{ display: inline; }
+  .toggle-wrap .lab-show-css{ display: none; }
+  .toggle-wrap.show-html .lab-show-html{ display: none; }
+  .toggle-wrap.show-html .lab-show-css{ display: inline; }
+
+  /* ===== Z-index demo ===== */
+  .zlayers{
+    flex: 1;
+    position: relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height: 0;
+  }
+  .zlayers .zbox{
+    position: absolute;
+    width: 320px; height: 200px;
+    border: 1px solid var(--ink);
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--ink);
+    padding: 20px;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .zlayers .zbox .l{
+    font-family: var(--serif);
+    font-size: 56px;
+    font-style: italic;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .zlayers .z1{ background: var(--bg-2); transform: translate(-160px, -30px); z-index: 1; }
+  .zlayers .z2{ background: var(--accent-soft); transform: translate(-30px, 30px); z-index: 2; }
+  .zlayers .z3{ background: var(--ink); color: var(--bg); transform: translate(120px, -20px); z-index: 3; }
+  .zlayers .z3 .l{ color: var(--accent-soft); }
+
+  /* ===== Font specimen ===== */
+  .fontspec{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 8px;
+  }
+  .fs-card{
+    border: 1px solid var(--rule);
+    padding: 32px 36px;
+    background: var(--bg);
+    display:flex; flex-direction:column; gap: 16px;
+  }
+  .fs-card .label{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--accent);
+  }
+  .fs-card .sample{
+    font-size: 80px;
+    line-height: 1;
+    color: var(--ink);
+    margin: 0;
+  }
+  .fs-card .meta-row{
+    display:flex; gap: 24px;
+    font-family: var(--mono);
+    font-size: 20px;
+    color: var(--ink-3);
+    margin-top:auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .fs-card .meta-row b{ color: var(--ink); font-weight: 500; }
+  .fs-serif{ font-family: var(--serif); }
+  .fs-sans{ font-family: var(--sans); }
+  .fs-mono{ font-family: var(--mono); }
+  .fs-display{ font-family: "Libre Baskerville", Georgia, serif; }
+
+  /* ===== Steps list (Google Fonts) ===== */
+  .steps{
+    margin-top: 12px;
+    counter-reset: stepcount;
+    border-top: 1px solid var(--ink);
+  }
+  .step-row{
+    display:grid;
+    grid-template-columns: 96px 1fr 1.2fr;
+    gap: 40px;
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0;
+    align-items: baseline;
+  }
+  .step-row .n{
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .step-row .what{
+    font-family: var(--serif);
+    font-size: 32px;
+    line-height: 1.25;
+    color: var(--ink);
+  }
+  .step-row .how{
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    background: var(--bg-2);
+    padding: 14px 18px;
+    border-left: 3px solid var(--accent-soft);
+  }
+
+  /* ===== DevTools mock ===== */
+  .devtools{
+    flex: 1;
+    display:flex;
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    overflow: hidden;
+    min-height: 0;
+  }
+  .devtools .browser{
+    flex: 1.2;
+    border-right: 1px solid var(--rule);
+    display:flex; flex-direction:column;
+  }
+  .devtools .browser .tabbar{
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 22px;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    display:flex; justify-content:space-between;
+  }
+  .devtools .browser .page{
+    padding: 32px 36px;
+    background: #ffffff;
+    flex: 1;
+  }
+  .devtools .browser .page h1{
+    font-family: var(--serif);
+    font-size: 60px;
+    margin: 0 0 16px;
+    color: var(--accent);
+    font-style: italic;
+    outline: 2px dashed #4F8FE2;
+    outline-offset: 6px;
+    width: fit-content;
+  }
+  .devtools .browser .page p{
+    font-family: var(--sans);
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+  }
+  .devtools .panel{
+    flex: 1;
+    background: #1F1D1A;
+    color: #E8E3D6;
+    font-family: var(--mono);
+    font-size: 22px;
+    line-height: 1.55;
+    display:flex; flex-direction:column;
+  }
+  .devtools .panel .panel-tabs{
+    background: #14130F;
+    border-bottom: 1px solid #34302A;
+    padding: 10px 22px;
+    font-size: 18px;
+    color: #8A8278;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    display:flex; gap: 24px;
+  }
+  .devtools .panel .panel-tabs .active{ color: var(--accent-soft); }
+  .devtools .panel .panel-body{
+    flex: 1;
+    padding: 22px 26px;
+    overflow: hidden;
+  }
+  .devtools .panel .rule{ margin-bottom: 18px; }
+  .devtools .panel .selector{ color: #E8956A; }
+  .devtools .panel .prop{ color: #9AB8D9; }
+  .devtools .panel .val{ color: #B8C97A; }
+  .devtools .panel .com{ color: #6E665A; font-style: italic; }
+
+  /* ===== Challenge slide ===== */
+  .challenge .frame{ padding: 0; }
+  .challenge-grid{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px;
+    flex: 1;
+    min-height: 0;
+  }
+  .challenge-left{ display:flex; flex-direction:column; }
+  .challenge-left .brief{
+    font-family: var(--serif);
+    font-size: 38px;
+    line-height: 1.3;
+    color: var(--ink);
+    margin: 0 0 32px;
+    max-width: 900px;
+  }
+  .challenge-left .specs{
+    border-top: 1px solid var(--ink);
+    margin-top: auto;
+  }
+  .challenge-left .spec-row{
+    display:grid; grid-template-columns: 240px 1fr;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+    gap: 24px;
+  }
+  .challenge-left .spec-row .k{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .challenge-left .spec-row .v{
+    font-family: var(--sans);
+    font-size: var(--type-small);
+    color: var(--ink);
+    line-height: 1.35;
+  }
+  .challenge-right{
+    background: var(--ink);
+    color: var(--bg);
+    padding: 48px;
+    display:flex; flex-direction:column;
+  }
+  .challenge-right .stamp{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    margin-bottom: 24px;
+  }
+  .challenge-right h2{
+    font-family: var(--serif);
+    font-size: 52px;
+    line-height: 1.05;
+    margin: 0 0 24px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+  .challenge-right ul{
+    list-style: none; margin: 0; padding: 0;
+  }
+  .challenge-right ul li{
+    font-family: var(--sans);
+    font-size: 22px;
+    line-height: 1.4;
+    padding: 12px 0;
+    border-bottom: 1px solid #34302A;
+    color: #D9D2C0;
+    display: grid; grid-template-columns: 32px 1fr; gap: 12px;
+  }
+  .challenge-right ul li::before{
+    content: "□";
+    color: var(--accent-soft);
+    font-family: var(--mono);
+  }
+  .challenge-right .footer-note{
+    margin-top:auto; padding-top: 24px;
+    font-family: var(--mono); font-size: 20px;
+    color: #8A8278; letter-spacing: .04em;
+    line-height: 1.5;
+  }
+  .challenge-right .laos-flag{
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+    height: 180px;
+    margin-bottom: 24px;
+    border: 1px solid #34302A;
+  }
+  .challenge-right .laos-flag .red{ background: #CE1126; }
+  .challenge-right .laos-flag .blue{
+    background: #002868;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .challenge-right .laos-flag .circle{
+    width: 70px; height: 70px;
+    background: #ffffff;
+    border-radius: 50%;
+  }
+
+  /* ===== Closing ===== */
+  .closing .display{
+    font-family: var(--serif);
+    font-size: 128px;
+    line-height: .95;
+    margin: 0;
+    letter-spacing: -.03em;
+    font-weight: 500;
+  }
+  .closing .display em{ font-style: italic; color: var(--accent); font-weight: 500; }
+  .closing .next{
+    margin-top: auto;
+    display:grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    border-top: 1px solid var(--ink);
+    padding-top: 40px;
+  }
+  .closing .next .k{
+    font-family: var(--mono); font-size: var(--type-tiny);
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 12px;
+  }
+  .closing .next .v{
+    font-family: var(--serif); font-size: 40px;
+    line-height: 1.2; color: var(--ink);
+  }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ============ 01 PORTADA ============ -->
+  <section data-label="01 Portada">
+    <div class="chrome"></div>
+    <div class="meta"><span>Aplicaciones web · SMR</span><span>2026</span></div>
+    <div class="frame cover">
+      <div class="kicker">Aplicaciones web · SMR</div>
+      <h1 class="display">C<em>SS</em></h1>
+      <p class="sub">El estilo de la web,<br>colores, tipografía y espacios.</p>
+      <div class="stamp">
+        <span><b>Duración</b>90 minutos</span>
+        <span><b>Formato</b>Teoría + práctica</span>
+        <span><b>Requisito</b>Saber HTML básico</span>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Desarrollo Web con IA</span><span>Tema 03 · CSS</span></div>
+  </section>
+
+  <!-- ============ 02 MAPA DE LA ASIGNATURA ============ -->
+  <section data-label="02 Mapa de la asignatura">
+    <div class="chrome"></div>
+    <div class="meta"><span>Aplicaciones web · SMR</span><span>Mapa</span></div>
+    <div class="frame">
+      <p class="eyebrow">8 temas</p>
+      <h1 class="title">Por dónde vamos a <em>pasar</em></h1>
+      <ol class="syllabus">
+        <li>
+          <span class="num">01</span>
+          <span class="name">HTML</span>
+          <span class="desc">La estructura: qué hay y en qué orden.</span>
+          <span class="here">Hecho</span>
+        </li>
+        <li>
+          <span class="num">02</span>
+          <span class="name">Componentes UI</span>
+          <span class="desc">El catálogo del front: navbars, drawers, toasts, pricing tables…</span>
+          <span class="here">Hecho</span>
+        </li>
+        <li class="current">
+          <span class="num">03</span>
+          <span class="name">CSS</span>
+          <span class="desc">Estilos: colores, tipografía, espacios.</span>
+          <span class="here">Aquí estás hoy</span>
+        </li>
+        <li>
+          <span class="num">04</span>
+          <span class="name">CSS avanzado</span>
+          <span class="desc">Layout, flexbox, grid y responsive.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">05</span>
+          <span class="name">JavaScript</span>
+          <span class="desc">El lenguaje: variables, funciones, lógica.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">06</span>
+          <span class="name">DOM y eventos</span>
+          <span class="desc">JavaScript dentro del navegador.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">07</span>
+          <span class="name">APIs y datos</span>
+          <span class="desc">Fetch, asincronía, conectar con servicios.</span>
+          <span class="here"></span>
+        </li>
+        <li>
+          <span class="num">08</span>
+          <span class="name">Despliegue</span>
+          <span class="desc">De tu portátil a una URL pública.</span>
+          <span class="here"></span>
+        </li>
+      </ol>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>02</span></div>
+  </section>
+
+  <!-- ============ 03 FILOSOFÍA ============ -->
+  <section data-label="03 Filosofia">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Filosofía</span></div>
+    <div class="frame quote-slide">
+      <blockquote>
+        El HTML dice <span class="ac">qué hay</span>.<br>
+        El CSS dice <span class="ac">cómo se ve</span>.
+      </blockquote>
+      <cite>— La división del trabajo del front</cite>
+    </div>
+    <div class="meta-foot"><span>Tema 03 · CSS</span><span>Filosofía</span></div>
+  </section>
+
+  <!-- ============ 04 ÍNDICE ============ -->
+  <section data-label="04 Indice">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Índice de la sesión</span></div>
+    <div class="frame">
+      <p class="eyebrow">Mapa de la sesión — 90 min · 6 secciones</p>
+      <h1 class="title">Las <em>seis secciones</em> del tema</h1>
+      <div class="index-grid">
+        <div class="index-item"><span class="n">01</span><div class="t">¿Por qué CSS?<small>El segundo pilar de la web</small></div></div>
+        <div class="index-item"><span class="n">02</span><div class="t">Cómo añadir CSS<small>Inline, internal y external</small></div></div>
+        <div class="index-item"><span class="n">03</span><div class="t">Selectores<small>Cómo apuntar a los elementos</small></div></div>
+        <div class="index-item"><span class="n">04</span><div class="t">Estilo visual<small>Colores, tipografía y unidades</small></div></div>
+        <div class="index-item"><span class="n">05</span><div class="t">El Box Model<small>Margin, padding y border</small></div></div>
+        <div class="index-item"><span class="n">06</span><div class="t">Cascada y posición<small>Quién manda y dónde se coloca</small></div></div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>04</span></div>
+  </section>
+
+  <!-- ============ 05 SECTION BREAK 01 · ¿Por qué CSS? ============ -->
+  <section data-label="05 Seccion 01 Por que CSS">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Sección 01</span></div>
+    <div class="frame sect">
+      <div class="num">01</div>
+      <h2 class="name">¿Por qué CSS?</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>05</span></div>
+  </section>
+
+  <!-- ============ 06 SIN CSS / CON CSS ============ -->
+  <section data-label="06 Sin CSS vs Con CSS">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Antes / después</span></div>
+    <div class="frame">
+      <p class="eyebrow">El mismo HTML, dos resultados muy distintos</p>
+      <h1 class="title">HTML pelado vs HTML <em>con estilo</em></h1>
+      <div class="split">
+        <div class="pane render">
+          <div class="pane-head"><span>Sin CSS</span><span class="dots">localhost</span></div>
+          <div class="pane-body">
+            <div class="render-body">
+              <h1>Mi tienda de café</h1>
+              <h2>Productos</h2>
+              <ul>
+                <li>Espresso — 1,80 €</li>
+                <li>Cortado — 1,90 €</li>
+                <li>Latte — 2,40 €</li>
+              </ul>
+              <p>Llámanos al 911 234 567.</p>
+            </div>
+          </div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Con CSS</span><span class="dots">localhost</span></div>
+          <div class="pane-body" style="background:#1A1814; padding: 0;">
+            <div style="background:#1A1814; color:#F2EEE5; padding: 36px 40px; height: 100%; font-family: 'Newsreader', Georgia, serif;">
+              <h1 style="font-family:'Newsreader',serif; font-style:italic; font-size: 56px; color:#E8956A; margin: 0 0 28px; letter-spacing: -.02em;">Mi tienda de café</h1>
+              <h2 style="font-family:'IBM Plex Mono',monospace; font-size: 18px; color:#8A8278; text-transform:uppercase; letter-spacing:.12em; margin: 0 0 18px;">Productos</h2>
+              <ul style="list-style:none; padding:0; margin: 0 0 28px;">
+                <li style="display:flex; justify-content:space-between; padding: 12px 0; border-bottom:1px solid #34302A; font-size: 22px;"><span>Espresso</span><span style="color:#E8956A;">1,80 €</span></li>
+                <li style="display:flex; justify-content:space-between; padding: 12px 0; border-bottom:1px solid #34302A; font-size: 22px;"><span>Cortado</span><span style="color:#E8956A;">1,90 €</span></li>
+                <li style="display:flex; justify-content:space-between; padding: 12px 0; border-bottom:1px solid #34302A; font-size: 22px;"><span>Latte</span><span style="color:#E8956A;">2,40 €</span></li>
+              </ul>
+              <p style="font-family:'IBM Plex Sans',sans-serif; font-size: 18px; color:#C9C2B4; margin: 0;">Llámanos al <b style="color:#F2EEE5;">911 234 567</b>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>06</span></div>
+  </section>
+
+  <!-- ============ 07 CASCADING STYLE SHEETS ============ -->
+  <section data-label="07 Cascading Style Sheets">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>El nombre</span></div>
+    <div class="frame">
+      <p class="eyebrow">El significado del nombre</p>
+      <h1 class="title"><em>Cascading</em> Style Sheets</h1>
+      <div class="three-col">
+        <div class="pillar">
+          <div class="lang">Cascading</div>
+          <h4>Cascada</h4>
+          <p>Si dos reglas dicen cosas distintas sobre el mismo elemento, hay un orden claro para decidir cuál gana. Lo veremos al final.</p>
+          <div class="role">Sección 06</div>
+        </div>
+        <div class="pillar">
+          <div class="lang">Style</div>
+          <h4>Estilo</h4>
+          <p>Cómo se ve cada cosa: color, tamaño, tipografía, espacios, bordes, posición. Todo lo visual.</p>
+          <div class="role">Secciones 04 y 05</div>
+        </div>
+        <div class="pillar">
+          <div class="lang">Sheets</div>
+          <h4>Hojas</h4>
+          <p>Reglas reunidas en un archivo aparte (.css) que se enchufa al HTML. Separar contenido y presentación.</p>
+          <div class="role">Sección 02</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>07</span></div>
+  </section>
+
+  <!-- ============ 08 SECTION BREAK 02 · Cómo añadir CSS ============ -->
+  <section data-label="08 Seccion 02 Como anadir CSS">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Sección 02</span></div>
+    <div class="frame sect">
+      <div class="num">02</div>
+      <h2 class="name">Cómo añadir CSS.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>08</span></div>
+  </section>
+
+  <!-- ============ 09 LAS 3 FORMAS ============ -->
+  <section data-label="09 Tres formas de anadir CSS">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Tres formas</span></div>
+    <div class="frame">
+      <p class="eyebrow">Tres lugares donde escribir CSS</p>
+      <h1 class="title">Inline, internal, <em>external</em></h1>
+      <div class="three-col">
+        <div class="pillar">
+          <div class="lang">Inline</div>
+          <h4>En la etiqueta</h4>
+          <p>Atributo <code>style</code> directamente en un elemento HTML. Solo afecta a ese elemento.</p>
+          <div class="role">Caso puntual · evita usarlo</div>
+        </div>
+        <div class="pillar">
+          <div class="lang">Internal</div>
+          <h4>En el &lt;head&gt;</h4>
+          <p>Una etiqueta <code>&lt;style&gt;</code> dentro del &lt;head&gt; con todas las reglas. Afecta a todo este archivo.</p>
+          <div class="role">Pruebas y demos rápidas</div>
+        </div>
+        <div class="pillar">
+          <div class="lang">External</div>
+          <h4>En un .css aparte</h4>
+          <p>Un archivo <code>style.css</code> que se enchufa con <code>&lt;link&gt;</code>. Reutilizable en muchas páginas.</p>
+          <div class="role">La forma profesional</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>09</span></div>
+  </section>
+
+  <!-- ============ 10 INLINE / INTERNAL / EXTERNAL EN CÓDIGO ============ -->
+  <section data-label="10 Tres formas en codigo">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Las 3 formas en código</span></div>
+    <div class="frame">
+      <p class="eyebrow">El mismo objetivo: pintar el h1 en rojo</p>
+      <h1 class="title">Tres maneras de hacer <em>la misma cosa</em></h1>
+      <div class="split" style="grid-template-columns: 1fr 1fr 1fr; gap: 24px;">
+        <div class="pane code">
+          <div class="pane-head"><span>1. Inline</span><span class="dots">style=""</span></div>
+<div class="pane-body" style="font-size: 22px;"><span class="com">&lt;!-- en el HTML --&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">h1</span>
+  <span class="attr-name">style</span>=<span class="attr-val">"color: red;"</span><span class="tag-punct">&gt;</span>
+  Hola
+<span class="tag-punct">&lt;/</span><span class="tag-name">h1</span><span class="tag-punct">&gt;</span></div>
+        </div>
+        <div class="pane code">
+          <div class="pane-head"><span>2. Internal</span><span class="dots">&lt;style&gt;</span></div>
+<div class="pane-body" style="font-size: 22px;"><span class="com">&lt;!-- dentro del head --&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">style</span><span class="tag-punct">&gt;</span>
+  <span class="sel">h1</span> {
+    <span class="prop">color</span>: <span class="val">red</span>;
+  }
+<span class="tag-punct">&lt;/</span><span class="tag-name">style</span><span class="tag-punct">&gt;</span></div>
+        </div>
+        <div class="pane code">
+          <div class="pane-head"><span>3. External</span><span class="dots">style.css</span></div>
+<div class="pane-body" style="font-size: 22px;"><span class="com">&lt;!-- en el HTML --&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">link</span>
+  <span class="attr-name">rel</span>=<span class="attr-val">"stylesheet"</span>
+  <span class="attr-name">href</span>=<span class="attr-val">"style.css"</span><span class="tag-punct">&gt;</span>
+
+<span class="com">/* en style.css */</span>
+<span class="sel">h1</span> { <span class="prop">color</span>: <span class="val">red</span>; }</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>10</span></div>
+  </section>
+
+  <!-- ============ 11 ¿CUÁL USAR? ============ -->
+  <section data-label="11 Cual usar">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>¿Cuál uso?</span></div>
+    <div class="frame">
+      <p class="eyebrow">Recomendación práctica</p>
+      <h1 class="title">Para casi todo, <em>external</em>.</h1>
+      <div class="usecases">
+        <div class="usecase-row">
+          <div class="tag">External</div>
+          <div class="what">El archivo .css separado del HTML, enlazado con &lt;link&gt;.</div>
+          <div class="where">Tu opción por defecto. Reutilizable, ordenado, fácil de cachear.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">Internal</div>
+          <div class="what">El bloque &lt;style&gt; dentro del &lt;head&gt;.</div>
+          <div class="where">Demos rápidas, una página única, prototipos sueltos.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">Inline</div>
+          <div class="what">El atributo style="" en un elemento concreto.</div>
+          <div class="where">Excepciones. Sobrescribe todo lo demás (más sobre esto en la cascada).</div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 32px; margin-top: 36px;">Regla de oro: <em>contenido</em> en el HTML, <em>presentación</em> en el CSS.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>11</span></div>
+  </section>
+
+  <!-- ============ 12 SECTION BREAK 03 · Selectores ============ -->
+  <section data-label="12 Seccion 03 Selectores">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Sección 03</span></div>
+    <div class="frame sect">
+      <div class="num">03</div>
+      <h2 class="name">Selectores.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>12</span></div>
+  </section>
+
+  <!-- ============ 13 CINCO TIPOS BÁSICOS ============ -->
+  <section data-label="13 Cinco selectores basicos">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Selectores básicos</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cómo apuntar a los elementos</p>
+      <h1 class="title">Cinco selectores que <em>cubren el 90%</em></h1>
+      <div class="usecases">
+        <div class="usecase-row">
+          <div class="tag">h1, p, ul</div>
+          <div class="what">Selector de elemento: por nombre de etiqueta.</div>
+          <div class="where">Aplica a todos los &lt;h1&gt;, &lt;p&gt; o &lt;ul&gt; de la página.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">.destacada</div>
+          <div class="what">Selector de clase: empieza por punto.</div>
+          <div class="where">Aplica a todos los elementos con class="destacada". El más usado.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">#hero</div>
+          <div class="what">Selector de id: empieza por almohadilla.</div>
+          <div class="where">Aplica al único elemento con id="hero". Solo uno por página.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">[type="email"]</div>
+          <div class="what">Selector de atributo: corchetes con nombre y valor.</div>
+          <div class="where">Aplica a todos los elementos cuyo atributo coincida. Útil en formularios.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">*</div>
+          <div class="what">Selector universal: el asterisco.</div>
+          <div class="where">Aplica a todos los elementos. Típico para reset: * { margin: 0; }.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>13</span></div>
+  </section>
+
+  <!-- ============ 14 COMBINANDO SELECTORES ============ -->
+  <section data-label="14 Combinando selectores">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Combinar selectores</span></div>
+    <div class="frame">
+      <p class="eyebrow">Selectores que se enchufan unos con otros</p>
+      <h1 class="title">Cuatro maneras de <em>combinarlos</em></h1>
+      <div class="vocab">
+        <div class="term">
+          <span class="es">Agrupar</span>
+          <span class="name"><span class="ac">h1, h2, h3</span></span>
+          <span class="desc">Coma → "todos a la vez". Aplica el mismo estilo a varios selectores distintos.</span>
+        </div>
+        <div class="term">
+          <span class="es">Descendiente</span>
+          <span class="name"><span class="ac">article p</span></span>
+          <span class="desc">Espacio → "&lt;p&gt; dentro de &lt;article&gt;", a cualquier nivel de profundidad.</span>
+        </div>
+        <div class="term">
+          <span class="es">Hijo directo</span>
+          <span class="name"><span class="ac">article &gt; p</span></span>
+          <span class="desc">"&gt;" → solo &lt;p&gt; que sea hijo directo de &lt;article&gt;, no nietos.</span>
+        </div>
+        <div class="term">
+          <span class="es">Encadenar</span>
+          <span class="name"><span class="ac">.btn.primary</span></span>
+          <span class="desc">Sin espacio → el elemento debe tener las dos clases: btn Y primary.</span>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 30px; margin-top: 36px;">Combinando estos cuatro mecanismos puedes apuntar a casi cualquier rincón de la página sin tocar el HTML.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>14</span></div>
+  </section>
+
+  <!-- ============ 15 SECTION BREAK 04 · Estilo visual ============ -->
+  <section data-label="15 Seccion 04 Estilo visual" class="dark">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Sección 04</span></div>
+    <div class="frame sect">
+      <div class="num" style="color: var(--accent-soft);">04</div>
+      <h2 class="name" style="color: var(--bg);">Colores, tipografía y unidades.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>15</span></div>
+  </section>
+
+  <!-- ============ 16 COLORES ============ -->
+  <section data-label="16 Colores">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Colores</span></div>
+    <div class="frame">
+      <p class="eyebrow">Dos propiedades, mil resultados</p>
+      <h1 class="title"><em>color</em> y <em>background-color</em></h1>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="chip" style="background:#C84A1F;"></div>
+          <div class="name">crimson</div>
+          <div class="hex">por nombre</div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:#1A1814;"></div>
+          <div class="name">#1A1814</div>
+          <div class="hex">hex · 6 dígitos</div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:#FA0;"></div>
+          <div class="name">#FA0</div>
+          <div class="hex">hex · 3 dígitos (= #FFAA00)</div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:rgb(63, 122, 74);"></div>
+          <div class="name">rgb(63,122,74)</div>
+          <div class="hex">tres canales · 0–255</div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background-color:#ffffff; background-image: linear-gradient(rgba(200, 74, 31, 0.45), rgba(200, 74, 31, 0.45)), conic-gradient(at 50% 50%, #D4CFC2 25%, #ffffff 0 50%, #D4CFC2 0 75%, #ffffff 0); background-size: 100% 100%, 22px 22px; background-repeat: no-repeat, repeat;"></div>
+          <div class="name">rgba(...,.45)</div>
+          <div class="hex">rgb + transparencia</div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:hsl(210, 70%, 45%);"></div>
+          <div class="name">hsl(210,70%,45%)</div>
+          <div class="hex">tono · saturación · luz</div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 28px; margin-top: 36px;">Para inspirarte: <b>colorhunt.co</b>, <b>coolors.co</b> o el panel de <b>Material You</b>. Copia el hex y pégalo en tu CSS.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>16</span></div>
+  </section>
+
+  <!-- ============ 17 TIPOGRAFÍA ============ -->
+  <section data-label="17 Tipografia">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Tipografía</span></div>
+    <div class="frame">
+      <p class="eyebrow">Las propiedades font-* y text-*</p>
+      <h1 class="title">Cinco mandos para <em>la letra</em></h1>
+      <div class="usecases">
+        <div class="usecase-row">
+          <div class="tag">font-family</div>
+          <div class="what">Qué tipografía usar.</div>
+          <div class="where">font-family: "Inter", sans-serif;</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">font-size</div>
+          <div class="what">Tamaño de la letra.</div>
+          <div class="where">font-size: 18px; · 1.2rem; · clamp(16px, 2vw, 24px).</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">font-weight</div>
+          <div class="what">Grosor: normal, bold, o un número (100-900).</div>
+          <div class="where">font-weight: 500; · 700; · bold.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">text-align</div>
+          <div class="what">Alineación horizontal del texto.</div>
+          <div class="where">text-align: left; · center; · right; · justify.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">line-height</div>
+          <div class="what">Altura de cada línea. Esencial para legibilidad.</div>
+          <div class="where">line-height: 1.5; · 1.2 para títulos, 1.5-1.7 para texto largo.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>17</span></div>
+  </section>
+
+  <!-- ============ 18 UNIDADES ============ -->
+  <section data-label="18 Unidades">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Unidades</span></div>
+    <div class="frame">
+      <p class="eyebrow">px, pt, em, rem · cuándo usar cada una</p>
+      <h1 class="title">Las unidades de <em>tamaño</em></h1>
+      <div class="usecases">
+        <div class="usecase-row">
+          <div class="tag">px</div>
+          <div class="what">Píxeles. Tamaño absoluto en la pantalla.</div>
+          <div class="where">Es lo más fácil. Útil para bordes, separaciones pequeñas y casos puntuales.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">pt</div>
+          <div class="what">Puntos tipográficos. Pensados para impresión.</div>
+          <div class="where">Mejor evítalo en web. Reservado para CSS de print.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">em</div>
+          <div class="what">Relativo al tamaño del padre. 2em = el doble que su padre.</div>
+          <div class="where">Útil dentro de componentes. Cuidado: se acumula al anidar.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">rem</div>
+          <div class="what">Relativo a la raíz (&lt;html&gt;). 1rem ≈ 16px por defecto.</div>
+          <div class="where">El más recomendable. Cambias el tamaño base y escala toda la página.</div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 28px; margin-top: 28px;">Por defecto en este curso: <b>rem</b> para tipografía, <b>px</b> para detalles finos.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>18</span></div>
+  </section>
+
+  <!-- ============ 19 GOOGLE FONTS ============ -->
+  <section data-label="19 Google Fonts">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Google Fonts</span></div>
+    <div class="frame">
+      <p class="eyebrow">Salir de Arial, Times y Verdana</p>
+      <h1 class="title">Tipografías profesionales en <em>tres pasos</em></h1>
+      <div class="steps">
+        <div class="step-row">
+          <div class="n">1</div>
+          <div class="what">Elige tu tipografía en <b>fonts.google.com</b> y selecciona los pesos que vayas a usar.</div>
+          <div class="how">Inter · Newsreader · IBM Plex Sans · Libre Baskerville…</div>
+        </div>
+        <div class="step-row">
+          <div class="n">2</div>
+          <div class="what">Copia la etiqueta <b>&lt;link&gt;</b> que te da Google y pégala en el &lt;head&gt; de tu HTML.</div>
+          <div class="how">&lt;link href="https://fonts.googleapis.com/css2?family=Inter..." rel="stylesheet"&gt;</div>
+        </div>
+        <div class="step-row">
+          <div class="n">3</div>
+          <div class="what">Aplica la fuente con <b>font-family</b> en tu CSS, con un fallback de seguridad.</div>
+          <div class="how">body { font-family: "Inter", sans-serif; }</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>19</span></div>
+  </section>
+
+  <!-- ============ 20 SECTION BREAK 05 · Box Model ============ -->
+  <section data-label="20 Seccion 05 Box Model">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Sección 05</span></div>
+    <div class="frame sect">
+      <div class="num">05</div>
+      <h2 class="name">El Box Model.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>20</span></div>
+  </section>
+
+  <!-- ============ 21 BOX MODEL DIAGRAMA ============ -->
+  <section data-label="21 Box Model diagrama">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>El modelo de cajas</span></div>
+    <div class="frame">
+      <p class="eyebrow">Todo elemento de la web es una caja con cuatro capas</p>
+      <h1 class="title">Cuatro capas: <em>contenido, padding, border, margin</em></h1>
+      <div class="boxmodel-wrap">
+        <div class="boxmodel">
+          <span class="lab">margin</span>
+          <div class="border-layer">
+            <span class="lab">border</span>
+            <div class="padding-layer">
+              <span class="lab">padding</span>
+              <div class="content-layer">content</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 28px; margin-top: 24px; margin-bottom: 0;">De dentro hacia fuera: el <b>contenido</b>, el <b>padding</b> que lo acolcha, el <b>border</b> que lo enmarca y el <b>margin</b> que lo separa de los vecinos.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>21</span></div>
+  </section>
+
+  <!-- ============ 22 BOX MODEL EN CÓDIGO ============ -->
+  <section data-label="22 Box Model en codigo">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Margin · padding · border</span></div>
+    <div class="frame">
+      <p class="eyebrow">Las tres propiedades del espaciado</p>
+      <h1 class="title">Cómo dar <em>aire</em> a un elemento</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>style.css</span><span class="dots">• • •</span></div>
+<div class="pane-body"><span class="sel">.card</span> {
+  <span class="prop">background</span>: <span class="val">#F2EEE5</span>;
+
+  <span class="com">/* espacio interno */</span>
+  <span class="prop">padding</span>: <span class="val">24px 32px</span>;
+
+  <span class="com">/* el marco */</span>
+  <span class="prop">border</span>: <span class="val">2px solid #1A1814</span>;
+
+  <span class="com">/* espacio externo */</span>
+  <span class="prop">margin</span>: <span class="val">40px 0</span>;
+}</div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body" style="background: #ffffff; display: flex; align-items: center; justify-content: center;">
+            <div style="background:#F2EEE5; padding: 24px 32px; border: 2px solid #1A1814; margin: 40px 0; font-family: 'Newsreader', serif; font-size: 28px; color:#1A1814;">
+              Soy una <em style="color:#C84A1F;">card</em> con padding, border y margin.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>22</span></div>
+  </section>
+
+  <!-- ============ 23 SECTION BREAK 06 · Cascada y posición ============ -->
+  <section data-label="23 Seccion 06 Cascada y posicion">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Sección 06</span></div>
+    <div class="frame sect">
+      <div class="num">06</div>
+      <h2 class="name">La cascada y la posición.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>23</span></div>
+  </section>
+
+  <!-- ============ 24 LA CASCADA · CUATRO REGLAS ============ -->
+  <section data-label="24 La cascada">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>La cascada</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cuando dos reglas se contradicen, ¿cuál gana?</p>
+      <h1 class="title">La cascada en <em>cuatro pasos</em></h1>
+      <div class="usecases">
+        <div class="usecase-row">
+          <div class="tag">1 · Importance</div>
+          <div class="what">!important rompe la jerarquía.</div>
+          <div class="where">Última opción. Si lo necesitas mucho, normalmente es síntoma de un mal selector.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">2 · Specificity</div>
+          <div class="what">Selectores más específicos ganan a los más generales.</div>
+          <div class="where">id &gt; class &gt; elemento. Lo vemos en la siguiente diapositiva.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">3 · Type</div>
+          <div class="what">El origen del estilo importa.</div>
+          <div class="where">Inline (style="") &gt; internal (&lt;style&gt;) &gt; external (.css) &gt; navegador.</div>
+        </div>
+        <div class="usecase-row">
+          <div class="tag">4 · Order</div>
+          <div class="what">A igualdad de especificidad, gana la última que se haya escrito.</div>
+          <div class="where">Por eso el orden de los archivos .css en el &lt;head&gt; importa.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>24</span></div>
+  </section>
+
+  <!-- ============ 25 ESPECIFICIDAD ============ -->
+  <section data-label="25 Especificidad">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Especificidad</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cómo se "puntúan" los selectores</p>
+      <h1 class="title">Cuanto más específico, <em>más manda</em></h1>
+      <div class="specificity">
+        <div class="spec-card">
+          <div class="kind">Elemento</div>
+          <div class="score">1</div>
+          <p class="ex">h1 · p · ul</p>
+          <p class="note">El menos específico. Selecciona por nombre de etiqueta.</p>
+        </div>
+        <div class="spec-card">
+          <div class="kind">Clase / atributo</div>
+          <div class="score">10</div>
+          <p class="ex">.destacada<br>[type="email"]</p>
+          <p class="note">Equivale a 10 elementos. Lo más usado en producción.</p>
+        </div>
+        <div class="spec-card">
+          <div class="kind">ID</div>
+          <div class="score">100</div>
+          <p class="ex">#hero · #footer</p>
+          <p class="note">Equivale a 10 clases. Reservar para casos puntuales.</p>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 28px; margin-top: 32px;">Y el inline (<code>style=""</code>) suma <b>1.000</b>. <code>!important</code> bate a todo lo anterior.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>25</span></div>
+  </section>
+
+  <!-- ============ 26 POSITIONING ============ -->
+  <section data-label="26 Posicionamiento">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Posicionamiento</span></div>
+    <div class="frame">
+      <p class="eyebrow">La propiedad position · cuatro modos</p>
+      <h1 class="title">Cuatro modos de <em>colocar</em> un elemento</h1>
+      <div class="posdemo">
+        <div class="stage">
+          <div class="head">
+            <div class="k">static</div>
+            <div class="d">Por defecto. Sigue el flujo del documento.</div>
+          </div>
+          <div class="canvas">
+            <div class="ph"></div>
+            <div class="ph"></div>
+            <div class="box s">A</div>
+            <div class="ph"></div>
+            <div class="ph"></div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="head">
+            <div class="k">relative</div>
+            <div class="d">Desde su sitio normal, te puedes desplazar con top/left.</div>
+          </div>
+          <div class="canvas">
+            <div class="ph"></div>
+            <div class="ph"></div>
+            <div class="box r">B</div>
+            <div class="ph"></div>
+            <div class="ph"></div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="head">
+            <div class="k">absolute</div>
+            <div class="d">Sale del flujo. Se posiciona respecto al ancestro positioned.</div>
+          </div>
+          <div class="canvas">
+            <div class="ph"></div>
+            <div class="ph"></div>
+            <div class="ph"></div>
+            <div class="box a">C</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="head">
+            <div class="k">fixed</div>
+            <div class="d">Anclado a la ventana. No se mueve al hacer scroll.</div>
+          </div>
+          <div class="canvas">
+            <div class="ph"></div>
+            <div class="ph"></div>
+            <div class="ph"></div>
+            <div class="box f">D</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>26</span></div>
+  </section>
+
+  <!-- ============ 27 Z-INDEX ============ -->
+  <section data-label="27 Z-index">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>z-index · capas</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cuando los elementos se solapan</p>
+      <h1 class="title">El eje Z: <em>quién va encima</em></h1>
+      <div class="zlayers">
+        <div class="zbox z1">
+          <span class="l">z: 1</span>
+          <span style="font-family: var(--mono); font-size: 18px;">.fondo</span>
+        </div>
+        <div class="zbox z2">
+          <span class="l">z: 2</span>
+          <span style="font-family: var(--mono); font-size: 18px;">.tarjeta</span>
+        </div>
+        <div class="zbox z3">
+          <span class="l">z: 3</span>
+          <span style="font-family: var(--mono); font-size: 18px; color: #C9C2B4;">.modal</span>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 28px; margin-top: 32px;">A más z-index, más arriba en la pila. Solo funciona si <code>position</code> no es <code>static</code>. Esencial para modales, dropdowns y tooltips.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>27</span></div>
+  </section>
+
+  <!-- ============ 28 div y span ============ -->
+  <section data-label="28 div y span">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>div y span</span></div>
+    <div class="frame">
+      <p class="eyebrow">Cuando ningún elemento semántico encaja</p>
+      <h1 class="title"><em>&lt;div&gt;</em> y <em>&lt;span&gt;</em>: las cajas neutras</h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>index.html</span><span class="dots">• • •</span></div>
+<div class="pane-body" style="font-size: 22px; line-height: 1.55;"><span class="com">&lt;!-- div: bloque, ocupa toda la línea --&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"card"</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">h2</span><span class="tag-punct">&gt;</span>Espresso<span class="tag-punct">&lt;/</span><span class="tag-name">h2</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>1,80 €<span class="tag-punct">&lt;/</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+
+<span class="com">&lt;!-- span: en línea, dentro de un texto --&gt;</span>
+<span class="tag-punct">&lt;</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span>
+  Solo quedan <span class="tag-punct">&lt;</span><span class="tag-name">span</span> <span class="attr-name">class</span>=<span class="attr-val">"badge"</span><span class="tag-punct">&gt;</span>3 unidades<span class="tag-punct">&lt;/</span><span class="tag-name">span</span><span class="tag-punct">&gt;</span>
+  en stock.
+<span class="tag-punct">&lt;/</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span></div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body">
+            <div class="render-body">
+              <div style="background:#F2EEE5; border:1px solid #D4CFC2; padding: 18px 24px; margin-bottom: 24px; max-width: 360px;">
+                <h2 style="margin: 0 0 6px; font-size: 30px; color:#1A1814;">Espresso</h2>
+                <p style="margin: 0; font-size: 24px; color:#4A4640;">1,80 €</p>
+              </div>
+              <p style="font-size: 26px;">Solo quedan <span style="background:#C84A1F; color:#F2EEE5; padding: 3px 12px; border-radius: 4px; font-size: 22px; font-weight: 500; font-family: 'IBM Plex Sans', sans-serif;">3 unidades</span> en stock.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;"><b>&lt;div&gt;</b> es un contenedor de <b>bloque</b> (rompe línea). <b>&lt;span&gt;</b> es un contenedor <b>en línea</b> (no rompe). Los dos no significan nada por sí mismos: úsalos cuando ningún elemento semántico (<code>&lt;article&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;header&gt;</code>…) encaje.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>28</span></div>
+  </section>
+
+  <!-- ============ 29 PATRÓN absolute + relative ============ -->
+  <section data-label="29 Patron absolute + relative">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>El patrón clave</span></div>
+    <div class="frame">
+      <p class="eyebrow">El truco que vas a usar mil veces</p>
+      <h1 class="title">Anclar con <em>absolute</em> dentro de <em>relative</em></h1>
+      <div class="split" style="grid-template-columns: 1fr 1.35fr;">
+        <div class="pane code toggle-wrap">
+          <div class="pane-head">
+            <span class="lab-css">style.css</span><span class="lab-html">index.html</span>
+            <button class="code-btn" onclick="event.stopPropagation();this.closest('.toggle-wrap').classList.toggle('show-html')"><span class="lab-show-html">&lt;/&gt; ver HTML</span><span class="lab-show-css">{ } ver CSS</span></button>
+          </div>
+<div class="pane-body view-css" style="font-size: 22px; line-height: 1.55;"><span class="com">/* el padre marca el origen */</span>
+<span class="sel">.caja</span> {
+  <span class="prop">position</span>: <span class="val">relative</span>;
+  <span class="prop">width</span>: <span class="val">480px</span>;
+  <span class="prop">height</span>: <span class="val">280px</span>;
+  <span class="prop">background</span>: <span class="val">#1A1814</span>; }
+
+<span class="com">/* el hijo se ancla al padre */</span>
+<span class="sel">.punto</span> {
+  <span class="prop">position</span>: <span class="val">absolute</span>;
+  <span class="prop">top</span>:  <span class="val">100px</span>;
+  <span class="prop">left</span>: <span class="val">200px</span>;
+  <span class="prop">width</span>:  <span class="val">80px</span>;
+  <span class="prop">height</span>: <span class="val">80px</span>;
+  <span class="prop">background</span>: <span class="val">#C84A1F</span>; }</div>
+<div class="pane-body view-html" style="font-size: 22px; line-height: 1.55;"><span class="com">&lt;!-- los dos divs que pinta el render --&gt;</span>
+
+<span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"caja"</span><span class="tag-punct">&gt;</span>
+  <span class="tag-punct">&lt;</span><span class="tag-name">div</span> <span class="attr-name">class</span>=<span class="attr-val">"punto"</span><span class="tag-punct">&gt;&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+<span class="tag-punct">&lt;/</span><span class="tag-name">div</span><span class="tag-punct">&gt;</span>
+
+<span class="com">/* uno fuera (.caja) y otro dentro (.punto)
+   el padre se hace relative,
+   el hijo se hace absolute,
+   y el navegador hace el resto. */</span></div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body" style="background:#ffffff; display:flex; align-items:center; justify-content:center;">
+            <div style="position: relative; width: 480px; height: 280px; background:#1A1814; border: 1px solid #34302A;">
+              <div style="position: absolute; top: 100px; left: 200px; width: 80px; height: 80px; background:#C84A1F;"></div>
+              <div style="position:absolute; top:0; left:0; height:100px; width:200px; border-bottom:1px dashed #E8956A; border-right:1px dashed #E8956A; pointer-events:none;"></div>
+              <div style="position:absolute; top: 36px; left: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; color:#E8956A;">top: 100px</div>
+              <div style="position:absolute; top: 108px; left: 70px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; color:#E8956A;">left: 200px</div>
+              <div style="position:absolute; top: 256px; left: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color:#8A8278;">.caja → position: relative</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;"><code>absolute</code> busca el ancestro más cercano que sea <code>relative</code>, <code>absolute</code> o <code>fixed</code>. Si <em>ninguno</em> lo es, se ancla a la página entera. <b>Esa es la trampa más común</b>: pones <code>absolute</code> y se va al rincón de la página porque su padre no tenía <code>position</code>.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>29</span></div>
+  </section>
+
+  <!-- ============ 30 BORDER-RADIUS ============ -->
+  <section data-label="30 border-radius">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>border-radius</span></div>
+    <div class="frame">
+      <p class="eyebrow">Doblar las esquinas, de poco a totalmente redondo</p>
+      <h1 class="title"><em>border-radius</em>: del cuadrado al círculo</h1>
+      <div class="radius-row">
+        <div class="r-cell">
+          <div class="r-shape" style="border-radius: 0;"></div>
+          <div class="r-name">0</div>
+          <div class="r-desc">Esquinas en pico. El valor por defecto.</div>
+        </div>
+        <div class="r-cell">
+          <div class="r-shape" style="border-radius: 12px;"></div>
+          <div class="r-name">12px</div>
+          <div class="r-desc">Esquinas suaves. El típico botón.</div>
+        </div>
+        <div class="r-cell">
+          <div class="r-shape" style="border-radius: 40px;"></div>
+          <div class="r-name">40px</div>
+          <div class="r-desc">Bastante redondeado. Estilo icono de app.</div>
+        </div>
+        <div class="r-cell">
+          <div class="r-shape" style="border-radius: 50%;"></div>
+          <div class="r-name">50%</div>
+          <div class="r-desc">Círculo perfecto, si ancho = alto.</div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;">Receta para un círculo: <code>width</code> y <code>height</code> <b>iguales</b> + <code>border-radius: 50%</code>. Si el ancho y el alto no son iguales, sale un óvalo.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>29</span></div>
+  </section>
+
+  <!-- ============ 31 INSPECCIONAR · DEVTOOLS ============ -->
+  <section data-label="31 Inspeccionar DevTools">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>DevTools</span></div>
+    <div class="frame">
+      <p class="eyebrow">El superpoder · F12 o clic derecho → Inspeccionar</p>
+      <h1 class="title">Inspeccionar y <em>retocar en vivo</em></h1>
+      <div class="devtools">
+        <div class="browser">
+          <div class="tabbar"><span>tienda-cafe.html</span><span>localhost</span></div>
+          <div class="page">
+            <h1>Mi tienda de café</h1>
+            <p>Selección hecha en DevTools.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-tabs">
+            <span>Elements</span>
+            <span class="active">Styles</span>
+            <span>Computed</span>
+            <span>Sources</span>
+          </div>
+          <div class="panel-body">
+            <div class="rule">
+<span class="selector">h1</span> {
+  <span class="prop">font-family</span>: <span class="val">"Newsreader"</span>;
+  <span class="prop">font-size</span>: <span class="val">60px</span>;
+  <span class="prop">color</span>: <span class="val">#C84A1F</span>;
+  <span class="prop">font-style</span>: <span class="val">italic</span>;
+}
+            </div>
+            <div class="rule">
+<span class="com">/* user agent stylesheet */</span>
+<span class="selector">h1</span> {
+  <span class="prop">display</span>: <span class="val">block</span>;
+  <span class="prop">margin-block-start</span>: <span class="val">0.67em</span>;
+}
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 24px; margin-bottom: 0;">Cambia colores, tamaños y márgenes <b>en directo</b> sobre cualquier web. Cuando algo te guste, copias el valor a tu CSS.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>31</span></div>
+  </section>
+
+  <!-- ============ 32 SECTION BREAK · PRÁCTICA ============ -->
+  <section data-label="32 Seccion Practica">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Práctica</span></div>
+    <div class="frame sect">
+      <div class="num">07</div>
+      <h2 class="name">Hora de construir.</h2>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>32</span></div>
+  </section>
+
+  <!-- ============ 33 RETO · BANDERA DE LAOS ============ -->
+  <section data-label="33 Reto Bandera de Laos" class="challenge">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Reto práctico</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto · 30 minutos</p>
+          <h1 class="title">La bandera de <em>Laos</em>, sólo con CSS</h1>
+          <p class="brief">Tres bandas horizontales: roja, azul, roja. Y un círculo blanco perfectamente centrado en la banda azul. Sólo HTML + CSS, sin imágenes.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Archivo</div><div class="v">flag.html + style.css (CSS externo)</div></div>
+            <div class="spec-row"><div class="k">Tiempo</div><div class="v">30 minutos</div></div>
+            <div class="spec-row"><div class="k">Conceptos</div><div class="v">Selectores, colores, box model y posicionamiento</div></div>
+            <div class="spec-row"><div class="k">Entrega</div><div class="v">Compártelo en el chat del curso</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="laos-flag">
+            <div class="red"></div>
+            <div class="blue"><div class="circle"></div></div>
+            <div class="red"></div>
+          </div>
+          <div class="stamp">Debe contener</div>
+          <h2>Requisitos</h2>
+          <ul>
+            <li>Bandera de 600 × 400 px aprox.</li>
+            <li>Tres bandas: 1/4 roja, 2/4 azul, 1/4 roja</li>
+            <li>Círculo blanco centrado en la banda azul</li>
+            <li>El círculo es perfecto (border-radius: 50%)</li>
+            <li>CSS en archivo externo, enlazado con &lt;link&gt;</li>
+            <li>Usa clases con nombres descriptivos</li>
+          </ul>
+          <div class="footer-note">→ Pista: la banda azul puede ser un contenedor con position: relative; el círculo, un div con position: absolute y centrado.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>33</span></div>
+  </section>
+
+  <!-- ============ 34 CIERRE ============ -->
+  <section data-label="34 Cierre">
+    <div class="chrome"></div>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Cierre y siguiente</span></div>
+    <div class="frame closing">
+      <p class="eyebrow">Lo que te llevas hoy</p>
+      <h1 class="display">Ya hablas <em>CSS</em>.</h1>
+      <p class="lede" style="margin-top: 32px; max-width: 1300px;">Sabes apuntar a cualquier elemento, darle color y tipografía, repartir el espacio con el box model y entender por qué a veces "no se aplica" tu regla. Ya puedes pedirle a la IA estilos concretos sin disparar a ciegas.</p>
+      <div class="next">
+        <div>
+          <div class="k">Próximo tema</div>
+          <div class="v">Tema 04 — CSS avanzado: flexbox, grid y responsive.</div>
+        </div>
+        <div>
+          <div class="k">Antes de la próxima sesión</div>
+          <div class="v">Termina la bandera de Laos. Trae preguntas concretas.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>34 / 34</span></div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>
