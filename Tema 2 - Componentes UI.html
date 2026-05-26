@@ -102,6 +102,29 @@
   .brick .chrome::before, .brick .chrome::after{ border-color: rgba(242,238,229,.25); }
   .brick .meta, .brick .meta-foot{ color: rgba(242,238,229,.65); }
 
+  /* ===== Home corner (volver al index) ===== */
+  .home-corner{
+    position: absolute;
+    top: 24px;
+    left: 32px;
+    z-index: 5;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    text-decoration: none;
+    letter-spacing: 0;
+    text-transform: none;
+    transition: color .15s ease, transform .15s ease;
+  }
+  .home-corner:hover{
+    color: var(--accent);
+    transform: translateX(-2px);
+  }
+  .dark .home-corner{ color: #6E665A; }
+  .dark .home-corner:hover{ color: var(--accent-soft); }
+  .brick .home-corner{ color: rgba(242,238,229,.75); }
+  .brick .home-corner:hover{ color: var(--bg); }
+
   /* ========== Layout helpers ========== */
   .frame{
     position:absolute;
@@ -1214,6 +1237,7 @@
   <!-- ============================================================ -->
   <section data-label="01 Portada">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Aplicaciones web · SMR</span><span>2026</span></div>
     <div class="meta-foot"><span>Tema 02 · Componentes UI</span><span>Curso con IA</span></div>
     <div class="frame cover">
@@ -1234,6 +1258,7 @@
   <!-- ============================================================ -->
   <section data-label="02 Que es un componente">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI</span><span>Concepto</span></div>
     <div class="meta-foot"><span>02 / 34</span><span>Aplicaciones web · SMR</span></div>
     <div class="frame">
@@ -1255,6 +1280,7 @@
   <!-- ============================================================ -->
   <section data-label="03 Indice">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI</span><span>Índice de la sesión</span></div>
     <div class="meta-foot"><span>03 / 34</span><span>Aplicaciones web · SMR</span></div>
     <div class="frame">
@@ -1303,6 +1329,7 @@
   <!-- ============================================================ -->
   <section data-label="04 Seccion 01 Formularios" class="dark">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI</span><span>Sección 01</span></div>
     <div class="meta-foot"><span>04 / 34</span><span>Familia 01 de 07</span></div>
     <div class="frame sect">
@@ -1318,6 +1345,7 @@
   <!-- ============================================================ -->
   <section data-label="05 Input Textarea">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Formularios</span><span>Input / Textarea</span></div>
     <div class="meta-foot"><span>05 / 34</span><span>Capturar texto</span></div>
     <div class="frame">
@@ -1373,6 +1401,7 @@
   <!-- ============================================================ -->
   <section data-label="06 Select Dropdown">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Formularios</span><span>Select / Dropdown</span></div>
     <div class="meta-foot"><span>06 / 34</span><span>Elegir de una lista</span></div>
     <div class="frame">
@@ -1432,6 +1461,7 @@
   <!-- ============================================================ -->
   <section data-label="07 Checkbox Radio Toggle">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Formularios</span><span>Checkbox · Radio · Toggle</span></div>
     <div class="meta-foot"><span>07 / 34</span><span>Decisiones binarias</span></div>
     <div class="frame">
@@ -1494,6 +1524,7 @@
   <!-- ============================================================ -->
   <section data-label="08 Slider Stepper Date File">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Formularios</span><span>Controles especializados</span></div>
     <div class="meta-foot"><span>08 / 34</span><span>Rango, cantidad, fecha, archivo</span></div>
     <div class="frame">
@@ -1614,6 +1645,7 @@
   <!-- ============================================================ -->
   <section data-label="09 Search bar">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Formularios</span><span>Search bar</span></div>
     <div class="meta-foot"><span>09 / 34</span><span>El input más importante de la web</span></div>
     <div class="frame">
@@ -1666,6 +1698,7 @@
   <!-- ============================================================ -->
   <section data-label="10 Seccion 02 Feedback" class="dark">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI</span><span>Sección 02</span></div>
     <div class="meta-foot"><span>10 / 34</span><span>Familia 02 de 07</span></div>
     <div class="frame sect">
@@ -1681,6 +1714,7 @@
   <!-- ============================================================ -->
   <section data-label="11 Toast Alert Banner">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Feedback</span><span>Toast · Alert · Banner</span></div>
     <div class="meta-foot"><span>11 / 34</span><span>Mensajes al usuario</span></div>
     <div class="frame">
@@ -1733,6 +1767,7 @@
   <!-- ============================================================ -->
   <section data-label="12 Tooltip Popover">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Feedback</span><span>Tooltip · Popover</span></div>
     <div class="meta-foot"><span>12 / 34</span><span>Información contextual</span></div>
     <div class="frame">
@@ -1800,6 +1835,7 @@
   <!-- ============================================================ -->
   <section data-label="13 Loaders">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Feedback</span><span>Progress · Spinner · Skeleton</span></div>
     <div class="meta-foot"><span>13 / 34</span><span>Cargando…</span></div>
     <div class="frame">
@@ -1883,6 +1919,7 @@
   <!-- ============================================================ -->
   <section data-label="14 Empty state">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Feedback</span><span>Empty state</span></div>
     <div class="meta-foot"><span>14 / 34</span><span>Cuando no hay datos</span></div>
     <div class="frame">
@@ -1940,6 +1977,7 @@
   <!-- ============================================================ -->
   <section data-label="15 Seccion 03 Navegacion" class="dark">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI</span><span>Sección 03</span></div>
     <div class="meta-foot"><span>15 / 34</span><span>Familia 03 de 07</span></div>
     <div class="frame sect">
@@ -1955,6 +1993,7 @@
   <!-- ============================================================ -->
   <section data-label="16 Pagination Wizard">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Navegación</span><span>Pagination · Wizard</span></div>
     <div class="meta-foot"><span>16 / 34</span><span>Avanzar por pasos</span></div>
     <div class="frame">
@@ -2031,6 +2070,7 @@
   <!-- ============================================================ -->
   <section data-label="17 Drawer Hamburger Mega">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Navegación</span><span>Drawer · Hamburger · Mega menu</span></div>
     <div class="meta-foot"><span>17 / 34</span><span>Menús laterales y desplegables</span></div>
     <div class="frame">
@@ -2169,6 +2209,7 @@
   <!-- ============================================================ -->
   <section data-label="18 Seccion 04 Visualizacion" class="dark">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI</span><span>Sección 04</span></div>
     <div class="meta-foot"><span>18 / 34</span><span>Familia 04 de 07</span></div>
     <div class="frame sect">
@@ -2184,6 +2225,7 @@
   <!-- ============================================================ -->
   <section data-label="19 Carousel Gallery">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Visualización</span><span>Carousel · Gallery</span></div>
     <div class="meta-foot"><span>19 / 34</span><span>Mostrar imágenes</span></div>
     <div class="frame">
@@ -2241,6 +2283,7 @@
   <!-- ============================================================ -->
   <section data-label="20 Table List Timeline">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Visualización</span><span>Tabla · Lista · Timeline</span></div>
     <div class="meta-foot"><span>20 / 34</span><span>Datos ordenados</span></div>
     <div class="frame">
@@ -2310,6 +2353,7 @@
   <!-- ============================================================ -->
   <section data-label="21 Avatar Chip Divider">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Visualización</span><span>Avatar · Chip · Divider</span></div>
     <div class="meta-foot"><span>21 / 34</span><span>Componentes pequeños</span></div>
     <div class="frame">
@@ -2411,6 +2455,7 @@
   <!-- ============================================================ -->
   <section data-label="22 Seccion 05 Patrones" class="dark">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI</span><span>Sección 05</span></div>
     <div class="meta-foot"><span>22 / 34</span><span>Familia 05 de 07</span></div>
     <div class="frame sect">
@@ -2426,6 +2471,7 @@
   <!-- ============================================================ -->
   <section data-label="23 Pricing table">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Patrones</span><span>Pricing table</span></div>
     <div class="meta-foot"><span>23 / 34</span><span>Free · Pro · Enterprise</span></div>
     <div class="frame">
@@ -2486,6 +2532,7 @@
   <!-- ============================================================ -->
   <section data-label="24 Testimonials FAQ">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Patrones</span><span>Testimonials · FAQ</span></div>
     <div class="meta-foot"><span>24 / 34</span><span>Confianza y dudas</span></div>
     <div class="frame">
@@ -2553,6 +2600,7 @@
   <!-- ============================================================ -->
   <section data-label="25 Stats Features">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Patrones</span><span>Stats · Features grid</span></div>
     <div class="meta-foot"><span>25 / 34</span><span>Números y características</span></div>
     <div class="frame">
@@ -2613,6 +2661,7 @@
   <!-- ============================================================ -->
   <section data-label="26 Newsletter Cookies">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Patrones</span><span>Newsletter · Cookie banner</span></div>
     <div class="meta-foot"><span>26 / 34</span><span>Captación y obligaciones</span></div>
     <div class="frame">
@@ -2673,6 +2722,7 @@
   <!-- ============================================================ -->
   <section data-label="27 Seccion 06 Fundamentos" class="brick">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI</span><span>Sección 06</span></div>
     <div class="meta-foot"><span>27 / 34</span><span>Familia 06 de 07</span></div>
     <div class="frame sect">
@@ -2688,6 +2738,7 @@
   <!-- ============================================================ -->
   <section data-label="28 Estados">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Fundamentos</span><span>Estados</span></div>
     <div class="meta-foot"><span>28 / 34</span><span>Cada componente tiene varios</span></div>
     <div class="frame">
@@ -2740,6 +2791,7 @@
   <!-- ============================================================ -->
   <section data-label="29 Responsive Breakpoints">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Fundamentos</span><span>Responsive · Breakpoints</span></div>
     <div class="meta-foot"><span>29 / 34</span><span>Una web, tres formas</span></div>
     <div class="frame">
@@ -2839,6 +2891,7 @@
   <!-- ============================================================ -->
   <section data-label="30 Microinteracciones Dark a11y">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Fundamentos</span><span>Microinteracciones · Dark mode · A11y</span></div>
     <div class="meta-foot"><span>30 / 34</span><span>Lo invisible que se nota</span></div>
     <div class="frame">
@@ -2888,6 +2941,7 @@
   <!-- ============================================================ -->
   <section data-label="31 Seccion 07 Design System" class="dark">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI</span><span>Sección 07</span></div>
     <div class="meta-foot"><span>31 / 34</span><span>Familia 07 de 07</span></div>
     <div class="frame sect">
@@ -2903,6 +2957,7 @@
   <!-- ============================================================ -->
   <section data-label="32 Design Tokens">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI · Sistema</span><span>Design tokens</span></div>
     <div class="meta-foot"><span>32 / 34</span><span>Color · tipografía · espaciado</span></div>
     <div class="frame">
@@ -2951,6 +3006,7 @@
   <!-- ============================================================ -->
   <section data-label="33 Reto" class="challenge">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI</span><span>Reto práctico</span></div>
     <div class="meta-foot"><span>33 / 34</span><span>Caza componentes</span></div>
     <div class="frame">
@@ -2989,6 +3045,7 @@
   <!-- ============================================================ -->
   <section data-label="34 Cierre">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 02 · UI</span><span>Cierre</span></div>
     <div class="meta-foot"><span>34 / 34</span><span>Hasta el próximo tema</span></div>
     <div class="frame closing">

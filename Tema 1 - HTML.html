@@ -109,6 +109,29 @@
   .brick .chrome::before, .brick .chrome::after{ border-color: rgba(242,238,229,.25); }
   .brick .meta, .brick .meta-foot{ color: rgba(242,238,229,.65); }
 
+  /* ===== Home corner (volver al index) ===== */
+  .home-corner{
+    position: absolute;
+    top: 24px;
+    left: 32px;
+    z-index: 5;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    text-decoration: none;
+    letter-spacing: 0;
+    text-transform: none;
+    transition: color .15s ease, transform .15s ease;
+  }
+  .home-corner:hover{
+    color: var(--accent);
+    transform: translateX(-2px);
+  }
+  .dark .home-corner{ color: #6E665A; }
+  .dark .home-corner:hover{ color: var(--accent-soft); }
+  .brick .home-corner{ color: rgba(242,238,229,.75); }
+  .brick .home-corner:hover{ color: var(--bg); }
+
   /* Layout helpers */
   .frame{
     position:absolute;
@@ -883,6 +906,7 @@
   <!-- ============ 01 PORTADA ============ -->
   <section data-label="01 Portada">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Aplicaciones web · SMR</span><span>2026</span></div>
     <div class="frame cover">
       <div class="kicker">Aplicaciones web · SMR</div>
@@ -900,6 +924,7 @@
   <!-- ============ MAPA DE LA ASIGNATURA ============ -->
   <section data-label="Mapa de la asignatura">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Aplicaciones web · SMR</span><span>Mapa</span></div>
     <div class="frame">
       <p class="eyebrow">8 temas</p>
@@ -961,6 +986,7 @@
   <!-- ============ 02 FILOSOFÍA ============ -->
   <section data-label="02 Filosofia">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Antes de empezar</span><span>Filosofía</span></div>
     <div class="frame quote-slide">
       <blockquote>
@@ -975,6 +1001,7 @@
   <!-- ============ 03 CÓMO APRENDEMOS ============ -->
   <section data-label="03 Como aprendemos">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Cómo aprendemos</span></div>
     <div class="frame">
       <p class="eyebrow">Cómo aprendemos en este curso</p>
@@ -996,6 +1023,7 @@
   <!-- ============ 04 ÍNDICE ============ -->
   <section data-label="04 Indice">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Índice de la sesión</span></div>
     <div class="frame">
       <p class="eyebrow">Mapa de la sesión — 90 min · 6 secciones</p>
@@ -1015,6 +1043,7 @@
   <!-- ============ 05 SECTION BREAK: ¿Qué es HTML? ============ -->
   <section data-label="05 Seccion · Que es HTML">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Sección 01</span></div>
     <div class="frame sect">
       <div class="num">01</div>
@@ -1026,6 +1055,7 @@
   <!-- ============ 06 LOS TRES PILARES ============ -->
   <section data-label="06 HTML CSS JS">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Los tres pilares</span></div>
     <div class="frame">
       <p class="eyebrow">Los tres pilares de la web</p>
@@ -1057,6 +1087,7 @@
   <!-- ============ SECTION BREAK 02 · SINTAXIS BÁSICA ============ -->
   <section data-label="Seccion 02 Sintaxis basica">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Sección 02</span></div>
     <div class="frame sect">
       <div class="num">02</div>
@@ -1068,6 +1099,7 @@
   <!-- ============ 07 ANATOMÍA DE UNA ETIQUETA ============ -->
   <section data-label="07 Anatomia etiqueta">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Anatomía de una etiqueta</span></div>
     <div class="frame">
       <p class="eyebrow">Vocabulario base</p>
@@ -1103,6 +1135,7 @@
   <!-- ============ 08 ESTRUCTURA MÍNIMA · CÓDIGO + RENDER ============ -->
   <section data-label="08 Estructura minima">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Estructura del documento</span></div>
     <div class="frame">
       <p class="eyebrow">Estructura mínima · todo documento HTML empieza así</p>
@@ -1139,6 +1172,7 @@
   <!-- ============ ETIQUETAS SIN CIERRE ============ -->
   <section data-label="Etiquetas sin cierre">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Etiquetas sin cierre</span></div>
     <div class="frame">
       <p class="eyebrow">Sintaxis · void elements</p>
@@ -1178,6 +1212,7 @@
   <!-- ============ SECTION BREAK 03 · ETIQUETAS DE CONTENIDO ============ -->
   <section data-label="Seccion 03 Etiquetas de contenido">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Sección 03</span></div>
     <div class="frame sect">
       <div class="num">03</div>
@@ -1189,6 +1224,7 @@
   <!-- ============ 09 ETIQUETAS DE TEXTO · CÓDIGO + RENDER ============ -->
   <section data-label="09 Etiquetas de texto">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Etiquetas de texto</span></div>
     <div class="frame">
       <p class="eyebrow">Lo que más vas a escribir · texto</p>
@@ -1225,6 +1261,7 @@
   <!-- ============ 10 PARA QUÉ SIRVEN LOS HEADINGS ============ -->
   <section data-label="10 Headings uso">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Cuándo usar cada cosa</span></div>
     <div class="frame">
       <p class="eyebrow">Más importante que la sintaxis · cuándo se usa</p>
@@ -1258,6 +1295,7 @@
   <!-- ============ 11 LISTAS · CÓDIGO + RENDER ============ -->
   <section data-label="11 Listas">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Listas</span></div>
     <div class="frame">
       <p class="eyebrow">Listas · ordenadas y no ordenadas</p>
@@ -1304,6 +1342,7 @@
   <!-- ============ 12 USOS DE LISTAS ============ -->
   <section data-label="12 Listas uso">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Cuándo usar listas</span></div>
     <div class="frame">
       <p class="eyebrow">Sí, lo de los puntitos · pero ¿para qué de verdad?</p>
@@ -1337,6 +1376,7 @@
   <!-- ============ 13 ENLACES E IMÁGENES · CÓDIGO + RENDER ============ -->
   <section data-label="13 Enlaces e imagenes">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Enlaces e imágenes</span></div>
     <div class="frame">
       <p class="eyebrow">Conectar y mostrar · &lt;a&gt; y &lt;img&gt;</p>
@@ -1372,6 +1412,7 @@
   <!-- ============ 14 SECTION BREAK · HTML SEMÁNTICO ============ -->
   <section data-label="14 Seccion 04 HTML semantico" class="dark">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Sección 04</span></div>
     <div class="frame sect">
       <div class="num" style="color:var(--accent-soft);">04</div>
@@ -1383,6 +1424,7 @@
   <!-- ============ 15 PAGEMAP ============ -->
   <section data-label="15 Pagemap semantico">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>El mapa semántico</span></div>
     <div class="frame">
       <p class="eyebrow">HTML semántico · cada zona tiene su etiqueta</p>
@@ -1417,6 +1459,7 @@
   <!-- ============ 16 VOCABULARIO DEL FRONT ============ -->
   <section data-label="16 Vocabulario front">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Vocabulario del front</span></div>
     <div class="frame">
       <p class="eyebrow">El idioma de la web · si lo nombras, la IA lo construye</p>
@@ -1442,6 +1485,7 @@
   <!-- ============ 17 ATRIBUTOS CLAVE ============ -->
   <section data-label="17 Atributos">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Atributos clave</span></div>
     <div class="frame">
       <p class="eyebrow">Atributos que vas a usar todo el rato</p>
@@ -1480,6 +1524,7 @@
   <!-- ============ 18 SECTION BREAK · IA ============ -->
   <section data-label="18 Seccion 05 IA" class="brick">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Sección 05</span></div>
     <div class="frame sect">
       <div class="num" style="color:var(--bg);">05</div>
@@ -1491,6 +1536,7 @@
   <!-- ============ 19 ANATOMÍA DE UN PROMPT ============ -->
   <section data-label="19 Anatomia prompt">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Anatomía de un prompt</span></div>
     <div class="frame">
       <p class="eyebrow">Cómo se compone una buena petición</p>
@@ -1509,6 +1555,7 @@
   <!-- ============ 20 PROMPT MALO vs BUENO ============ -->
   <section data-label="20 Prompt malo vs bueno">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Antes / después</span></div>
     <div class="frame">
       <p class="eyebrow">El mismo objetivo, dos resultados distintos</p>
@@ -1532,6 +1579,7 @@
   <!-- ============ 21 SECTION BREAK · PRÁCTICA ============ -->
   <section data-label="21 Seccion 06 Practica">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Sección 06</span></div>
     <div class="frame sect">
       <div class="num">06</div>
@@ -1543,6 +1591,7 @@
   <!-- ============ 22 RETO 1 ============ -->
   <section data-label="22 Reto 1" class="challenge">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Reto práctico · 01</span></div>
     <div class="frame">
       <div class="challenge-grid">
@@ -1577,6 +1626,7 @@
   <!-- ============ 23 RETO 2 ============ -->
   <section data-label="23 Reto 2" class="challenge">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Reto práctico · 02</span></div>
     <div class="frame">
       <div class="challenge-grid">
@@ -1612,6 +1662,7 @@
   <!-- ============ 24 CIERRE ============ -->
   <section data-label="24 Cierre">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 01 · HTML</span><span>Cierre y siguiente</span></div>
     <div class="frame closing">
       <p class="eyebrow">Lo que te llevas hoy</p>

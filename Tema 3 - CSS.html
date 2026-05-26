@@ -104,6 +104,29 @@
   .brick .chrome::before, .brick .chrome::after{ border-color: rgba(242,238,229,.25); }
   .brick .meta, .brick .meta-foot{ color: rgba(242,238,229,.65); }
 
+  /* ===== Home corner (volver al index) ===== */
+  .home-corner{
+    position: absolute;
+    top: 24px;
+    left: 32px;
+    z-index: 5;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    text-decoration: none;
+    letter-spacing: 0;
+    text-transform: none;
+    transition: color .15s ease, transform .15s ease;
+  }
+  .home-corner:hover{
+    color: var(--accent);
+    transform: translateX(-2px);
+  }
+  .dark .home-corner{ color: #6E665A; }
+  .dark .home-corner:hover{ color: var(--accent-soft); }
+  .brick .home-corner{ color: rgba(242,238,229,.75); }
+  .brick .home-corner:hover{ color: var(--bg); }
+
   /* ===== Layout helpers ===== */
   .frame{
     position:absolute;
@@ -1188,6 +1211,7 @@
   <!-- ============ 01 PORTADA ============ -->
   <section data-label="01 Portada">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Aplicaciones web · SMR</span><span>2026</span></div>
     <div class="frame cover">
       <div class="kicker">Aplicaciones web · SMR</div>
@@ -1205,6 +1229,7 @@
   <!-- ============ 02 MAPA DE LA ASIGNATURA ============ -->
   <section data-label="02 Mapa de la asignatura">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Aplicaciones web · SMR</span><span>Mapa</span></div>
     <div class="frame">
       <p class="eyebrow">8 temas</p>
@@ -1266,6 +1291,7 @@
   <!-- ============ 03 FILOSOFÍA ============ -->
   <section data-label="03 Filosofia">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Filosofía</span></div>
     <div class="frame quote-slide">
       <blockquote>
@@ -1280,6 +1306,7 @@
   <!-- ============ 04 ÍNDICE ============ -->
   <section data-label="04 Indice">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Índice de la sesión</span></div>
     <div class="frame">
       <p class="eyebrow">Mapa de la sesión — 90 min · 6 secciones</p>
@@ -1299,6 +1326,7 @@
   <!-- ============ 05 SECTION BREAK 01 · ¿Por qué CSS? ============ -->
   <section data-label="05 Seccion 01 Por que CSS">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Sección 01</span></div>
     <div class="frame sect">
       <div class="num">01</div>
@@ -1310,6 +1338,7 @@
   <!-- ============ 06 SIN CSS / CON CSS ============ -->
   <section data-label="06 Sin CSS vs Con CSS">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Antes / después</span></div>
     <div class="frame">
       <p class="eyebrow">El mismo HTML, dos resultados muy distintos</p>
@@ -1353,6 +1382,7 @@
   <!-- ============ 07 CASCADING STYLE SHEETS ============ -->
   <section data-label="07 Cascading Style Sheets">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>El nombre</span></div>
     <div class="frame">
       <p class="eyebrow">El significado del nombre</p>
@@ -1384,6 +1414,7 @@
   <!-- ============ 08 SECTION BREAK 02 · Cómo añadir CSS ============ -->
   <section data-label="08 Seccion 02 Como anadir CSS">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Sección 02</span></div>
     <div class="frame sect">
       <div class="num">02</div>
@@ -1395,6 +1426,7 @@
   <!-- ============ 09 LAS 3 FORMAS ============ -->
   <section data-label="09 Tres formas de anadir CSS">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Tres formas</span></div>
     <div class="frame">
       <p class="eyebrow">Tres lugares donde escribir CSS</p>
@@ -1426,6 +1458,7 @@
   <!-- ============ 10 INLINE / INTERNAL / EXTERNAL EN CÓDIGO ============ -->
   <section data-label="10 Tres formas en codigo">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Las 3 formas en código</span></div>
     <div class="frame">
       <p class="eyebrow">El mismo objetivo: pintar el h1 en rojo</p>
@@ -1466,6 +1499,7 @@
   <!-- ============ 11 ¿CUÁL USAR? ============ -->
   <section data-label="11 Cual usar">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>¿Cuál uso?</span></div>
     <div class="frame">
       <p class="eyebrow">Recomendación práctica</p>
@@ -1495,6 +1529,7 @@
   <!-- ============ 12 SECTION BREAK 03 · Selectores ============ -->
   <section data-label="12 Seccion 03 Selectores">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Sección 03</span></div>
     <div class="frame sect">
       <div class="num">03</div>
@@ -1506,6 +1541,7 @@
   <!-- ============ 13 CINCO TIPOS BÁSICOS ============ -->
   <section data-label="13 Cinco selectores basicos">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Selectores básicos</span></div>
     <div class="frame">
       <p class="eyebrow">Cómo apuntar a los elementos</p>
@@ -1544,6 +1580,7 @@
   <!-- ============ 14 COMBINANDO SELECTORES ============ -->
   <section data-label="14 Combinando selectores">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Combinar selectores</span></div>
     <div class="frame">
       <p class="eyebrow">Selectores que se enchufan unos con otros</p>
@@ -1578,6 +1615,7 @@
   <!-- ============ 15 SECTION BREAK 04 · Estilo visual ============ -->
   <section data-label="15 Seccion 04 Estilo visual" class="dark">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Sección 04</span></div>
     <div class="frame sect">
       <div class="num" style="color: var(--accent-soft);">04</div>
@@ -1589,6 +1627,7 @@
   <!-- ============ 16 COLORES ============ -->
   <section data-label="16 Colores">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Colores</span></div>
     <div class="frame">
       <p class="eyebrow">Dos propiedades, mil resultados</p>
@@ -1633,6 +1672,7 @@
   <!-- ============ 17 TIPOGRAFÍA ============ -->
   <section data-label="17 Tipografia">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Tipografía</span></div>
     <div class="frame">
       <p class="eyebrow">Las propiedades font-* y text-*</p>
@@ -1671,6 +1711,7 @@
   <!-- ============ 18 UNIDADES ============ -->
   <section data-label="18 Unidades">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Unidades</span></div>
     <div class="frame">
       <p class="eyebrow">px, pt, em, rem · cuándo usar cada una</p>
@@ -1705,6 +1746,7 @@
   <!-- ============ 19 GOOGLE FONTS ============ -->
   <section data-label="19 Google Fonts">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Google Fonts</span></div>
     <div class="frame">
       <p class="eyebrow">Salir de Arial, Times y Verdana</p>
@@ -1733,6 +1775,7 @@
   <!-- ============ 20 SECTION BREAK 05 · Box Model ============ -->
   <section data-label="20 Seccion 05 Box Model">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Sección 05</span></div>
     <div class="frame sect">
       <div class="num">05</div>
@@ -1744,6 +1787,7 @@
   <!-- ============ 21 BOX MODEL DIAGRAMA ============ -->
   <section data-label="21 Box Model diagrama">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>El modelo de cajas</span></div>
     <div class="frame">
       <p class="eyebrow">Todo elemento de la web es una caja con cuatro capas</p>
@@ -1768,6 +1812,7 @@
   <!-- ============ 22 BOX MODEL EN CÓDIGO ============ -->
   <section data-label="22 Box Model en codigo">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Margin · padding · border</span></div>
     <div class="frame">
       <p class="eyebrow">Las tres propiedades del espaciado</p>
@@ -1804,6 +1849,7 @@
   <!-- ============ 23 SECTION BREAK 06 · Cascada y posición ============ -->
   <section data-label="23 Seccion 06 Cascada y posicion">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Sección 06</span></div>
     <div class="frame sect">
       <div class="num">06</div>
@@ -1815,6 +1861,7 @@
   <!-- ============ 24 LA CASCADA · CUATRO REGLAS ============ -->
   <section data-label="24 La cascada">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>La cascada</span></div>
     <div class="frame">
       <p class="eyebrow">Cuando dos reglas se contradicen, ¿cuál gana?</p>
@@ -1848,6 +1895,7 @@
   <!-- ============ 25 ESPECIFICIDAD ============ -->
   <section data-label="25 Especificidad">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Especificidad</span></div>
     <div class="frame">
       <p class="eyebrow">Cómo se "puntúan" los selectores</p>
@@ -1880,6 +1928,7 @@
   <!-- ============ 26 POSITIONING ============ -->
   <section data-label="26 Posicionamiento">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Posicionamiento</span></div>
     <div class="frame">
       <p class="eyebrow">La propiedad position · cuatro modos</p>
@@ -1943,6 +1992,7 @@
   <!-- ============ 27 Z-INDEX ============ -->
   <section data-label="27 Z-index">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>z-index · capas</span></div>
     <div class="frame">
       <p class="eyebrow">Cuando los elementos se solapan</p>
@@ -1969,6 +2019,7 @@
   <!-- ============ 28 div y span ============ -->
   <section data-label="28 div y span">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>div y span</span></div>
     <div class="frame">
       <p class="eyebrow">Cuando ningún elemento semántico encaja</p>
@@ -2009,6 +2060,7 @@
   <!-- ============ 29 PATRÓN absolute + relative ============ -->
   <section data-label="29 Patron absolute + relative">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>El patrón clave</span></div>
     <div class="frame">
       <p class="eyebrow">El truco que vas a usar mil veces</p>
@@ -2066,6 +2118,7 @@
   <!-- ============ 30 BORDER-RADIUS ============ -->
   <section data-label="30 border-radius">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>border-radius</span></div>
     <div class="frame">
       <p class="eyebrow">Doblar las esquinas, de poco a totalmente redondo</p>
@@ -2100,6 +2153,7 @@
   <!-- ============ 31 INSPECCIONAR · DEVTOOLS ============ -->
   <section data-label="31 Inspeccionar DevTools">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>DevTools</span></div>
     <div class="frame">
       <p class="eyebrow">El superpoder · F12 o clic derecho → Inspeccionar</p>
@@ -2146,6 +2200,7 @@
   <!-- ============ 32 SECTION BREAK · PRÁCTICA ============ -->
   <section data-label="32 Seccion Practica">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Práctica</span></div>
     <div class="frame sect">
       <div class="num">07</div>
@@ -2157,6 +2212,7 @@
   <!-- ============ 33 RETO · BANDERA DE LAOS ============ -->
   <section data-label="33 Reto Bandera de Laos" class="challenge">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Reto práctico</span></div>
     <div class="frame">
       <div class="challenge-grid">
@@ -2197,6 +2253,7 @@
   <!-- ============ 34 RETO 2 · TARJETA DE VIDEOJUEGO ============ -->
   <section data-label="34 Reto Tarjeta de Videojuego" class="challenge">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Reto práctico · 02</span></div>
     <div class="frame">
       <div class="challenge-grid">
@@ -2239,6 +2296,7 @@
   <!-- ============ 35 CIERRE ============ -->
   <section data-label="35 Cierre">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Cierre y siguiente</span></div>
     <div class="frame closing">
       <p class="eyebrow">Lo que te llevas hoy</p>

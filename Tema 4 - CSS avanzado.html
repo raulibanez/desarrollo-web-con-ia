@@ -103,6 +103,29 @@
   .brick .chrome::before, .brick .chrome::after{ border-color: rgba(242,238,229,.25); }
   .brick .meta, .brick .meta-foot{ color: rgba(242,238,229,.65); }
 
+  /* ===== Home corner (volver al index) ===== */
+  .home-corner{
+    position: absolute;
+    top: 24px;
+    left: 32px;
+    z-index: 5;
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--ink-3);
+    text-decoration: none;
+    letter-spacing: 0;
+    text-transform: none;
+    transition: color .15s ease, transform .15s ease;
+  }
+  .home-corner:hover{
+    color: var(--accent);
+    transform: translateX(-2px);
+  }
+  .dark .home-corner{ color: #6E665A; }
+  .dark .home-corner:hover{ color: var(--accent-soft); }
+  .brick .home-corner{ color: rgba(242,238,229,.75); }
+  .brick .home-corner:hover{ color: var(--bg); }
+
   /* ===== Layout helpers ===== */
   .frame{
     position:absolute;
@@ -1374,6 +1397,7 @@
   <!-- ============ 01 PORTADA ============ -->
   <section data-label="01 Portada">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Aplicaciones web · SMR</span><span>2026</span></div>
     <div class="frame cover">
       <div class="kicker">Aplicaciones web · SMR</div>
@@ -1391,6 +1415,7 @@
   <!-- ============ 02 MAPA DE LA ASIGNATURA ============ -->
   <section data-label="02 Mapa de la asignatura">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Aplicaciones web · SMR</span><span>Mapa</span></div>
     <div class="frame">
       <p class="eyebrow">8 temas</p>
@@ -1452,6 +1477,7 @@
   <!-- ============ 03 FILOSOFÍA ============ -->
   <section data-label="03 Filosofia">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Filosofía</span></div>
     <div class="frame quote-slide">
       <blockquote>
@@ -1466,6 +1492,7 @@
   <!-- ============ 04 ÍNDICE ============ -->
   <section data-label="04 Indice">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Índice de la sesión</span></div>
     <div class="frame">
       <p class="eyebrow">Mapa de la sesión — 90 min · 6 secciones</p>
@@ -1485,6 +1512,7 @@
   <!-- ============ 05 SECTION BREAK 01 · Display y flujo ============ -->
   <section data-label="05 Seccion 01 Display y flujo">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 01</span></div>
     <div class="frame sect">
       <div class="num">01</div>
@@ -1496,6 +1524,7 @@
   <!-- ============ 06 BLOCK / INLINE / INLINE-BLOCK ============ -->
   <section data-label="06 Block vs inline">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Block / inline</span></div>
     <div class="frame">
       <p class="eyebrow">Antes de pensar en layout, entiende el flujo</p>
@@ -1546,6 +1575,7 @@
   <!-- ============ 07 DISPLAY EN CÓDIGO ============ -->
   <section data-label="07 Display en codigo">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>display en código</span></div>
     <div class="frame">
       <p class="eyebrow">Cambiar el tipo de caja con una sola propiedad</p>
@@ -1610,6 +1640,7 @@
   <!-- ============ 08 SECTION BREAK 02 · Flexbox ============ -->
   <section data-label="08 Seccion 02 Flexbox">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 02</span></div>
     <div class="frame sect">
       <div class="num">02</div>
@@ -1621,6 +1652,7 @@
   <!-- ============ 09 ¿QUÉ ES FLEXBOX? ============ -->
   <section data-label="09 Que es flexbox">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Flexbox · concepto</span></div>
     <div class="frame">
       <p class="eyebrow">Una sola propiedad cambia toda la regla del juego</p>
@@ -1644,6 +1676,7 @@
   <!-- ============ 10 FLEX-DIRECTION ============ -->
   <section data-label="10 flex-direction">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>flex-direction</span></div>
     <div class="frame">
       <p class="eyebrow">¿Hacia dónde fluye el eje principal?</p>
@@ -1690,6 +1723,7 @@
   <!-- ============ 11 JUSTIFY-CONTENT ============ -->
   <section data-label="11 justify-content">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>justify-content</span></div>
     <div class="frame">
       <p class="eyebrow">Repartir el espacio sobrante en el eje principal</p>
@@ -1728,6 +1762,7 @@
   <!-- ============ 12 ALIGN-ITEMS ============ -->
   <section data-label="12 align-items">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>align-items</span></div>
     <div class="frame">
       <p class="eyebrow">Lo mismo pero en el eje cruzado</p>
@@ -1766,6 +1801,7 @@
   <!-- ============ 13 FLEX-GROW / SHRINK / BASIS ============ -->
   <section data-label="13 flex-grow shrink basis">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Tamaño de los hijos</span></div>
     <div class="frame">
       <p class="eyebrow">Cómo se reparte el espacio entre los hijos</p>
@@ -1846,6 +1882,7 @@
   <!-- ============ 14 CASO REAL · NAVBAR ============ -->
   <section data-label="14 Caso real navbar">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Caso real · navbar</span></div>
     <div class="frame">
       <p class="eyebrow">El componente más típico de la web</p>
@@ -1912,6 +1949,7 @@
   <!-- ============ 15 SECTION BREAK 03 · Grid ============ -->
   <section data-label="15 Seccion 03 Grid">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 03</span></div>
     <div class="frame sect">
       <div class="num">03</div>
@@ -1923,6 +1961,7 @@
   <!-- ============ 16 FLEX VS GRID ============ -->
   <section data-label="16 Flex vs Grid">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Flex vs Grid</span></div>
     <div class="frame">
       <p class="eyebrow">Las dos herramientas modernas de layout — no compiten, se complementan</p>
@@ -1961,6 +2000,7 @@
   <!-- ============ 17 GRID SIZING ============ -->
   <section data-label="17 Grid sizing">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Grid · sizing</span></div>
     <div class="frame">
       <p class="eyebrow">Cómo le decimos a grid qué columnas queremos</p>
@@ -2005,6 +2045,7 @@
   <!-- ============ 18 GRID PLACEMENT ============ -->
   <section data-label="18 Grid placement">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Grid · placement</span></div>
     <div class="frame">
       <p class="eyebrow">Colocar cada hijo donde queremos</p>
@@ -2028,6 +2069,7 @@
   <!-- ============ 19 CASO REAL · GALERÍA ============ -->
   <section data-label="19 Caso real galeria">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Caso real · galería</span></div>
     <div class="frame">
       <p class="eyebrow">Una galería asimétrica imposible con flex</p>
@@ -2107,6 +2149,7 @@
   <!-- ============ 20 SECTION BREAK 04 · Responsive ============ -->
   <section data-label="20 Seccion 04 Responsive">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 04</span></div>
     <div class="frame sect">
       <div class="num">04</div>
@@ -2118,6 +2161,7 @@
   <!-- ============ 21 ¿QUÉ ES RESPONSIVE? ============ -->
   <section data-label="21 Que es responsive">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Responsive · concepto</span></div>
     <div class="frame">
       <p class="eyebrow">El 60% del tráfico web entra desde móvil</p>
@@ -2169,6 +2213,7 @@
   <!-- ============ 22 MOBILE FIRST ============ -->
   <section data-label="22 Mobile first">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Mobile first</span></div>
     <div class="frame quote-slide">
       <blockquote>
@@ -2183,6 +2228,7 @@
   <!-- ============ 23 MEDIA QUERIES ============ -->
   <section data-label="23 Media queries">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Media queries</span></div>
     <div class="frame">
       <p class="eyebrow">La sintaxis que hace que el CSS cambie según el ancho</p>
@@ -2222,6 +2268,7 @@
   <!-- ============ 24 REFLOW CON @MEDIA ============ -->
   <section data-label="24 Reflow media">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Reflow con @media</span></div>
     <div class="frame">
       <p class="eyebrow">El mismo HTML, dos comportamientos</p>
@@ -2310,6 +2357,7 @@
   <!-- ============ 25 SECTION BREAK 05 · Frameworks ============ -->
   <section data-label="25 Seccion 05 Frameworks" class="dark">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 05</span></div>
     <div class="frame sect">
       <div class="num" style="color: var(--accent-soft);">05</div>
@@ -2321,6 +2369,7 @@
   <!-- ============ 26 ¿QUÉ ES UN FRAMEWORK? ============ -->
   <section data-label="26 Que es un framework">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Framework · concepto</span></div>
     <div class="frame">
       <p class="eyebrow">Una caja de herramientas que ya viene montada</p>
@@ -2345,6 +2394,7 @@
   <!-- ============ 27 TRES FAMILIAS ============ -->
   <section data-label="27 Tres frameworks">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Bootstrap · Tailwind · Material</span></div>
     <div class="frame">
       <p class="eyebrow">Tres maneras muy distintas de pensar el mismo problema</p>
@@ -2379,6 +2429,7 @@
   <!-- ============ 28 CUÁNDO USAR CADA UNO ============ -->
   <section data-label="28 Cuando cada framework">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>¿Cuál elijo?</span></div>
     <div class="frame">
       <p class="eyebrow">Tu situación decide, no el "más moderno"</p>
@@ -2412,6 +2463,7 @@
   <!-- ============ 29 CON IA NO MEMORIZAS ============ -->
   <section data-label="29 Con IA no memorizas">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Frameworks · cierre</span></div>
     <div class="frame quote-slide">
       <blockquote>
@@ -2426,6 +2478,7 @@
   <!-- ============ 30 SECTION BREAK · Hora de aportar valor ============ -->
   <section data-label="30 Hora de aportar valor" class="brick">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 06</span></div>
     <div class="frame sect">
       <div class="num" style="color: rgba(242,238,229,.85);">06</div>
@@ -2437,6 +2490,7 @@
   <!-- ============ 31 LA IA ESCRIBE / TÚ DECIDES ============ -->
   <section data-label="31 La IA escribe tu decides">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>El nuevo trabajo</span></div>
     <div class="frame quote-slide">
       <blockquote>
@@ -2451,6 +2505,7 @@
   <!-- ============ 32 EL RETO · SONORA LOCAL ============ -->
   <section data-label="32 Reto Tomorrowland" class="challenge">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Reto de valor</span></div>
     <div class="frame">
       <div class="challenge-grid">
@@ -2504,6 +2559,7 @@
   <!-- ============ 33 LA PREGUNTA-GIRO ============ -->
   <section data-label="33 La pregunta-giro">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>La pregunta clave</span></div>
     <div class="frame value-quote">
       <p class="big">En esos 5 segundos:<br><em>¿qué hace el ojo</em><br>del visitante?</p>
@@ -2515,6 +2571,7 @@
   <!-- ============ 34 CIERRE ============ -->
   <section data-label="34 Cierre">
     <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Cierre y siguiente</span></div>
     <div class="frame closing">
       <p class="eyebrow">Lo que te llevas hoy</p>
