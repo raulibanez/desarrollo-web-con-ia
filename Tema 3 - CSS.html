@@ -952,6 +952,113 @@
     font-family: var(--serif); font-size: 40px;
     line-height: 1.2; color: var(--ink);
   }
+
+  /* ===== Anatomy of a CSS rule ===== */
+  .anatomy{
+    display: flex; flex-direction: column;
+    flex: 1; min-height: 0;
+    margin-top: 8px;
+  }
+  .anatomy-line{
+    background: var(--code-bg);
+    padding: 44px 56px;
+    font-family: var(--mono);
+    font-size: 80px;
+    line-height: 1;
+    letter-spacing: -.01em;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .anatomy-line .sel{ color: var(--code-tag); }
+  .anatomy-line .prop{ color: var(--code-prop); }
+  .anatomy-line .val{ color: var(--code-string); }
+  .anatomy-line .punct{ color: #8A8278; }
+
+  .anatomy-cards{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    margin-top: 32px;
+  }
+  .anatomy-card{
+    border: 1px solid var(--rule);
+    padding: 28px 32px;
+    background: var(--bg);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .anatomy-card .role{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--accent);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .anatomy-card .sample{
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -.01em;
+    margin: 10px 0 12px;
+  }
+  .anatomy-card .sample.sel{ color: var(--code-tag); }
+  .anatomy-card .sample.prop{ color: var(--code-prop); }
+  .anatomy-card .sample.val{ color: var(--code-string); }
+  .anatomy-card p{
+    font-family: var(--sans);
+    font-size: 22px;
+    color: var(--ink-2);
+    line-height: 1.4;
+    margin: 0;
+  }
+  .anatomy-card p code{
+    font-family: var(--mono);
+    font-size: 20px;
+    background: var(--bg-2);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--ink);
+  }
+
+  /* ===== Property families ===== */
+  .families{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+  .family{
+    background: var(--bg);
+    padding: 28px 30px;
+    display: flex; flex-direction: column; gap: 10px;
+    min-height: 200px;
+  }
+  .family .fam-label{
+    font-family: var(--mono);
+    font-size: var(--type-tiny);
+    color: var(--accent);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .family .fam-list{
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1.5;
+    margin-top: 2px;
+    word-break: break-word;
+  }
+  .family .fam-desc{
+    font-family: var(--sans);
+    font-size: 22px;
+    color: var(--ink-2);
+    line-height: 1.35;
+    margin-top: auto;
+  }
 </style>
 </head>
 <body>
@@ -1065,7 +1172,7 @@
       <h1 class="title">HTML pelado vs HTML <em>con estilo</em></h1>
       <div class="split">
         <div class="pane render">
-          <div class="pane-head"><span>Sin CSS</span><span class="dots">localhost</span></div>
+          <div class="pane-head"><span>Sin CSS</span><span class="dots">• • •</span></div>
           <div class="pane-body">
             <div class="render-body">
               <h1>Mi tienda de café</h1>
@@ -1080,7 +1187,7 @@
           </div>
         </div>
         <div class="pane render">
-          <div class="pane-head"><span>Con CSS</span><span class="dots">localhost</span></div>
+          <div class="pane-head"><span>Con CSS</span><span class="dots">• • •</span></div>
           <div class="pane-body" style="background:#1A1814; padding: 0;">
             <div style="background:#1A1814; color:#F2EEE5; padding: 36px 40px; height: 100%; font-family: 'Newsreader', Georgia, serif;">
               <h1 style="font-family:'Newsreader',serif; font-style:italic; font-size: 56px; color:#E8956A; margin: 0 0 28px; letter-spacing: -.02em;">Mi tienda de café</h1>
@@ -1246,8 +1353,86 @@
     <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>11</span></div>
   </section>
 
-  <!-- ============ 12 SECTION BREAK 03 · Selectores ============ -->
-  <section data-label="12 Seccion 03 Selectores">
+  <!-- ============ 12 ANATOMÍA DE UNA REGLA ============ -->
+  <section data-label="12 Anatomia de una regla">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Anatomía de una regla</span></div>
+    <div class="frame">
+      <p class="eyebrow">El esqueleto de cada línea de CSS</p>
+      <h1 class="title">Selector, <em>propiedad</em>, valor</h1>
+      <div class="anatomy">
+        <div class="anatomy-line"><span class="sel">.boton</span> <span class="punct">{</span> <span class="prop">color</span><span class="punct">:</span> <span class="val">white</span><span class="punct">;</span> <span class="punct">}</span></div>
+        <div class="anatomy-cards">
+          <div class="anatomy-card">
+            <div class="role">Selector</div>
+            <div class="sample sel">.boton</div>
+            <p>A qué elemento aplicas el estilo. Aquí: cualquier cosa con <code>class="boton"</code>.</p>
+          </div>
+          <div class="anatomy-card">
+            <div class="role">Propiedad</div>
+            <div class="sample prop">color</div>
+            <p>Qué quieres cambiar de ese elemento. Hay cientos: <code>color</code>, <code>font-size</code>, <code>margin</code>…</p>
+          </div>
+          <div class="anatomy-card">
+            <div class="role">Valor</div>
+            <div class="sample val">white</div>
+            <p>Cómo lo cambias. Cada propiedad acepta un tipo distinto (color, número, palabra…).</p>
+          </div>
+        </div>
+        <p class="lede" style="font-size: 26px; margin-top: 28px; margin-bottom: 0;">A cada par <code>propiedad: valor;</code> se le llama <b>declaración</b>. Dentro de las llaves <code>{ … }</code> puedes poner tantas declaraciones como quieras.</p>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>12</span></div>
+  </section>
+
+  <!-- ============ 13 FAMILIAS DE PROPIEDADES ============ -->
+  <section data-label="13 Familias de propiedades">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 03 · CSS</span><span>Familias de propiedades</span></div>
+    <div class="frame">
+      <p class="eyebrow">Qué cosas se pueden cambiar de un elemento</p>
+      <h1 class="title">Las grandes <em>familias</em> de propiedades</h1>
+      <div class="families">
+        <div class="family">
+          <div class="fam-label">Color y fondo</div>
+          <div class="fam-list">color · background · opacity</div>
+          <div class="fam-desc">El color de la letra, el del fondo y la transparencia.</div>
+        </div>
+        <div class="family">
+          <div class="fam-label">Tipografía</div>
+          <div class="fam-list">font-family · font-size · font-weight · line-height · text-align</div>
+          <div class="fam-desc">Todo lo que tiene que ver con la letra.</div>
+        </div>
+        <div class="family">
+          <div class="fam-label">Box model</div>
+          <div class="fam-list">margin · padding · border · width · height</div>
+          <div class="fam-desc">El tamaño de la caja y el espacio dentro y fuera de ella.</div>
+        </div>
+        <div class="family">
+          <div class="fam-label">Layout y posición</div>
+          <div class="fam-list">display · position · top / right / bottom / left · z-index · flex · grid</div>
+          <div class="fam-desc">Cómo se colocan los elementos en la página.</div>
+        </div>
+        <div class="family">
+          <div class="fam-label">Decoración</div>
+          <div class="fam-list">border-radius · box-shadow · outline · cursor</div>
+          <div class="fam-desc">Esquinas redondeadas, sombras y detalles visuales.</div>
+        </div>
+        <div class="family">
+          <div class="fam-label">Movimiento</div>
+          <div class="fam-list">transform · transition · animation</div>
+          <div class="fam-desc">Rotar, escalar y animar. Lo veremos en el Tema 04.</div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 28px; margin-bottom: 0;">No hace falta memorizar nada: cuando necesites algo concreto, lo buscas. Aquí basta con quedarte con <em>qué tipos</em> de cosas se pueden tocar.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>13</span></div>
+  </section>
+
+  <!-- ============ 14 SECTION BREAK 03 · Selectores ============ -->
+  <section data-label="14 Seccion 03 Selectores">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Sección 03</span></div>
@@ -1255,11 +1440,11 @@
       <div class="num">03</div>
       <h2 class="name">Selectores.</h2>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>12</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>14</span></div>
   </section>
 
-  <!-- ============ 13 CINCO TIPOS BÁSICOS ============ -->
-  <section data-label="13 Cinco selectores basicos">
+  <!-- ============ 15 CINCO TIPOS BÁSICOS ============ -->
+  <section data-label="15 Cinco selectores basicos">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Selectores básicos</span></div>
@@ -1294,11 +1479,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>13</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>15</span></div>
   </section>
 
-  <!-- ============ 14 COMBINANDO SELECTORES ============ -->
-  <section data-label="14 Combinando selectores">
+  <!-- ============ 16 COMBINANDO SELECTORES ============ -->
+  <section data-label="16 Combinando selectores">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Combinar selectores</span></div>
@@ -1329,11 +1514,11 @@
       </div>
       <p class="lede" style="font-size: 30px; margin-top: 36px;">Combinando estos cuatro mecanismos puedes apuntar a casi cualquier rincón de la página sin tocar el HTML.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>14</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>16</span></div>
   </section>
 
-  <!-- ============ 15 SECTION BREAK 04 · Estilo visual ============ -->
-  <section data-label="15 Seccion 04 Estilo visual" class="dark">
+  <!-- ============ 17 SECTION BREAK 04 · Estilo visual ============ -->
+  <section data-label="17 Seccion 04 Estilo visual" class="dark">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Sección 04</span></div>
@@ -1341,11 +1526,11 @@
       <div class="num" style="color: var(--accent-soft);">04</div>
       <h2 class="name" style="color: var(--bg);">Colores, tipografía y unidades.</h2>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>15</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>17</span></div>
   </section>
 
-  <!-- ============ 16 COLORES ============ -->
-  <section data-label="16 Colores">
+  <!-- ============ 18 COLORES ============ -->
+  <section data-label="18 Colores">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Colores</span></div>
@@ -1386,11 +1571,11 @@
       </div>
       <p class="lede" style="font-size: 28px; margin-top: 36px;">Para inspirarte: <b>colorhunt.co</b>, <b>coolors.co</b> o el panel de <b>Material You</b>. Copia el hex y pégalo en tu CSS.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>16</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>18</span></div>
   </section>
 
-  <!-- ============ 17 TIPOGRAFÍA ============ -->
-  <section data-label="17 Tipografia">
+  <!-- ============ 19 TIPOGRAFÍA ============ -->
+  <section data-label="19 Tipografia">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Tipografía</span></div>
@@ -1425,11 +1610,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>17</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>19</span></div>
   </section>
 
-  <!-- ============ 18 UNIDADES ============ -->
-  <section data-label="18 Unidades">
+  <!-- ============ 20 UNIDADES ============ -->
+  <section data-label="20 Unidades">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Unidades</span></div>
@@ -1460,11 +1645,11 @@
       </div>
       <p class="lede" style="font-size: 28px; margin-top: 28px;">Por defecto en este curso: <b>rem</b> para tipografía, <b>px</b> para detalles finos.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>18</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>20</span></div>
   </section>
 
-  <!-- ============ 19 GOOGLE FONTS ============ -->
-  <section data-label="19 Google Fonts">
+  <!-- ============ 21 GOOGLE FONTS ============ -->
+  <section data-label="21 Google Fonts">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Google Fonts</span></div>
@@ -1489,11 +1674,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>19</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>21</span></div>
   </section>
 
-  <!-- ============ 20 SECTION BREAK 05 · Box Model ============ -->
-  <section data-label="20 Seccion 05 Box Model">
+  <!-- ============ 22 SECTION BREAK 05 · Box Model ============ -->
+  <section data-label="22 Seccion 05 Box Model">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Sección 05</span></div>
@@ -1501,11 +1686,11 @@
       <div class="num">05</div>
       <h2 class="name">El Box Model.</h2>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>20</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>22</span></div>
   </section>
 
-  <!-- ============ 21 BOX MODEL DIAGRAMA ============ -->
-  <section data-label="21 Box Model diagrama">
+  <!-- ============ 23 BOX MODEL DIAGRAMA ============ -->
+  <section data-label="23 Box Model diagrama">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>El modelo de cajas</span></div>
@@ -1526,11 +1711,11 @@
       </div>
       <p class="lede" style="font-size: 28px; margin-top: 24px; margin-bottom: 0;">De dentro hacia fuera: el <b>contenido</b>, el <b>padding</b> que lo acolcha, el <b>border</b> que lo enmarca y el <b>margin</b> que lo separa de los vecinos.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>21</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>23</span></div>
   </section>
 
-  <!-- ============ 22 BOX MODEL EN CÓDIGO ============ -->
-  <section data-label="22 Box Model en codigo">
+  <!-- ============ 24 BOX MODEL EN CÓDIGO ============ -->
+  <section data-label="24 Box Model en codigo">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Margin · padding · border</span></div>
@@ -1554,7 +1739,7 @@
 }</div>
         </div>
         <div class="pane render">
-          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">• • •</span></div>
           <div class="pane-body" style="background: #ffffff; display: flex; align-items: center; justify-content: center;">
             <div style="background:#F2EEE5; padding: 24px 32px; border: 2px solid #1A1814; margin: 40px 0; font-family: 'Newsreader', serif; font-size: 28px; color:#1A1814;">
               Soy una <em style="color:#C84A1F;">card</em> con padding, border y margin.
@@ -1563,11 +1748,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>22</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>24</span></div>
   </section>
 
-  <!-- ============ 23 SECTION BREAK 06 · Cascada y posición ============ -->
-  <section data-label="23 Seccion 06 Cascada y posicion">
+  <!-- ============ 25 SECTION BREAK 06 · Cascada y posición ============ -->
+  <section data-label="25 Seccion 06 Cascada y posicion">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Sección 06</span></div>
@@ -1575,11 +1760,11 @@
       <div class="num">06</div>
       <h2 class="name">La cascada y la posición.</h2>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>23</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>25</span></div>
   </section>
 
-  <!-- ============ 24 LA CASCADA · CUATRO REGLAS ============ -->
-  <section data-label="24 La cascada">
+  <!-- ============ 26 LA CASCADA · CUATRO REGLAS ============ -->
+  <section data-label="26 La cascada">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>La cascada</span></div>
@@ -1609,11 +1794,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>24</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>26</span></div>
   </section>
 
-  <!-- ============ 25 ESPECIFICIDAD ============ -->
-  <section data-label="25 Especificidad">
+  <!-- ============ 27 ESPECIFICIDAD ============ -->
+  <section data-label="27 Especificidad">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Especificidad</span></div>
@@ -1642,11 +1827,11 @@
       </div>
       <p class="lede" style="font-size: 28px; margin-top: 32px;">Y el inline (<code>style=""</code>) suma <b>1.000</b>. <code>!important</code> bate a todo lo anterior.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>25</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>27</span></div>
   </section>
 
-  <!-- ============ 26 POSITIONING ============ -->
-  <section data-label="26 Posicionamiento">
+  <!-- ============ 28 POSITIONING ============ -->
+  <section data-label="28 Posicionamiento">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Posicionamiento</span></div>
@@ -1706,11 +1891,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>26</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>28</span></div>
   </section>
 
-  <!-- ============ 27 Z-INDEX ============ -->
-  <section data-label="27 Z-index">
+  <!-- ============ 29 Z-INDEX ============ -->
+  <section data-label="29 Z-index">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>z-index · capas</span></div>
@@ -1733,11 +1918,11 @@
       </div>
       <p class="lede" style="font-size: 28px; margin-top: 32px;">A más z-index, más arriba en la pila. Solo funciona si <code>position</code> no es <code>static</code>. Esencial para modales, dropdowns y tooltips.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>27</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>29</span></div>
   </section>
 
-  <!-- ============ 28 div y span ============ -->
-  <section data-label="28 div y span">
+  <!-- ============ 30 div y span ============ -->
+  <section data-label="30 div y span">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>div y span</span></div>
@@ -1760,7 +1945,7 @@
 <span class="tag-punct">&lt;/</span><span class="tag-name">p</span><span class="tag-punct">&gt;</span></div>
         </div>
         <div class="pane render">
-          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">• • •</span></div>
           <div class="pane-body">
             <div class="render-body">
               <div style="background:#F2EEE5; border:1px solid #D4CFC2; padding: 18px 24px; margin-bottom: 24px; max-width: 360px;">
@@ -1774,11 +1959,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;"><b>&lt;div&gt;</b> es un contenedor de <b>bloque</b> (rompe línea). <b>&lt;span&gt;</b> es un contenedor <b>en línea</b> (no rompe). Los dos no significan nada por sí mismos: úsalos cuando ningún elemento semántico (<code>&lt;article&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;header&gt;</code>…) encaje.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>28</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>30</span></div>
   </section>
 
-  <!-- ============ 29 PATRÓN absolute + relative ============ -->
-  <section data-label="29 Patron absolute + relative">
+  <!-- ============ 31 PATRÓN absolute + relative ============ -->
+  <section data-label="31 Patron absolute + relative">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>El patrón clave</span></div>
@@ -1818,7 +2003,7 @@
    y el navegador hace el resto. */</span></div>
         </div>
         <div class="pane render">
-          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">• • •</span></div>
           <div class="pane-body" style="background:#ffffff; display:flex; align-items:center; justify-content:center;">
             <div style="position: relative; width: 480px; height: 280px; background:#1A1814; border: 1px solid #34302A;">
               <div style="position: absolute; top: 100px; left: 200px; width: 80px; height: 80px; background:#C84A1F;"></div>
@@ -1832,11 +2017,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;"><code>absolute</code> busca el ancestro más cercano que sea <code>relative</code>, <code>absolute</code> o <code>fixed</code>. Si <em>ninguno</em> lo es, se ancla a la página entera. <b>Esa es la trampa más común</b>: pones <code>absolute</code> y se va al rincón de la página porque su padre no tenía <code>position</code>.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>29</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>31</span></div>
   </section>
 
-  <!-- ============ 30 BORDER-RADIUS ============ -->
-  <section data-label="30 border-radius">
+  <!-- ============ 32 BORDER-RADIUS ============ -->
+  <section data-label="32 border-radius">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>border-radius</span></div>
@@ -1867,11 +2052,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;">Receta para un círculo: <code>width</code> y <code>height</code> <b>iguales</b> + <code>border-radius: 50%</code>. Si el ancho y el alto no son iguales, sale un óvalo.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>29</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>32</span></div>
   </section>
 
-  <!-- ============ 31 INSPECCIONAR · DEVTOOLS ============ -->
-  <section data-label="31 Inspeccionar DevTools">
+  <!-- ============ 33 INSPECCIONAR · DEVTOOLS ============ -->
+  <section data-label="33 Inspeccionar DevTools">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>DevTools</span></div>
@@ -1880,7 +2065,7 @@
       <h1 class="title">Inspeccionar y <em>retocar en vivo</em></h1>
       <div class="devtools">
         <div class="browser">
-          <div class="tabbar"><span>tienda-cafe.html</span><span>localhost</span></div>
+          <div class="tabbar"><span>tienda-cafe.html</span><span>• • •</span></div>
           <div class="page">
             <h1>Mi tienda de café</h1>
             <p>Selección hecha en DevTools.</p>
@@ -1914,11 +2099,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 24px; margin-bottom: 0;">Cambia colores, tamaños y márgenes <b>en directo</b> sobre cualquier web. Cuando algo te guste, copias el valor a tu CSS.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>31</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>33</span></div>
   </section>
 
-  <!-- ============ 32 SECTION BREAK · PRÁCTICA ============ -->
-  <section data-label="32 Seccion Practica">
+  <!-- ============ 34 SECTION BREAK · PRÁCTICA ============ -->
+  <section data-label="34 Seccion Practica">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Práctica</span></div>
@@ -1926,11 +2111,11 @@
       <div class="num">07</div>
       <h2 class="name">Hora de construir.</h2>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>32</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>34</span></div>
   </section>
 
-  <!-- ============ 33 RETO · BANDERA DE LAOS ============ -->
-  <section data-label="33 Reto Bandera de Laos" class="challenge">
+  <!-- ============ 35 RETO · BANDERA DE LAOS ============ -->
+  <section data-label="35 Reto Bandera de Laos" class="challenge">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Reto práctico</span></div>
@@ -1967,11 +2152,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>33</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>35</span></div>
   </section>
 
-  <!-- ============ 34 RETO 2 · TARJETA DE VIDEOJUEGO ============ -->
-  <section data-label="34 Reto Tarjeta de Videojuego" class="challenge">
+  <!-- ============ 36 RETO 2 · TARJETA DE VIDEOJUEGO ============ -->
+  <section data-label="36 Reto Tarjeta de Videojuego" class="challenge">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Reto práctico · 02</span></div>
@@ -2010,11 +2195,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>34</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>36</span></div>
   </section>
 
-  <!-- ============ 35 CIERRE ============ -->
-  <section data-label="35 Cierre">
+  <!-- ============ 37 CIERRE ============ -->
+  <section data-label="37 Cierre">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 03 · CSS</span><span>Cierre y siguiente</span></div>
@@ -2033,7 +2218,7 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>35 / 35</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>37 / 37</span></div>
   </section>
 
 </deck-stage>
