@@ -553,6 +553,7 @@
       this._menuIndex = -1;
 
       this._onKey = this._onKey.bind(this);
+      this._onWheel = this._onWheel.bind(this);
       this._onResize = this._onResize.bind(this);
       this._onSlotChange = this._onSlotChange.bind(this);
       this._onMouseMove = this._onMouseMove.bind(this);
@@ -584,6 +585,7 @@
       this._loadNotes();
       this._syncPrintPageRule();
       window.addEventListener('keydown', this._onKey);
+      window.addEventListener('wheel', this._onWheel, { passive: false });
       window.addEventListener('resize', this._onResize);
       window.addEventListener('mousemove', this._onMouseMove, { passive: true });
       window.addEventListener('message', this._onMessage);
@@ -810,6 +812,7 @@
 
     disconnectedCallback() {
       window.removeEventListener('keydown', this._onKey);
+      window.removeEventListener('wheel', this._onWheel);
       window.removeEventListener('resize', this._onResize);
       window.removeEventListener('mousemove', this._onMouseMove);
       window.removeEventListener('message', this._onMessage);
@@ -1361,6 +1364,27 @@
         e.preventDefault();
         this._flashOverlay();
       }
+    }
+
+    _onWheel(e) {
+      // Wheel / trackpad scrolling steps through slides like the arrow
+      // keys. Suppressed in presenting popups; the thumbnail rail keeps
+      // its own scroll when the pointer is over it.
+      if (this._presenting) return;
+      if (this._rail && e.composedPath && e.composedPath().includes(this._rail)) return;
+      const delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      const now = Date.now();
+      // One step per gesture: swallow the momentum tail, re-arm after
+      // 220ms of quiet so the next flick advances a single slide.
+      if (this._wheelLock && now < this._wheelLock) {
+        this._wheelLock = now + 220;
+        e.preventDefault();
+        return;
+      }
+      if (Math.abs(delta) < 8) return;
+      e.preventDefault();
+      this._wheelLock = now + 220;
+      this._advance(delta > 0 ? 1 : -1, 'wheel');
     }
 
     _go(i, reason = 'api') {

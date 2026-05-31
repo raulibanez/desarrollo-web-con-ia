@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($raw = [System.IO.File]::ReadAllText\\(\\(Resolve-Path \"deck-stage.js\"\\)\\); \"Has CRLF: $\\($raw.Contains\\(\"`r`n\"\\)\\)\"; \"Has lone LF: $\\(\\(\\($raw -split \"`n\"\\).Count\\) -gt 1\\)\"; \"Count onKey bind: $\\(\\([regex]::Matches\\($raw,[regex]::Escape\\(\"this._onKey = this._onKey.bind\\(this\\);\"\\)\\)\\).Count\\)\"; \"Count keydown add: $\\(\\([regex]::Matches\\($raw,[regex]::Escape\\(\"window.addEventListener\\('keydown', this._onKey\\);\"\\)\\)\\).Count\\)\"; \"Count keydown remove: $\\(\\([regex]::Matches\\($raw,[regex]::Escape\\(\"window.removeEventListener\\('keydown', this._onKey\\);\"\\)\\)\\).Count\\)\"; \"Count advance def: $\\(\\([regex]::Matches\\($raw,[regex]::Escape\\(\"_advance\\(dir, reason = 'api'\\) {\"\\)\\)\\).Count\\)\")",
+      "PowerShell($lines = Get-Content \"deck-stage.js\"; $chunk = \\($lines[1385..1400] -join \"`n\"\\); [Convert]::ToBase64String\\([Text.Encoding]::UTF8.GetBytes\\($chunk\\)\\))"
+    ]
+  }
+}
