@@ -228,6 +228,119 @@
   .pane.render .pane-head{ background: var(--bg-2); }
   .pane.render .pane-body{ background: #ffffff; padding: 32px 36px; }
 
+  /* ===== Memes: carrusel "¿cómo centrar un div?" ===== */
+  .meme-carousel{
+    display:flex;
+    flex-direction:column;
+    flex: 1;
+    min-height: 0;
+    margin: 14px 0 0;
+    gap: 16px;
+  }
+  .meme-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 32px;
+    flex: 1;
+    min-height: 0;
+  }
+  .meme-stage{
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+  }
+  .meme-slide{
+    margin: 0;
+    position: absolute;
+    inset: 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s ease;
+  }
+  .meme-slide.is-active{ opacity: 1; visibility: visible; }
+  .meme-slide img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    background: #ffffff;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 10px 34px rgba(26,24,20,.12);
+  }
+  .meme-arrow{
+    flex: 0 0 auto;
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    background: var(--bg-2);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 42px;
+    line-height: 1;
+    padding-bottom: 4px;
+    cursor: pointer;
+    display:flex; align-items:center; justify-content:center;
+    -webkit-appearance: none; appearance: none;
+    transition: background .15s ease, color .15s ease, transform .15s ease, border-color .15s ease;
+  }
+  .meme-arrow:hover{ background: var(--accent); color: var(--bg); border-color: var(--accent); transform: scale(1.06); }
+  .meme-arrow:active{ transform: scale(.95); }
+  .meme-dots{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 14px;
+  }
+  .meme-dots .dot{
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 1px solid var(--ink-3);
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+    transition: background .15s ease, transform .15s ease, border-color .15s ease;
+  }
+  .meme-dots .dot:hover{ border-color: var(--accent); }
+  .meme-dots .dot.is-active{ background: var(--accent); border-color: var(--accent); transform: scale(1.15); }
+
+  /* ===== Demo: centrado con position absolute + translate ===== */
+  .center-demo{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    border: 2px dashed var(--accent);
+    border-radius: 10px;
+  }
+  .center-demo .child{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--accent);
+    color: var(--bg);
+    padding: 22px 34px;
+    border-radius: 8px;
+    font-family: var(--mono);
+    font-size: 24px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .center-demo .crosshair-v,
+  .center-demo .crosshair-h{
+    position: absolute;
+    background: rgba(200,74,31,.22);
+  }
+  .center-demo .crosshair-v{ left: 50%; top: 0; bottom: 0; width: 1px; }
+  .center-demo .crosshair-h{ top: 50%; left: 0; right: 0; height: 1px; }
+
   .tag-name{ color: var(--code-tag); }
   .tag-punct{ color: #8A8278; }
   .attr-name{ color: var(--code-attr); }
@@ -1370,8 +1483,80 @@
     <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>08</span></div>
   </section>
 
-  <!-- ============ 09 ¿QUÉ ES FLEXBOX? ============ -->
-  <section data-label="09 Que es flexbox">
+  <!-- ============ 09 ¿CÓMO CENTRAR UN DIV? (parodia) ============ -->
+  <section data-label="09 Como centrar un div">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Flexbox · calentando motores</span></div>
+    <div class="frame">
+      <p class="eyebrow">La pregunta más buscada en la historia del front-end</p>
+      <h1 class="title" style="margin-bottom: 18px;">¿Cómo centro un <em>&lt;div&gt;</em> verticalmente?</h1>
+      <div class="meme-carousel" data-meme-index="0">
+        <div class="meme-row">
+          <button class="meme-arrow prev" type="button" aria-label="Imagen anterior" onclick="memeNav(this,-1)">&#8249;</button>
+          <div class="meme-stage">
+            <figure class="meme-slide is-active"><img src="images/meme-div-01.png" alt="Buscando en Google 'how to center a div', el día 1 y 10 años después: sigue siendo la misma búsqueda"></figure>
+            <figure class="meme-slide"><img src="images/meme-div-02.png" alt="Gráfica '¿qué da a la gente sensación de poder?': dinero, estatus y, con diferencia, saber centrar un div verticalmente"></figure>
+            <figure class="meme-slide"><img src="images/meme-div-03.png" alt="Meme doge: el ingeniero de software escribe software para la gente; el desarrollador web pregunta cómo centrar un div"></figure>
+            <figure class="meme-slide"><img src="images/meme-div-04.png" alt="Pirámide del intelecto: en la cima, por encima del doctorado, la gente que sabe centrar un div"></figure>
+          </div>
+          <button class="meme-arrow next" type="button" aria-label="Imagen siguiente" onclick="memeNav(this,1)">&#8250;</button>
+        </div>
+        <div class="meme-dots">
+          <button class="dot is-active" type="button" aria-label="Ir a la imagen 1" onclick="memeGo(this,0)"></button>
+          <button class="dot" type="button" aria-label="Ir a la imagen 2" onclick="memeGo(this,1)"></button>
+          <button class="dot" type="button" aria-label="Ir a la imagen 3" onclick="memeGo(this,2)"></button>
+          <button class="dot" type="button" aria-label="Ir a la imagen 4" onclick="memeGo(this,3)"></button>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 24px; margin-top: 18px; margin-bottom: 0; white-space: nowrap; max-width: none; text-align: center;">Centrar un <code>&lt;div&gt;</code> era <em>literalmente</em> un meme. En horizontal era fácil, pero en vertical una pesadilla… hasta que llegó <em>Flexbox</em>.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>09</span></div>
+  </section>
+
+  <!-- ============ 10 CÓMO SE HACÍA ANTES (position absolute) ============ -->
+  <section data-label="10 Centrar antes de flexbox">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Antes de 2015 · position</span></div>
+    <div class="frame">
+      <p class="eyebrow">El truco que toda la web usaba antes de Flexbox</p>
+      <h1 class="title"><em>position: absolute</em> + <em>translate(-50%, -50%)</em></h1>
+      <div class="split">
+        <div class="pane code">
+          <div class="pane-head"><span>style.css</span><span class="dots">···</span></div>
+<div class="pane-body"><span class="com">/* 1 · el padre tiene que ser el "ancla" */</span>
+<span class="sel">.tarjeta</span> {
+  <span class="prop">position</span>: <span class="val">relative</span>;
+}
+
+<span class="com">/* 2 · el hijo se posiciona respecto al padre */</span>
+<span class="sel">.tarjeta .contenido</span> {
+  <span class="prop">position</span>: <span class="val">absolute</span>;
+  <span class="prop">top</span>: <span class="val">50%</span>;
+  <span class="prop">left</span>: <span class="val">50%</span>;
+  <span class="com">/* y se "recoloca" su propio 50% */</span>
+  <span class="prop">transform</span>: <span class="val">translate(-50%, -50%)</span>;
+}</div>
+        </div>
+        <div class="pane render">
+          <div class="pane-head"><span>Vista en el navegador</span><span class="dots">localhost</span></div>
+          <div class="pane-body" style="padding: 28px;">
+            <div class="center-demo">
+              <div class="crosshair-v"></div>
+              <div class="crosshair-h"></div>
+              <div class="child">.contenido</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="lede" style="font-size: 26px; margin-top: 24px; margin-bottom: 0;">Funcionaba, pero sacaba al hijo del flujo, obligaba a recordar el <code>relative</code> en el padre y a compensar con el <code>-50%</code> del propio tamaño. Con Flexbox esto serán <em>dos líneas</em> en el padre.</p>
+    </div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>10</span></div>
+  </section>
+
+  <!-- ============ 11 ¿QUÉ ES FLEXBOX? ============ -->
+  <section data-label="11 Que es flexbox">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Flexbox · concepto</span></div>
@@ -1391,11 +1576,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 78px; margin-bottom: 0;">Pones <code>display: flex</code> en el <b>padre</b> y los hijos se alinean en una fila. Todo lo demás de flexbox son <em>matices</em> sobre esos dos ejes: el principal (donde fluyen los hijos) y el cruzado (perpendicular).</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>09</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>11</span></div>
   </section>
 
-  <!-- ============ 10 FLEX-DIRECTION ============ -->
-  <section data-label="10 flex-direction">
+  <!-- ============ 12 FLEX-DIRECTION ============ -->
+  <section data-label="12 flex-direction">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>flex-direction</span></div>
@@ -1438,11 +1623,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 28px; margin-bottom: 0;"><code>row</code> es lo normal: izquierda a derecha. <code>column</code> apila de arriba a abajo, muy útil para que el móvil <em>reorganice</em> lo que en desktop iba en fila.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>10</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>12</span></div>
   </section>
 
-  <!-- ============ 11 JUSTIFY-CONTENT ============ -->
-  <section data-label="11 justify-content">
+  <!-- ============ 13 JUSTIFY-CONTENT ============ -->
+  <section data-label="13 justify-content">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>justify-content</span></div>
@@ -1477,11 +1662,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;"><b>space-between</b> es el caballo de batalla: logo a la izquierda, botones a la derecha, y el navegador reparte. Sin <code>margin-left: auto</code>, sin hacks.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>11</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>13</span></div>
   </section>
 
-  <!-- ============ 12 ALIGN-ITEMS ============ -->
-  <section data-label="12 align-items">
+  <!-- ============ 14 ALIGN-ITEMS ============ -->
+  <section data-label="14 align-items">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>align-items</span></div>
@@ -1516,11 +1701,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;">El truco más usado del front: <code>display: flex; justify-content: center; align-items: center;</code> centra cualquier hijo dentro de su padre. Adiós a las pesadillas del CSS pre-2015.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>12</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>14</span></div>
   </section>
 
-  <!-- ============ 13 FLEX-GROW / SHRINK / BASIS ============ -->
-  <section data-label="13 flex-grow shrink basis">
+  <!-- ============ 15 FLEX-GROW / SHRINK / BASIS ============ -->
+  <section data-label="15 flex-grow shrink basis">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Tamaño de los hijos</span></div>
@@ -1597,11 +1782,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>13</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>15</span></div>
   </section>
 
-  <!-- ============ 14 CASO REAL · NAVBAR ============ -->
-  <section data-label="14 Caso real navbar">
+  <!-- ============ 16 CASO REAL · NAVBAR ============ -->
+  <section data-label="16 Caso real navbar">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Caso real · navbar</span></div>
@@ -1664,11 +1849,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>14</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>16</span></div>
   </section>
 
-  <!-- ============ 15 SECTION BREAK 03 · Grid ============ -->
-  <section data-label="15 Seccion 03 Grid">
+  <!-- ============ 17 SECTION BREAK 03 · Grid ============ -->
+  <section data-label="17 Seccion 03 Grid">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 03</span></div>
@@ -1676,11 +1861,11 @@
       <div class="num">03</div>
       <h2 class="name">Grid.</h2>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>15</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>17</span></div>
   </section>
 
-  <!-- ============ 16 FLEX VS GRID ============ -->
-  <section data-label="16 Flex vs Grid">
+  <!-- ============ 18 FLEX VS GRID ============ -->
+  <section data-label="18 Flex vs Grid">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Flex vs Grid</span></div>
@@ -1715,11 +1900,11 @@
       </div>
       <p class="lede" style="font-size: 28px; margin-top: 48px;">En una web real conviven: <b>Grid</b> reparte la página entera, <b>Flex</b> alinea cosas dentro de cada cajón.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>16</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>18</span></div>
   </section>
 
-  <!-- ============ 17 GRID SIZING ============ -->
-  <section data-label="17 Grid sizing">
+  <!-- ============ 19 GRID SIZING ============ -->
+  <section data-label="19 Grid sizing">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Grid · sizing</span></div>
@@ -1760,11 +1945,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 22px; margin-bottom: 0;"><b>fr</b> es la unidad estrella: "una fracción del espacio sobrante". Pides "tres iguales" con <code>1fr 1fr 1fr</code>, sin matemáticas, sin porcentajes.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>17</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>19</span></div>
   </section>
 
-  <!-- ============ 18 GRID PLACEMENT ============ -->
-  <section data-label="18 Grid placement">
+  <!-- ============ 20 GRID PLACEMENT ============ -->
+  <section data-label="20 Grid placement">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Grid · placement</span></div>
@@ -1784,11 +1969,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 28px; margin-bottom: 0;">El "hero" ocupa <code>grid-column: 1 / 3</code> y <code>grid-row: 1 / 3</code> (de la línea 1 a la 3). El bloque "6" hace <code>grid-column: span 2</code>. Con esto y <code>grid-area</code> montas cualquier layout de revista sin pelearte con position absolute.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>18</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>20</span></div>
   </section>
 
-  <!-- ============ 19 CASO REAL · GALERÍA ============ -->
-  <section data-label="19 Caso real galeria">
+  <!-- ============ 21 CASO REAL · GALERÍA ============ -->
+  <section data-label="21 Caso real galeria">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Caso real · galería</span></div>
@@ -1864,11 +2049,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>19</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>21</span></div>
   </section>
 
-  <!-- ============ 20 SECTION BREAK 04 · Responsive ============ -->
-  <section data-label="20 Seccion 04 Responsive">
+  <!-- ============ 22 SECTION BREAK 04 · Responsive ============ -->
+  <section data-label="22 Seccion 04 Responsive">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 04</span></div>
@@ -1876,11 +2061,11 @@
       <div class="num">04</div>
       <h2 class="name">Responsive.</h2>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>20</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>22</span></div>
   </section>
 
-  <!-- ============ 21 ¿QUÉ ES RESPONSIVE? ============ -->
-  <section data-label="21 Que es responsive">
+  <!-- ============ 23 ¿QUÉ ES RESPONSIVE? ============ -->
+  <section data-label="23 Que es responsive">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Responsive · concepto</span></div>
@@ -1928,11 +2113,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 28px; margin-bottom: 0;">No es <em>encoger</em> el desktop. Es <em>reorganizar</em>: en móvil las tarjetas se apilan, en tablet van de dos en dos, en desktop de tres en tres. El navegador no decide eso solo — tú le das las reglas.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>21</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>23</span></div>
   </section>
 
-  <!-- ============ 22 MOBILE FIRST ============ -->
-  <section data-label="22 Mobile first">
+  <!-- ============ 24 MOBILE FIRST ============ -->
+  <section data-label="24 Mobile first">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Mobile first</span></div>
@@ -1943,11 +2128,11 @@
       </blockquote>
       <cite>— Mobile first · regla práctica desde 2010</cite>
     </div>
-    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>22</span></div>
+    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>24</span></div>
   </section>
 
-  <!-- ============ 23 MEDIA QUERIES ============ -->
-  <section data-label="23 Media queries">
+  <!-- ============ 25 MEDIA QUERIES ============ -->
+  <section data-label="25 Media queries">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Media queries</span></div>
@@ -1983,11 +2168,11 @@
       </div>
       <p class="lede" style="font-size: 26px; margin-top: 28px; margin-bottom: 0;">No memorices los números. La regla: empieza pequeño y abre cuando el diseño <em>empiece a verse mal</em>. Eso es el breakpoint.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>23</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>25</span></div>
   </section>
 
-  <!-- ============ 24 REFLOW CON @MEDIA ============ -->
-  <section data-label="24 Reflow media">
+  <!-- ============ 26 REFLOW CON @MEDIA ============ -->
+  <section data-label="26 Reflow media">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Reflow con @media</span></div>
@@ -2072,11 +2257,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>24</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>26</span></div>
   </section>
 
-  <!-- ============ 25 SECTION BREAK 05 · Frameworks ============ -->
-  <section data-label="25 Seccion 05 Frameworks" class="dark">
+  <!-- ============ 27 SECTION BREAK 05 · Frameworks ============ -->
+  <section data-label="27 Seccion 05 Frameworks" class="dark">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 05</span></div>
@@ -2084,11 +2269,11 @@
       <div class="num" style="color: var(--accent-soft);">05</div>
       <h2 class="name" style="color: var(--bg);">Frameworks de CSS.</h2>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>25</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>27</span></div>
   </section>
 
-  <!-- ============ 26 ¿QUÉ ES UN FRAMEWORK? ============ -->
-  <section data-label="26 Que es un framework">
+  <!-- ============ 28 ¿QUÉ ES UN FRAMEWORK? ============ -->
+  <section data-label="28 Que es un framework">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Framework · concepto</span></div>
@@ -2109,11 +2294,11 @@
       </div>
       <p class="lede" style="font-size: 28px; margin-top: 48px;">Ni uno ni otro es "mejor". Cada uno sirve para una situación. Veamos las tres familias más usadas.</p>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>26</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>28</span></div>
   </section>
 
-  <!-- ============ 27 TRES FAMILIAS ============ -->
-  <section data-label="27 Tres frameworks">
+  <!-- ============ 29 TRES FAMILIAS ============ -->
+  <section data-label="29 Tres frameworks">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Bootstrap · Tailwind · Material</span></div>
@@ -2144,11 +2329,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>27</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>29</span></div>
   </section>
 
-  <!-- ============ 28 CUÁNDO USAR CADA UNO ============ -->
-  <section data-label="28 Cuando cada framework">
+  <!-- ============ 30 CUÁNDO USAR CADA UNO ============ -->
+  <section data-label="30 Cuando cada framework">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>¿Cuál elijo?</span></div>
@@ -2178,11 +2363,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>28</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>30</span></div>
   </section>
 
-  <!-- ============ 29 CON IA NO MEMORIZAS ============ -->
-  <section data-label="29 Con IA no memorizas">
+  <!-- ============ 31 CON IA NO MEMORIZAS ============ -->
+  <section data-label="31 Con IA no memorizas">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Frameworks · cierre</span></div>
@@ -2193,11 +2378,11 @@
       </blockquote>
       <cite>— La nueva mochila del desarrollador</cite>
     </div>
-    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>29</span></div>
+    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>31</span></div>
   </section>
 
-  <!-- ============ 30 SECTION BREAK · Hora de aportar valor ============ -->
-  <section data-label="30 Hora de aportar valor" class="brick">
+  <!-- ============ 32 SECTION BREAK · Hora de aportar valor ============ -->
+  <section data-label="32 Hora de aportar valor" class="brick">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Sección 06</span></div>
@@ -2205,11 +2390,11 @@
       <div class="num" style="color: rgba(242,238,229,.85);">06</div>
       <h2 class="name" style="color: var(--bg);">Hora de aportar valor.</h2>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>30</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>32</span></div>
   </section>
 
-  <!-- ============ 31 LA IA ESCRIBE / TÚ DECIDES ============ -->
-  <section data-label="31 La IA escribe tu decides">
+  <!-- ============ 33 LA IA ESCRIBE / TÚ DECIDES ============ -->
+  <section data-label="33 La IA escribe tu decides">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>El nuevo trabajo</span></div>
@@ -2220,11 +2405,11 @@
       </blockquote>
       <cite>— La nueva división del trabajo en la web</cite>
     </div>
-    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>31</span></div>
+    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>33</span></div>
   </section>
 
-  <!-- ============ 32 EL RETO · SONORA LOCAL ============ -->
-  <section data-label="32 Reto Tomorrowland" class="challenge">
+  <!-- ============ 34 EL RETO · SONORA LOCAL ============ -->
+  <section data-label="34 Reto Tomorrowland" class="challenge">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Reto de valor</span></div>
@@ -2274,11 +2459,11 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>32</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>34</span></div>
   </section>
 
-  <!-- ============ 33 LA PREGUNTA-GIRO ============ -->
-  <section data-label="33 La pregunta-giro">
+  <!-- ============ 35 LA PREGUNTA-GIRO ============ -->
+  <section data-label="35 La pregunta-giro">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>La pregunta clave</span></div>
@@ -2286,11 +2471,11 @@
       <p class="big">En esos 5 segundos:<br><em>¿qué hace el ojo</em><br>del visitante?</p>
       <p class="small">Si no lo sabes tú, no lo sabe nadie. Empieza por ahí.</p>
     </div>
-    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>33</span></div>
+    <div class="meta-foot"><span>Tema 04 · CSS avanzado</span><span>35</span></div>
   </section>
 
-  <!-- ============ 34 CIERRE ============ -->
-  <section data-label="34 Cierre">
+  <!-- ============ 36 CIERRE ============ -->
+  <section data-label="36 Cierre">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 04 · CSS avanzado</span><span>Cierre y siguiente</span></div>
@@ -2309,10 +2494,31 @@
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>34 / 34</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>36 / 36</span></div>
   </section>
 
 </deck-stage>
+
+<script>
+  function memeApply(root, i){
+    const slides = root.querySelectorAll('.meme-slide');
+    const dots   = root.querySelectorAll('.meme-dots .dot');
+    const count  = root.querySelector('.meme-count b');
+    const n = slides.length;
+    i = (i % n + n) % n;
+    root.dataset.memeIndex = i;
+    slides.forEach((s, k) => s.classList.toggle('is-active', k === i));
+    dots.forEach((d, k) => d.classList.toggle('is-active', k === i));
+    if (count) count.textContent = String(i + 1);
+  }
+  function memeNav(btn, dir){
+    const root = btn.closest('.meme-carousel');
+    memeApply(root, parseInt(root.dataset.memeIndex || '0', 10) + dir);
+  }
+  function memeGo(btn, i){
+    memeApply(btn.closest('.meme-carousel'), i);
+  }
+</script>
 
 </body>
 </html>
