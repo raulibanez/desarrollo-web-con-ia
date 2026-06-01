@@ -928,16 +928,21 @@
     <div class="meta"><span>Tema 05 · JavaScript</span><span>Aritmética</span></div>
     <div class="frame">
       <p class="eyebrow">Operadores aritméticos</p>
-      <h1 class="title">Lo de siempre, más uno <em>nuevo</em>.</h1>
+      <h1 class="title">Lo de siempre, más dos <em>nuevos</em>.</h1>
       <div class="oplist">
         <div class="op-row"><div class="sym">+</div><div class="what">Suma</div><div class="ex"><code>2 + 3</code> → <code>5</code></div></div>
         <div class="op-row"><div class="sym">−</div><div class="what">Resta</div><div class="ex"><code>10 - 4</code> → <code>6</code></div></div>
         <div class="op-row"><div class="sym">*</div><div class="what">Multiplicación</div><div class="ex"><code>6 * 7</code> → <code>42</code></div></div>
         <div class="op-row"><div class="sym">/</div><div class="what">División</div><div class="ex"><code>20 / 4</code> → <code>5</code></div></div>
         <div class="op-row"><div class="sym">%</div><div class="what"><em>Módulo</em>: el resto de la división</div><div class="ex"><code>10 % 3</code> → <code>1</code> · útil para "¿es múltiplo?"</div></div>
-        <div class="op-row"><div class="sym">**</div><div class="what">Potencia</div><div class="ex"><code>2 ** 8</code> → <code>256</code></div></div>
+        <div class="op-row"><div class="sym">**</div><div class="what">Potencia</div><div class="ex" style="white-space: nowrap;"><code>2 ** 8</code> → <code>256</code> · <code>Math.pow(2,8)</code></div></div>
       </div>
-      <p style="font-family: var(--mono); color: var(--ink-3); font-size: 24px; margin-top: 16px;">Orden de evaluación: paréntesis primero, luego potencias <code>**</code>, después <code>*</code> y <code>/</code>, y al final <code>+</code> y <code>−</code>. Si dudas, paréntesis.</p>
+      <p style="font-family: var(--mono); color: var(--ink-3); font-size: 22px; margin-top: 12px;">Orden de evaluación: paréntesis primero, luego potencias <code>**</code>, después <code>*</code> y <code>/</code>, y al final <code>+</code> y <code>−</code>. Si dudas, paréntesis.</p>
+      <div style="margin-top: 10px; border-left: 3px solid var(--accent); padding-left: 16px; display: flex; align-items: center; gap: 40px;">
+        <p style="font-family: var(--mono); font-size: 20px; line-height: 1.4; margin: 0; color: var(--ink); max-width: 900px;"><span style="color: var(--accent); text-transform: uppercase; letter-spacing: .08em;">Reto exprés</span> · Pasa esta fórmula (interés compuesto) a una expresión de JavaScript. Pista: necesitarás <code>()</code>, <code>**</code> y <code>/</code>.</p>
+        <div style="font-family: var(--serif); font-size: 44px; color: var(--ink); line-height: 1; white-space: nowrap;">A = P&nbsp;(1 +
+          <span style="display:inline-block; text-align:center; vertical-align:middle; font-family: var(--mono); font-size: 26px;"><span style="display:block; border-bottom: 2px solid var(--ink); padding: 0 8px;">r</span><span style="display:block; padding: 0 8px;">n</span></span>)<sup style="font-size: .55em;">n·t</sup></div>
+      </div>
     </div>
     <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>23</span></div>
   </section>
