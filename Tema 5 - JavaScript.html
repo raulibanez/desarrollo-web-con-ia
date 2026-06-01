@@ -426,14 +426,14 @@
     <div class="meta"><span>Tema 05 · JavaScript</span><span>Índice</span></div>
     <div class="frame">
       <p class="eyebrow">Lo que vamos a ver</p>
-      <h1 class="title">Seis bloques, <em>cinco retos</em>.</h1>
+      <h1 class="title">Seis bloques, <em>cinco retos</em> y un <em>proyecto</em>.</h1>
       <div class="index-grid">
         <div class="index-item"><span class="n">01</span><div class="t">¿Qué es JavaScript?<small>Los tres pilares · ejecutar JS</small></div></div>
         <div class="index-item"><span class="n">02</span><div class="t">Datos y variables<small>Tipos · let, const · prompt</small></div></div>
         <div class="index-item"><span class="n">03</span><div class="t">Strings<small>Concatenar · length · slice</small></div></div>
         <div class="index-item"><span class="n">04</span><div class="t">Números<small>Aritmética · módulo · precedencia</small></div></div>
         <div class="index-item"><span class="n">05</span><div class="t">Funciones<small>Crear · llamar · devolver</small></div></div>
-        <div class="index-item"><span class="n">06</span><div class="t">Hablando con la IA<small>Pedirle código JS útil</small></div></div>
+        <div class="index-item"><span class="n">06</span><div class="t">Hablando con la IA<small>Pedir código y montar tu primera web</small></div></div>
       </div>
     </div>
     <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>05</span></div>
@@ -492,12 +492,17 @@
       <p class="eyebrow">Breve historia</p>
       <h1 class="title">Diez días, treinta <em>años</em>.</h1>
       <div class="timeline">
-        <div class="tl-row"><div class="year">1995</div><div class="ev">Brendan Eich crea JavaScript en <em>10 días</em> para Netscape.<small>Se llamó Mocha, luego LiveScript, y por marketing acabó siendo "JavaScript".</small></div></div>
-        <div class="tl-row"><div class="year">1997</div><div class="ev">Se estandariza con el nombre <em>ECMAScript</em>.<small>El estándar real del lenguaje. Lo que dicen los navegadores que entienden.</small></div></div>
+        <div class="tl-row"><div class="year">1995</div><div class="ev">Brendan Eich crea JavaScript en <em>10 días</em><sup style="color: var(--accent);">1</sup> para Netscape.<small>Se llamó Mocha, luego LiveScript, y por marketing acabó siendo "JavaScript".</small></div></div>
+        <div class="tl-row"><div class="year">1997</div><div class="ev">Se estandariza con el nombre <em>ECMAScript</em>.<small>El estándar real del lenguaje. La versión oficial que los navegadores implementan.</small></div></div>
         <div class="tl-row"><div class="year">2009</div><div class="ev">Node.js: JavaScript también <em>fuera del navegador</em>.<small>Servidores, herramientas, scripts. Mismo lenguaje, otros entornos.</small></div></div>
         <div class="tl-row"><div class="year">2015</div><div class="ev">ES6/ES2015: <em>let, const, arrow functions, clases</em>.<small>El gran salto. Casi todo el JS moderno se escribe a partir de aquí.</small></div></div>
-        <div class="tl-row"><div class="year">Hoy</div><div class="ev">El lenguaje <em>más usado del mundo</em> según GitHub y Stack Overflow.<small>Front, back, móvil, escritorio, IoT, scripts de IA. Está en todas partes.</small></div></div>
+        <div class="tl-row"><div class="year">Hoy</div><div class="ev">El lenguaje <em>más usado del mundo</em> según GitHub<sup style="color: var(--accent);">2</sup> y Stack Overflow<sup style="color: var(--accent);">3</sup>.<small>Lo usa el 66 % de quienes programan. Y <em>TypeScript</em> (JavaScript con tipos) va justo detrás.</small></div></div>
       </div>
+      <p class="refs" style="font-family: var(--mono); font-size: 15px; line-height: 1.6; color: var(--ink-3); margin: 28px 0 0; letter-spacing: .01em;">
+        <sup style="color: var(--accent);">1</sup>&nbsp;"Brendan Eich", <em>Wikipedia</em>. [En línea]. Disponible: <a href="https://en.wikipedia.org/wiki/Brendan_Eich" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: underline;">en.wikipedia.org/wiki/Brendan_Eich</a><br>
+        <sup style="color: var(--accent);">2</sup>&nbsp;GitHub, "Octoverse: A new developer joins GitHub every second as AI leads TypeScript to #1", 2025. [En línea]. Disponible: <a href="https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: underline;">github.blog/…/octoverse</a><br>
+        <sup style="color: var(--accent);">3</sup>&nbsp;Stack Overflow, "2025 Developer Survey · Technology", 2025. [En línea]. Disponible: <a href="https://survey.stackoverflow.co/2025/technology/" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: underline;">survey.stackoverflow.co/2025/technology</a>
+      </p>
     </div>
     <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>08</span></div>
   </section>
@@ -619,18 +624,18 @@
 <span class="js-kw">let</span> <span class="js-prop">score</span> <span class="js-punct">=</span> <span class="js-num">0</span><span class="js-punct">;</span>
 <span class="js-prop">score</span> <span class="js-punct">=</span> <span class="js-num">10</span><span class="js-punct">;</span>
 
-<span class="js-com">// pedir al usuario</span>
+<span class="js-com">// pedir al usuario (prompt SIEMPRE da texto)</span>
 <span class="js-kw">const</span> <span class="js-prop">name</span> <span class="js-punct">=</span> <span class="js-builtin">prompt</span><span class="js-punct">(</span><span class="js-str">"¿Cómo te llamas?"</span><span class="js-punct">);</span>
 
-<span class="js-com">// mostrar al usuario</span>
-<span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">"Hola "</span> <span class="js-punct">+</span> <span class="js-prop">name</span><span class="js-punct">);</span>
+<span class="js-com">// para calcular, conviértelo a número</span>
+<span class="js-kw">const</span> <span class="js-prop">age</span> <span class="js-punct">=</span> <span class="js-builtin">Number</span><span class="js-punct">(</span><span class="js-builtin">prompt</span><span class="js-punct">(</span><span class="js-str">"¿Tu edad?"</span><span class="js-punct">));</span>
 
 <span class="js-com">// var: el de los 90. Mejor evítalo.</span>
           </div>
         </div>
         <div class="pane console">
           <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
-          <div class="pane-body"><span class="console-line input"><span class="js-builtin">typeof</span> <span class="js-prop">PI</span></span><span class="console-line output"><span class="js-str">"number"</span></span><span class="console-line input"><span class="js-prop">score</span></span><span class="console-line output"><span class="js-num">10</span></span><span class="console-line alert">Hola Ana</span><span class="console-line comment">// regla práctica:</span><span class="console-line comment">// const por defecto, let si va a cambiar</span>
+          <div class="pane-body"><span class="console-line input"><span class="js-builtin">typeof</span> <span class="js-prop">PI</span></span><span class="console-line output"><span class="js-str">"number"</span></span><span class="console-line input"><span class="js-builtin">typeof</span> <span class="js-prop">name</span></span><span class="console-line output"><span class="js-str">"string"</span></span><span class="console-line input"><span class="js-builtin">typeof</span> <span class="js-prop">age</span></span><span class="console-line output"><span class="js-str">"number"</span></span><span class="console-line comment">// ojo: "5" + 2 = "52", no 7</span><span class="console-line comment">// por eso conviertes con Number()</span><span class="console-line comment">// regla: const por defecto, let si cambia</span>
           </div>
         </div>
       </div>
@@ -822,6 +827,7 @@
 <span class="js-com">// posiciones:  0 1 2 3 4 5 6 7 8 9</span>
 <span class="js-com">// letras:      J a v a S c r i p t</span>
 
+<span class="js-prop">s</span><span class="js-punct">[</span><span class="js-num">0</span><span class="js-punct">];</span>         <span class="js-com">// "J" — una sola letra por posición</span>
 <span class="js-prop">s</span><span class="js-punct">.</span><span class="js-fn">slice</span><span class="js-punct">(</span><span class="js-num">0</span><span class="js-punct">,</span> <span class="js-num">4</span><span class="js-punct">);</span>   <span class="js-com">// "Java"</span>
 <span class="js-prop">s</span><span class="js-punct">.</span><span class="js-fn">slice</span><span class="js-punct">(</span><span class="js-num">4</span><span class="js-punct">);</span>      <span class="js-com">// "Script"</span>
 <span class="js-prop">s</span><span class="js-punct">.</span><span class="js-fn">slice</span><span class="js-punct">(</span><span class="js-num">0</span><span class="js-punct">,</span> <span class="js-num">1</span><span class="js-punct">);</span>   <span class="js-com">// "J"</span>
@@ -945,7 +951,7 @@
       <div class="challenge-grid">
         <div class="challenge-left">
           <p class="eyebrow">Reto 03 · 8 min</p>
-          <h1 class="title">Dog years → <em>human years</em></h1>
+          <h1 class="title">De años perro a <em>años humanos</em></h1>
           <p class="brief">Convierte la edad de un perro a "años humanos" con esta fórmula veterinaria: los <strong>2 primeros años</strong> de un perro equivalen a <strong>21 humanos</strong> en total, y cada año adicional son <strong>4 años humanos</strong>.</p>
           <div class="specs">
             <div class="spec-row"><div class="k">Fórmula</div><div class="v"><code>(dogAge − 2) × 4 + 21</code></div></div>
@@ -1072,7 +1078,7 @@
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 05 · JavaScript</span><span>Parámetros</span></div>
     <div class="frame">
-      <p class="eyebrow">Funciones que reciben datos</p>
+      <p class="eyebrow">Funciones que reciben datos (y un par de ayudantes de Math)</p>
       <h1 class="title">Lo que va entre <em>paréntesis</em>.</h1>
       <div class="split">
         <div class="pane code">
@@ -1085,9 +1091,9 @@
 <span class="js-fn">greet</span><span class="js-punct">(</span><span class="js-str">"Ana"</span><span class="js-punct">);</span>
 <span class="js-fn">greet</span><span class="js-punct">(</span><span class="js-str">"Pedro"</span><span class="js-punct">);</span>
 
-<span class="js-com">// Math.floor: redondea hacia abajo</span>
+<span class="js-com">// floor baja siempre; round va al más cercano</span>
 <span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-num">7.9</span><span class="js-punct">);</span>  <span class="js-com">// 7</span>
-<span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-num">2.1</span><span class="js-punct">);</span>  <span class="js-com">// 2</span>
+<span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">round</span><span class="js-punct">(</span><span class="js-num">7.9</span><span class="js-punct">);</span>  <span class="js-com">// 8</span>
 
 <span class="js-com">// Math.random: decimal entre 0 y 1 (sin llegar al 1)</span>
 <span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">();</span>     <span class="js-com">// 0.8432...</span>
@@ -1095,7 +1101,7 @@
         </div>
         <div class="pane console">
           <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
-          <div class="pane-body"><span class="console-line alert">Hola, Ana!</span><span class="console-line alert">Hola, Pedro!</span><span class="console-line input"><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-num">7.9</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">7</span></span><span class="console-line input"><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">()</span></span><span class="console-line output"><span class="js-num">0.8432167</span></span>
+          <div class="pane-body"><span class="console-line alert">Hola, Ana!</span><span class="console-line alert">Hola, Pedro!</span><span class="console-line input"><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">floor</span><span class="js-punct">(</span><span class="js-num">7.9</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">7</span></span><span class="console-line input"><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">round</span><span class="js-punct">(</span><span class="js-num">7.9</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">8</span></span><span class="console-line input"><span class="js-builtin">Math</span><span class="js-punct">.</span><span class="js-fn">random</span><span class="js-punct">()</span></span><span class="console-line output"><span class="js-num">0.8432167</span></span>
           </div>
         </div>
       </div>
@@ -1189,7 +1195,7 @@
   <span class="js-kw">return</span> <span class="js-prop">paid</span> <span class="js-punct">-</span> <span class="js-prop">price</span><span class="js-punct">;</span>
 <span class="js-punct">}</span>
 
-<span class="js-com">// devuelve true/false</span>
+<span class="js-com">// === compara si son iguales (más en Tema 06)</span>
 <span class="js-kw">function</span> <span class="js-fn">isEven</span><span class="js-punct">(</span><span class="js-prop">n</span><span class="js-punct">)</span> <span class="js-punct">{</span>
   <span class="js-kw">return</span> <span class="js-prop">n</span> <span class="js-punct">%</span> <span class="js-num">2</span> <span class="js-punct">===</span> <span class="js-num">0</span><span class="js-punct">;</span>
 <span class="js-punct">}</span>
@@ -1218,7 +1224,7 @@
       <div class="challenge-grid">
         <div class="challenge-left">
           <p class="eyebrow">Reto 05 · 10 min</p>
-          <h1 class="title">BMI <em>Calculator</em></h1>
+          <h1 class="title">Calculadora de <em>IMC</em></h1>
           <p class="brief">Crea una función <code>bmi(weight, height)</code> que <em>devuelva</em> (con return) el índice de masa corporal redondeado al entero más cercano. La fórmula es <code>peso / altura²</code>, con la altura en metros.</p>
           <div class="specs">
             <div class="spec-row"><div class="k">Firma</div><div class="v"><code>function bmi(weight, height) { ... }</code></div></div>
@@ -1250,7 +1256,7 @@
     <div class="meta"><span>Tema 05 · JavaScript</span><span>Solución 05</span></div>
     <div class="frame">
       <p class="eyebrow">Solución · Reto 05</p>
-      <h1 class="title">Una línea de <em>verdad</em>.</h1>
+      <h1 class="title">Calcular y <em>redondear</em>.</h1>
       <div class="solution-grid">
         <div class="pane code">
           <div class="pane-head"><span>bmi.js</span><span class="dots">●●●</span></div>
@@ -1261,12 +1267,12 @@
 
 <span class="js-com">// usar el valor devuelto</span>
 <span class="js-kw">const</span> <span class="js-prop">mine</span> <span class="js-punct">=</span> <span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-num">65</span><span class="js-punct">,</span> <span class="js-num">1.65</span><span class="js-punct">);</span>
-<span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-str">`Tu BMI: ${</span><span class="js-prop">mine</span><span class="js-str">}`</span><span class="js-punct">);</span>
+<span class="js-builtin">console</span><span class="js-punct">.</span><span class="js-fn">log</span><span class="js-punct">(</span><span class="js-str">`Tu IMC: ${</span><span class="js-prop">mine</span><span class="js-str">}`</span><span class="js-punct">);</span>
           </div>
         </div>
         <div class="pane console">
           <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
-          <div class="pane-body"><span class="console-line input"><span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-num">65</span><span class="js-punct">,</span> <span class="js-num">1.65</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">24</span></span><span class="console-line input"><span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-num">80</span><span class="js-punct">,</span> <span class="js-num">1.78</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">25</span></span><span class="console-line input"><span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-num">90</span><span class="js-punct">,</span> <span class="js-num">1.70</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">31</span></span><span class="console-line output"><span class="js-str">Tu BMI: 24</span></span>
+          <div class="pane-body"><span class="console-line input"><span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-num">65</span><span class="js-punct">,</span> <span class="js-num">1.65</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">24</span></span><span class="console-line input"><span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-num">80</span><span class="js-punct">,</span> <span class="js-num">1.78</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">25</span></span><span class="console-line input"><span class="js-fn">bmi</span><span class="js-punct">(</span><span class="js-num">90</span><span class="js-punct">,</span> <span class="js-num">1.70</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">31</span></span><span class="console-line output"><span class="js-str">Tu IMC: 24</span></span>
           </div>
         </div>
       </div>
@@ -1316,12 +1322,12 @@
       <div class="prompts">
         <div class="prompt-card bad">
           <div class="label">Prompt flojo</div>
-          <p class="quote">"Hazme algo para calcular el BMI."</p>
+          <p class="quote">"Hazme algo para calcular el IMC."</p>
           <div class="why">La IA tiene que adivinar todo: nombre de la función, parámetros, unidades, si imprime o devuelve, qué hacer con decimales. Lo que te devuelva no será lo que tú esperabas.</div>
         </div>
         <div class="prompt-card good">
           <div class="label">Prompt útil</div>
-          <p class="quote">"Función <code>bmi(weight, height)</code> en kg y metros. Devuelve el BMI redondeado con <code>Math.round</code>. Sin <code>alert</code>. Explícame en 2 líneas qué hace la fórmula."</p>
+          <p class="quote">"Función <code>bmi(weight, height)</code> en kg y metros. Devuelve el IMC redondeado con <code>Math.round</code>. Sin <code>alert</code>. Explícame en 2 líneas qué hace la fórmula."</p>
           <div class="why">Nombre, parámetros, unidades, qué devolver, cómo redondear, qué evitar y qué quieres entender. La IA puede acertar a la primera y tú aprendes algo nuevo en el proceso.</div>
         </div>
       </div>
@@ -1329,8 +1335,42 @@
     <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>37</span></div>
   </section>
 
-  <!-- ============ 38 CIERRE ============ -->
-  <section data-label="38 Cierre">
+  <!-- ============ 38 RETO FINAL · WEB CON IA ============ -->
+  <section data-label="38 Reto final Adivina el numero" class="challenge">
+    <div class="chrome"></div>
+    <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
+    <div class="meta"><span>Tema 05 · JavaScript</span><span>Reto final · con IA</span></div>
+    <div class="frame">
+      <div class="challenge-grid">
+        <div class="challenge-left">
+          <p class="eyebrow">Reto final · 100% con IA · 20 min + casa</p>
+          <h1 class="title">Tu primera <em>web que funciona</em></h1>
+          <p class="brief">Hasta ahora tu código vivía en la consola. Ahora, con la IA, montas una web de verdad —HTML, CSS y JS en un archivo— que se abre en el navegador y se usa: el juego <em>Adivina el número</em>.</p>
+          <div class="specs">
+            <div class="spec-row"><div class="k">Qué hace</div><div class="v">La web piensa un número secreto del 1 al 100. El usuario escribe su intento, pulsa un botón y la web responde "más alto", "más bajo" o "¡acertaste!".</div></div>
+            <div class="spec-row"><div class="k">Lo pones tú</div><div class="v">El núcleo es de este tema: <code>Math.random</code>, <code>Math.floor</code>, una función, <code>let</code> para los intentos y template literals.</div></div>
+            <div class="spec-row"><div class="k">Lo pide la IA</div><div class="v">Lo nuevo: leer el <code>&lt;input&gt;</code>, el botón con <code>addEventListener</code>, el <code>if/else</code> y escribir la respuesta en la página.</div></div>
+            <div class="spec-row"><div class="k">Entrega</div><div class="v">Un <code>index.html</code> que abres con doble clic y funciona. Sin instalar nada.</div></div>
+          </div>
+        </div>
+        <div class="challenge-right">
+          <div class="stamp">El método · no es copiar y pegar</div>
+          <h2>Pídelo, léelo, pruébalo</h2>
+          <ul>
+            <li>Descríbeselo a la IA con las 4 partes del prompt: quién eres, qué quieres, con qué y cómo lo entregas.</li>
+            <li>Cuando te dé el código, pídele que te explique el <code>addEventListener</code> y cómo lee el valor del input.</li>
+            <li>Ábrelo en el navegador y pruébalo. ¿Falla? Pega el error en el chat y pide que lo arregle.</li>
+            <li>Súbele la apuesta: contador de intentos, un máximo de 7 y un botón de "jugar otra vez".</li>
+          </ul>
+          <div class="next-hint">→ Superas el reto si entiendes cada línea y sabes por qué funciona. Si no, sigue preguntando.</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>38</span></div>
+  </section>
+
+  <!-- ============ 39 CIERRE ============ -->
+  <section data-label="39 Cierre">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 05 · JavaScript</span><span>Cierre y siguiente</span></div>
@@ -1345,11 +1385,11 @@
         </div>
         <div>
           <div class="k">Antes de la próxima sesión</div>
-          <div class="v">Termina los 5 retos. Pídele a la IA una variante de cada uno y resuélvela.</div>
+          <div class="v">Termina tu web <em>Adivina el número</em> y tráela funcionando en el navegador.</div>
         </div>
       </div>
     </div>
-    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>38 / 38</span></div>
+    <div class="meta-foot"><span>Aplicaciones web · SMR</span><span>39 / 39</span></div>
   </section>
 
 </deck-stage>
