@@ -957,10 +957,10 @@
         <div class="challenge-left">
           <p class="eyebrow">Reto 03 · 8 min</p>
           <h1 class="title">De años perro a <em>años humanos</em></h1>
-          <p class="brief">Convierte la edad de un perro a "años humanos" con esta fórmula veterinaria: los <strong>2 primeros años</strong> de un perro equivalen a <strong>21 humanos</strong> en total, y cada año adicional son <strong>4 años humanos</strong>.</p>
+          <p class="brief">Convierte la edad de un perro a "años humanos" siguiendo esta regla veterinaria: los <strong>2 primeros años</strong> de un perro equivalen a <strong>21 humanos</strong> en total, y cada año adicional son <strong>4 años humanos</strong>.</p>
           <div class="specs">
-            <div class="spec-row"><div class="k">Fórmula</div><div class="v"><code>(dogAge − 2) × 4 + 21</code></div></div>
-            <div class="spec-row"><div class="k">Casos</div><div class="v"><code>2</code> → <code>21</code> · <code>5</code> → <code>33</code> · <code>10</code> → <code>53</code></div></div>
+            <div class="spec-row"><div class="k">Tu tarea</div><div class="v">Deduce <strong>tú</strong> la fórmula a partir de la regla. No te la damos hecha.</div></div>
+            <div class="spec-row"><div class="k">Casos</div><div class="v">Para deducirla y comprobarla: <code>2</code> → <code>21</code> · <code>5</code> → <code>33</code> · <code>10</code> → <code>53</code></div></div>
             <div class="spec-row"><div class="k">Tiempo</div><div class="v">8 minutos</div></div>
           </div>
         </div>
@@ -968,11 +968,11 @@
           <div class="stamp">Debe cumplir</div>
           <h2>Requisitos</h2>
           <ul>
+            <li>Deduce la fórmula con la regla y los 3 casos</li>
             <li>Pide la edad del perro con prompt</li>
             <li>Convierte la respuesta a número con Number()</li>
-            <li>Aplica la fórmula tal cual</li>
             <li>Muestra el resultado con alert</li>
-            <li>Comprueba los 3 casos del enunciado</li>
+            <li>Comprueba que cuadran los 3 casos</li>
           </ul>
           <div class="next-hint">→ Inténtalo. La solución está en el siguiente slide.</div>
         </div>
@@ -988,23 +988,24 @@
     <div class="meta"><span>Tema 05 · JavaScript</span><span>Solución 03</span></div>
     <div class="frame">
       <p class="eyebrow">Solución · Reto 03</p>
-      <h1 class="title">La fórmula, tal <em>cual</em>.</h1>
+      <h1 class="title">Pedir, calcular y <em>mostrar</em>.</h1>
       <div class="solution-grid">
         <div class="pane code">
           <div class="pane-head"><span>dog-years.js</span><span class="dots">●●●</span></div>
-          <div class="pane-body"><span class="js-com">// el cálculo, encapsulado para poder reusarlo</span>
-<span class="js-kw">function</span> <span class="js-fn">humanYears</span><span class="js-punct">(</span><span class="js-prop">dogAge</span><span class="js-punct">)</span> <span class="js-punct">{</span>
-  <span class="js-kw">return</span> <span class="js-punct">(</span><span class="js-prop">dogAge</span> <span class="js-punct">-</span> <span class="js-num">2</span><span class="js-punct">)</span> <span class="js-punct">*</span> <span class="js-num">4</span> <span class="js-punct">+</span> <span class="js-num">21</span><span class="js-punct">;</span>
-<span class="js-punct">}</span>
-
-<span class="js-com">// pedirlo al usuario y mostrarlo</span>
+          <div class="pane-body"><span class="js-com">// 1 · pedir la edad (prompt siempre devuelve texto)</span>
 <span class="js-kw">const</span> <span class="js-prop">raw</span> <span class="js-punct">=</span> <span class="js-builtin">prompt</span><span class="js-punct">(</span><span class="js-str">"Edad del perro:"</span><span class="js-punct">);</span>
-<span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`En años humanos: ${</span><span class="js-fn">humanYears</span><span class="js-str">(</span><span class="js-builtin">Number</span><span class="js-str">(</span><span class="js-prop">raw</span><span class="js-str">))}`</span><span class="js-punct">);</span>
+<span class="js-kw">const</span> <span class="js-prop">dogAge</span> <span class="js-punct">=</span> <span class="js-builtin">Number</span><span class="js-punct">(</span><span class="js-prop">raw</span><span class="js-punct">);</span>
+
+<span class="js-com">// 2 · la fórmula que has deducido</span>
+<span class="js-kw">const</span> <span class="js-prop">human</span> <span class="js-punct">=</span> <span class="js-punct">(</span><span class="js-prop">dogAge</span> <span class="js-punct">-</span> <span class="js-num">2</span><span class="js-punct">)</span> <span class="js-punct">*</span> <span class="js-num">4</span> <span class="js-punct">+</span> <span class="js-num">21</span><span class="js-punct">;</span>
+
+<span class="js-com">// 3 · mostrar el resultado</span>
+<span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`En años humanos: ${</span><span class="js-prop">human</span><span class="js-str">}`</span><span class="js-punct">);</span>
           </div>
         </div>
         <div class="pane console">
           <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
-          <div class="pane-body"><span class="console-line input"><span class="js-fn">humanYears</span><span class="js-punct">(</span><span class="js-num">2</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">21</span></span><span class="console-line input"><span class="js-fn">humanYears</span><span class="js-punct">(</span><span class="js-num">5</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">33</span></span><span class="console-line input"><span class="js-fn">humanYears</span><span class="js-punct">(</span><span class="js-num">10</span><span class="js-punct">)</span></span><span class="console-line output"><span class="js-num">53</span></span><span class="console-line alert">En años humanos: 33</span><span class="console-line comment">// el script pide al usuario; la función la pruebas en consola.</span>
+          <div class="pane-body"><span class="console-line comment">// si escribes 5 en el prompt...</span><span class="console-line alert">En años humanos: 33</span><span class="console-line comment">// comprueba que cuadran los 3 casos:</span><span class="console-line comment">// 2 → 21 · 5 → 33 · 10 → 53 ✓</span>
           </div>
         </div>
       </div>
