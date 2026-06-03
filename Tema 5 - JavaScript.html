@@ -959,7 +959,7 @@
           <h1 class="title">De grados Celsius a <em>Fahrenheit</em></h1>
           <p class="brief">Una app del tiempo te da la temperatura en grados Celsius, pero tu usuario la quiere en Fahrenheit. Pide los grados, conviértelos con la fórmula y muestra el resultado.</p>
           <div class="specs">
-            <div class="spec-row"><div class="k">Fórmula</div><div class="v"><code>F = C × 9 / 5 + 32</code></div></div>
+            <div class="spec-row"><div class="k">Fórmula</div><div class="v"><span style="font-family: var(--serif); font-size: 30px; color: var(--ink); line-height: 1; white-space: nowrap; vertical-align: middle;">F = C&nbsp;·&nbsp;<span style="display:inline-block; text-align:center; vertical-align:middle; font-family: var(--mono); font-size: 18px;"><span style="display:block; border-bottom: 2px solid var(--ink); padding: 0 7px;">9</span><span style="display:block; padding: 0 7px;">5</span></span>&nbsp;+ 32</span></div></div>
             <div class="spec-row"><div class="k">Casos</div><div class="v"><code>0</code> → <code>32</code> · <code>20</code> → <code>68</code> · <code>100</code> → <code>212</code></div></div>
             <div class="spec-row"><div class="k">Tiempo</div><div class="v">8 minutos</div></div>
           </div>
@@ -970,7 +970,7 @@
           <ul>
             <li>Pide los grados Celsius con prompt</li>
             <li>Convierte la respuesta a número con Number()</li>
-            <li>Aplica la fórmula: el × y el / van antes que el +</li>
+            <li>Pasa la fórmula a código: la fracción es una división, y el · y el / van antes que el +</li>
             <li>Muestra el resultado con alert</li>
             <li>Comprueba que cuadran los 3 casos</li>
           </ul>
