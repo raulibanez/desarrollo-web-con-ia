@@ -947,8 +947,8 @@
     <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>23</span></div>
   </section>
 
-  <!-- ============ 24 RETO 03 DOG YEARS ============ -->
-  <section data-label="24 Reto 03 Dog years" class="challenge">
+  <!-- ============ 24 RETO 03 CELSIUS A FAHRENHEIT ============ -->
+  <section data-label="24 Reto 03 Celsius a Fahrenheit" class="challenge">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 05 · JavaScript</span><span>Reto 03</span></div>
@@ -956,11 +956,11 @@
       <div class="challenge-grid">
         <div class="challenge-left">
           <p class="eyebrow">Reto 03 · 8 min</p>
-          <h1 class="title">De años perro a <em>años humanos</em></h1>
-          <p class="brief">Convierte la edad de un perro a "años humanos" siguiendo esta regla veterinaria: los <strong>2 primeros años</strong> de un perro equivalen a <strong>21 humanos</strong> en total, y cada año adicional son <strong>4 años humanos</strong>.</p>
+          <h1 class="title">De grados Celsius a <em>Fahrenheit</em></h1>
+          <p class="brief">Una app del tiempo te da la temperatura en grados Celsius, pero tu usuario la quiere en Fahrenheit. Pide los grados, conviértelos con la fórmula y muestra el resultado.</p>
           <div class="specs">
-            <div class="spec-row"><div class="k">Tu tarea</div><div class="v">Deduce <strong>tú</strong> la fórmula a partir de la regla. No te la damos hecha.</div></div>
-            <div class="spec-row"><div class="k">Casos</div><div class="v">Para deducirla y comprobarla: <code>2</code> → <code>21</code> · <code>5</code> → <code>33</code> · <code>10</code> → <code>53</code></div></div>
+            <div class="spec-row"><div class="k">Fórmula</div><div class="v"><code>F = C × 9 / 5 + 32</code></div></div>
+            <div class="spec-row"><div class="k">Casos</div><div class="v"><code>0</code> → <code>32</code> · <code>20</code> → <code>68</code> · <code>100</code> → <code>212</code></div></div>
             <div class="spec-row"><div class="k">Tiempo</div><div class="v">8 minutos</div></div>
           </div>
         </div>
@@ -968,9 +968,9 @@
           <div class="stamp">Debe cumplir</div>
           <h2>Requisitos</h2>
           <ul>
-            <li>Deduce la fórmula con la regla y los 3 casos</li>
-            <li>Pide la edad del perro con prompt</li>
+            <li>Pide los grados Celsius con prompt</li>
             <li>Convierte la respuesta a número con Number()</li>
+            <li>Aplica la fórmula: el × y el / van antes que el +</li>
             <li>Muestra el resultado con alert</li>
             <li>Comprueba que cuadran los 3 casos</li>
           </ul>
@@ -981,8 +981,8 @@
     <div class="meta-foot"><span>Tema 05 · JavaScript</span><span>24</span></div>
   </section>
 
-  <!-- ============ 25 SOLUCIÓN 03 DOG YEARS ============ -->
-  <section data-label="25 Solucion 03 Dog years">
+  <!-- ============ 25 SOLUCIÓN 03 CELSIUS A FAHRENHEIT ============ -->
+  <section data-label="25 Solucion 03 Celsius a Fahrenheit">
     <div class="chrome"></div>
     <a class="home-corner" href="index.html" title="Volver al índice">&lt;/&gt;</a>
     <div class="meta"><span>Tema 05 · JavaScript</span><span>Solución 03</span></div>
@@ -991,21 +991,21 @@
       <h1 class="title">Pedir, calcular y <em>mostrar</em>.</h1>
       <div class="solution-grid">
         <div class="pane code">
-          <div class="pane-head"><span>dog-years.js</span><span class="dots">●●●</span></div>
-          <div class="pane-body"><span class="js-com">// 1 · pedir la edad (prompt siempre devuelve texto)</span>
-<span class="js-kw">const</span> <span class="js-prop">raw</span> <span class="js-punct">=</span> <span class="js-builtin">prompt</span><span class="js-punct">(</span><span class="js-str">"Edad del perro:"</span><span class="js-punct">);</span>
-<span class="js-kw">const</span> <span class="js-prop">dogAge</span> <span class="js-punct">=</span> <span class="js-builtin">Number</span><span class="js-punct">(</span><span class="js-prop">raw</span><span class="js-punct">);</span>
+          <div class="pane-head"><span>celsius.js</span><span class="dots">●●●</span></div>
+          <div class="pane-body"><span class="js-com">// 1 · pedir los grados (prompt siempre devuelve texto)</span>
+<span class="js-kw">const</span> <span class="js-prop">raw</span> <span class="js-punct">=</span> <span class="js-builtin">prompt</span><span class="js-punct">(</span><span class="js-str">"Grados Celsius:"</span><span class="js-punct">);</span>
+<span class="js-kw">const</span> <span class="js-prop">c</span> <span class="js-punct">=</span> <span class="js-builtin">Number</span><span class="js-punct">(</span><span class="js-prop">raw</span><span class="js-punct">);</span>
 
-<span class="js-com">// 2 · la fórmula que has deducido</span>
-<span class="js-kw">const</span> <span class="js-prop">human</span> <span class="js-punct">=</span> <span class="js-punct">(</span><span class="js-prop">dogAge</span> <span class="js-punct">-</span> <span class="js-num">2</span><span class="js-punct">)</span> <span class="js-punct">*</span> <span class="js-num">4</span> <span class="js-punct">+</span> <span class="js-num">21</span><span class="js-punct">;</span>
+<span class="js-com">// 2 · aplicar la fórmula (× y / van antes que +)</span>
+<span class="js-kw">const</span> <span class="js-prop">f</span> <span class="js-punct">=</span> <span class="js-prop">c</span> <span class="js-punct">*</span> <span class="js-num">9</span> <span class="js-punct">/</span> <span class="js-num">5</span> <span class="js-punct">+</span> <span class="js-num">32</span><span class="js-punct">;</span>
 
 <span class="js-com">// 3 · mostrar el resultado</span>
-<span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`En años humanos: ${</span><span class="js-prop">human</span><span class="js-str">}`</span><span class="js-punct">);</span>
+<span class="js-builtin">alert</span><span class="js-punct">(</span><span class="js-str">`${</span><span class="js-prop">c</span><span class="js-str">}°C son ${</span><span class="js-prop">f</span><span class="js-str">}°F`</span><span class="js-punct">);</span>
           </div>
         </div>
         <div class="pane console">
           <div class="pane-head"><span>Consola</span><span class="dots">●●●</span></div>
-          <div class="pane-body"><span class="console-line comment">// si escribes 5 en el prompt...</span><span class="console-line alert">En años humanos: 33</span><span class="console-line comment">// comprueba que cuadran los 3 casos:</span><span class="console-line comment">// 2 → 21 · 5 → 33 · 10 → 53 ✓</span>
+          <div class="pane-body"><span class="console-line comment">// si escribes 100 en el prompt...</span><span class="console-line alert">100°C son 212°F</span><span class="console-line comment">// comprueba que cuadran los 3 casos:</span><span class="console-line comment">// 0 → 32 · 20 → 68 · 100 → 212 ✓</span>
           </div>
         </div>
       </div>
